@@ -24,7 +24,15 @@ ser = serial.Serial(port='/dev/tty.wchusbserial1420',
 start_string = b'\xAA\x55\x61\x74\x63\x00\x00\x00\x00\x00\x00\x00\xAA\xFA'
 ser.write(start_string)
 
-s = ser.read(24)
+while(True):
+    s = ser.read(14)
+    print s.encode('hex')
+    if (s.encode('hex')[3:5] == "af"):
+        break
+
+send_data = b'\xAA\xAA\x61\x74\x63\x02\x01\x01\x3B\x01\x00\x00\xAA\xFA'
+ser.write(start_string)
+
 ser.close()
 
-print binascii.b2a_uu(s)
+#print binascii.b2a_uu(s)
