@@ -5,7 +5,6 @@
 
 # Import necessary modules.
 import serial                   # Used for serial communications.
-import binascii
 
 # Open serial connection to roaster.
 ser = serial.Serial(port='/dev/tty.wchusbserial1420',
@@ -21,18 +20,23 @@ ser = serial.Serial(port='/dev/tty.wchusbserial1420',
                     interCharTimeout=None
 )
 
+# Initialize the coffee roaster.
 start_string = b'\xAA\x55\x61\x74\x63\x00\x00\x00\x00\x00\x00\x00\xAA\xFA'
 ser.write(start_string)
 
+# Recieve recipe from roaster.
 while(True):
     s = ser.read(14)
     print s.encode('hex')
-    if (s.encode('hex')[3:5] == "af"):
+    if (s.encode('hex')[8:-18] == "af"):
         break
 
-send_data = b'\xAA\xAA\x61\x74\x63\x02\x01\x01\x3B\x01\x00\x00\xAA\xFA'
-ser.write(start_string)
+# Main loop for communication between the roaster.
+while(True):
+    send_data = b'\xAA\xAA\x61\x74\x63\x02\x01\x01\x3B\x01\x00\x00\xAA\xFA'
+    ser.write(send_data)
+    s = ser.read(14)
+    print s.encode('hex')
 
+# Close the serial connection to the coffee roaster.
 ser.close()
-
-#print binascii.b2a_uu(s)
