@@ -5,17 +5,26 @@
 
 # Import necessary modules.
 import serial                   # Used for serial communications.
+import binascii
 
 # Open serial connection to roaster.
-ser = serial.Serial(port=None,
+ser = serial.Serial(port='/dev/tty.wchusbserial1420',
                     baudrate=9600,
-                    bytesize=EIGHTBITS,
-                    parity=PARITY_NONE,
-                    stopbits=STOPBITS_ONE_POINT_FIVE,
+                    bytesize=8,
+                    parity='N',
+                    stopbits=1.5,
                     timeout=None,
-                    xonxoff=True,
+                    xonxoff=False,
                     rtscts=False,
                     writeTimeout=None,
                     dsrdtr=False,
                     interCharTimeout=None
 )
+
+start_string = b'\xAA\x55\x61\x74\x63\x00\x00\x00\x00\x00\x00\x00\xAA\xFA'
+ser.write(start_string)
+
+s = ser.read(24)
+ser.close()
+
+print binascii.b2a_uu(s)
