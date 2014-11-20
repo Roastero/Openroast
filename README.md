@@ -180,4 +180,27 @@ except the 6th and 7th byte will change to `04 02`. This means that's entering
 into a roasting mode. You continue changing the fan speed, heat, and the timer
 fields according to your roast settings.
 
-When you're ready to start 
+When you're ready to start cooling just switch the 6th and 7th byte to `04 04`.
+
+When it's done just finish by changing the 6th and 7th byte to `08 01`.
+
+Drivers
+=======
+
+Windows & Linux
+---------------
+The drivers should work out of the box. If you have problems you can always
+the source from the official site here:
+http://www.wch.cn/downloads.php?name=pro&proid=5
+
+Mac OSX
+-------
+Download latest driver from the official site here:
+http://www.wch.cn/downloads.php?name=pro&proid=5
+
+Install these drivers. If you're running OSX Yosemite you will have to issue the
+following command.
+
+`sudo nvram boot-args="kext-dev-mode=1"`
+
+Then reboot.
