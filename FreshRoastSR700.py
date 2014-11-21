@@ -7,6 +7,7 @@
 import serial                       # Used for serial communications.
 import threading                    # Used to create threads.
 import struct                       # Used to convert ints to two hex bytes.
+import time                         # MARK REALLY LIKES COMMENTS!
 
 # Define FreshRoastSR700 class.
 class FreshRoastSR700:
@@ -19,7 +20,7 @@ class FreshRoastSR700:
         self.fanSpeed = ''          # Int from 0 to 9
         self.time = ''              # Decimal from 0.0 to 9.9 minutes
         self.heatSetting = ''       # Int from 0 to 3
-        self.currentTemp = ''       # Int in degrees Fahrenheit
+        self.CurrentTemp = ''       # Int in degrees Fahrenheit
         self.footer = '\xAA\xFA'    # 2 byte hex value, does not change
 
         # Additional variables
@@ -31,7 +32,7 @@ class FreshRoastSR700:
         self.threads = []           # A list used to keep track of threads
 
         # Open serial connection to roaster.
-        self.ser = serial.Serial(port='/dev/tty.wchusbserial1420',
+        self.ser = serial.Serial(port='/dev/tty.coffee',
                                 baudrate=9600,
                                 bytesize=8,
                                 parity='N',
@@ -48,7 +49,7 @@ class FreshRoastSR700:
         # Return packet in byte format.
         return (self.header + self.id + self.flags + self.currentState +
         chr(self.fanSpeed) + chr(int(self.time * 10)) + chr(self.heatSetting) +
-        self.currentTemp + self.footer)
+        '\x00\x00' + self.footer)
 
     def openPacket(self, message):
         message = message.encode('hex')
@@ -57,7 +58,10 @@ class FreshRoastSR700:
         # self.fanSpeed = message[14:-12]
         # self.time = message[16:-10]
         # self.heatSetting = message[16:-10]
-        self.temp = message[20:-4].decode('hex')
+        if (message[20:-6] == "ff"):
+            self.temp = 0
+        else:
+            self.temp = int(message[20:-4],16)
 
     def sendPacket(self, message):
         self.ser.write(message)
@@ -109,6 +113,14 @@ class FreshRoastSR700:
     def setTime(self,time):
         self.time = time
 
+    def timer(self, threadNum):
+        while(True):
+            if (self.time != 0.0 and
+              (self.currentState == '\x04\x02' or
+              self.currentState == '\x04\x04')):
+                self.time -= .1
+            time.sleep(6)
+
     def comm(self, threadNum):
         while(True):
             s = self.genPacket()
@@ -123,6 +135,8 @@ class FreshRoastSR700:
         self.getProgram()
         self.idle()
 
-        t = threading.Thread(target=self.comm, args=(1,))
-        self.threads.append(t)
+        commThread = threading.Thread(target=self.comm, args=(1,))
+        timerThread = threading.Thread(target=self.timer, args=(1,))
+        self.threads.append(commThread)
+        self.threads.append(timerThread)
         t.start()
