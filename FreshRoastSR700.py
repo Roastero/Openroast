@@ -6,6 +6,7 @@
 # Import necessary modules.
 import serial                       # Used for serial communications.
 import threading                    # Used to create threads.
+import struct                       # Used to convert ints to two hex bytes.
 
 # Define FreshRoastSR700 class.
 class FreshRoastSR700:
@@ -49,6 +50,15 @@ class FreshRoastSR700:
         chr(self.fanSpeed) + chr(int(self.time * 10)) + chr(self.heatSetting) +
         self.currentTemp + self.footer)
 
+    def openPacket(self, message):
+        message = message.encode('hex')
+        # self.flags = message[8:-18]
+        # self.currentState = message[10:-14]
+        # self.fanSpeed = message[14:-12]
+        # self.time = message[16:-10]
+        # self.heatSetting = message[16:-10]
+        self.temp = message[20:-4].decode('hex')
+
     def sendPacket(self, message):
         self.ser.write(message)
 
@@ -63,7 +73,7 @@ class FreshRoastSR700:
         self.fanSpeed = 0
         self.time = 0.0
         self.heatSetting = 0
-        self.currentTemp = '\x00\x00'
+        self.currentTemp = struct.pack('>H', 0)
 
         # Generate the initial message and send it
         message = self.genPacket()
@@ -104,6 +114,7 @@ class FreshRoastSR700:
             s = self.genPacket()
             self.sendPacket(s)
             r = self.recvPacket()
+            self.openPacket(r)
             if(self.cont == False):
                 break
 
