@@ -7,7 +7,7 @@
 import serial                       # Used for serial communications.
 import threading                    # Used to create threads.
 import struct                       # Used to convert ints to two hex bytes.
-import time                         # MARK REALLY LIKES COMMENTS!
+import time                         # Used for the count down timer.
 
 # Define FreshRoastSR700 class.
 class FreshRoastSR700:
@@ -17,22 +17,21 @@ class FreshRoastSR700:
         self.id = '\x61\x74'        # 2 byte hex value, does not change
         self.flags = ''             # 1 byte hex value
         self.currentState = ''      # 2 byte hex value
-        self.fanSpeed = ''          # Int from 0 to 9
-        self.time = ''              # Decimal from 0.0 to 9.9 minutes
-        self.heatSetting = ''       # Int from 0 to 3
-        self.CurrentTemp = ''       # Int in degrees Fahrenheit
+        self.fanSpeed = 0           # Int from 0 to 9
+        self.time = 0.0             # Decimal from 0.0 to 9.9 minutes
+        self.heatSetting = 0        # Int from 0 to 3
+        self.CurrentTemp = 0        # Int in degrees Fahrenheit
         self.footer = '\xAA\xFA'    # 2 byte hex value, does not change
 
         # Additional variables
-        # self.recipe
         self.program = []           # A list used to hold the roast program
 
         # Control variables
-        self.cont = True     # True or False, used to exit program
+        self.cont = True            # True or False, used to exit program
         self.threads = []           # A list used to keep track of threads
 
         # Open serial connection to roaster.
-        self.ser = serial.Serial(port='/dev/tty.coffee',
+        self.ser = serial.Serial(port='/dev/tty.wchusbserial1420',
                                 baudrate=9600,
                                 bytesize=8,
                                 parity='N',
@@ -115,17 +114,22 @@ class FreshRoastSR700:
 
     def timer(self, threadNum):
         while(True):
-            if (self.time != 0.0 and
-              (self.currentState == '\x04\x02' or
-              self.currentState == '\x04\x04')):
-                self.time -= .1
-            time.sleep(6)
+            if (self.time > 0.0 and
+                  (self.currentState == '\x04\x02' or
+                  self.currentState == '\x04\x04')):
+                    print "We are sleeping!!"
+                    time.sleep(6)
+                    self.time -= .1
+
+            if(self.cont == False):
+                break
 
     def comm(self, threadNum):
         while(True):
             s = self.genPacket()
             self.sendPacket(s)
             r = self.recvPacket()
+            print "revieve!"
             self.openPacket(r)
             if(self.cont == False):
                 break
@@ -136,7 +140,9 @@ class FreshRoastSR700:
         self.idle()
 
         commThread = threading.Thread(target=self.comm, args=(1,))
-        timerThread = threading.Thread(target=self.timer, args=(1,))
         self.threads.append(commThread)
+        commThread.start()
+
+        timerThread = threading.Thread(target=self.timer, args=(2,))
         self.threads.append(timerThread)
-        t.start()
+        timerThread.start()
