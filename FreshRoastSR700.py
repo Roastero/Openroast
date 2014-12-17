@@ -31,7 +31,7 @@ class FreshRoastSR700:
         self.threads = []           # A list used to keep track of threads
 
         # Open serial connection to roaster.
-        self.ser = serial.Serial(port='/dev/tty.wchusbserial1420',
+        self.ser = serial.Serial(port='COM3',
                                 baudrate=9600,
                                 bytesize=8,
                                 parity='N',
@@ -129,7 +129,6 @@ class FreshRoastSR700:
             s = self.genPacket()
             self.sendPacket(s)
             r = self.recvPacket()
-            print "revieve!"
             self.openPacket(r)
             if(self.cont == False):
                 break
