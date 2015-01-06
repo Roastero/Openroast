@@ -144,8 +144,10 @@ class FreshRoastSR700:
 
         commThread = threading.Thread(target=self.comm, args=(1,))
         self.threads.append(commThread)
+        commThread.daemon = True
         commThread.start()
 
         timerThread = threading.Thread(target=self.timer, args=(2,))
         self.threads.append(timerThread)
+        timerThread.daemon = True
         timerThread.start()
