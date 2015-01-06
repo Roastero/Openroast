@@ -4,7 +4,7 @@
 # Purpose: Cross-Platform advanced roaster
 
 # Import necessary modules.
-from FreshRoastSR700 import FreshRoastSR700 # Import the Fresh roast class
+from .roaster_libraries.FreshRoastSR700 import FreshRoastSR700 # Import the Fresh roast class
 from Tkinter import *
 from PIL import Image, ImageTk
 
