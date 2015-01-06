@@ -8,6 +8,7 @@ import serial                       # Used for serial communications.
 import threading                    # Used to create threads.
 import struct                       # Used to convert ints to two hex bytes.
 import time                         # Used for the count down timer.
+from ..SerialPortFinder import VidPidToSerialUrl    # Import Serial port finder
 
 # Define FreshRoastSR700 class.
 class FreshRoastSR700:
@@ -31,7 +32,7 @@ class FreshRoastSR700:
         self.threads = []           # A list used to keep track of threads
 
         # Open serial connection to roaster.
-        self.ser = serial.Serial(port='/dev/cu.wchusbserial1420',
+        self.ser = serial.Serial(port=VidPidToSerialUrl("1a86:5523"),
                                 baudrate=9600,
                                 bytesize=8,
                                 parity='N',
