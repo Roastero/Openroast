@@ -31,7 +31,7 @@ class FreshRoastSR700:
         self.threads = []           # A list used to keep track of threads
 
         # Open serial connection to roaster.
-        self.ser = serial.Serial(port='/dev/tty.wchusbserial1420',
+        self.ser = serial.Serial(port='/dev/cu.wchusbserial1420',
                                 baudrate=9600,
                                 bytesize=8,
                                 parity='N',
@@ -114,10 +114,10 @@ class FreshRoastSR700:
 
     def timer(self, threadNum):
         while(True):
+            time.sleep(6)
             if (self.time > 0.0 and
                   (self.currentState == '\x04\x02' or
                   self.currentState == '\x04\x04')):
-                    time.sleep(6)
                     self.time -= .1
 
             if(self.cont == False):
