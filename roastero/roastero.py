@@ -4,8 +4,11 @@
 # Purpose: Cross-Platform advanced roaster
 
 # Import necessary modules.
-from .roaster_libraries.FreshRoastSR700 import FreshRoastSR700 # Import the Fresh roast class
-from Tkinter import *
+from roaster_libraries.FreshRoastSR700 import FreshRoastSR700 # Import the Fresh roast class
+try:
+    import tkinter
+except ImportError:
+    import Tkinter as tkinter
 from PIL import Image, ImageTk
 
 def adjustFanSpeed(*args):
