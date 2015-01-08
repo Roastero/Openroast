@@ -1,26 +1,50 @@
-from Tkinter import *
+# Import necessary modules.
+from tkinter import *
+import tkinter as tk
+
+# Import classes
+from .log import logTab
+from .recipes import recipesTab
+from .roast import roastTab
 
 class gui:
-    def __init__(self, parent):
-        self.myParent = parent  ### (7) remember my parent, the root
-        self.myContainer1 = Frame(parent)
-        self.myContainer1.pack()
+    def __init__(self):
+        # Define class variables.
+        self.bgColor = "white"
 
-        self.button1 = Button(self.myContainer1)
-        self.button1.configure(text="OK", background= "green")
-        self.button1.pack(side=LEFT)
-        self.button1.bind("<Button-1>", self.button1Click) ### (1)
+        # Define root window.
+        self.root = Tk()
+        self.root.title("Roastero")
+        self.root.config(bg=self.bgColor)
+        self.root.geometry("800x500")
 
-        self.button2 = Button(self.myContainer1)
-        self.button2.configure(text="Cancel", background="red")
-        self.button2.pack(side=RIGHT)
-        self.button2.bind("<Button-1>", self.button2Click) ### (2)
+        # Create the widgets to fill root window.
+        self.createWidgets()
 
-    def button1Click(self, event):    ### (3)
-        if self.button1["background"] == "green": ### (4)
-            self.button1["background"] = "yellow"
-        else:
-            self.button1["background"] = "green"
+        # Run the gui.
+        self.root.mainloop()
 
-    def button2Click(self, event):  ### (5)
-        self.myParent.destroy()     ### (6)
+    def createWidgets(self):
+        # Call each tab class.
+        self.roast = roastTab(self.root, self)
+        self.recipes = recipesTab(self.root, self)
+        self.log = logTab(self.root, self)
+
+        # Add each tab to the main window.
+        self.roast.grid(row=1, column=0, sticky="nsew")
+        self.recipes.grid(row=1, column=0, sticky="nsew")
+        self.log.grid(row=1, column=0, sticky="nsew")
+
+        # Create tab buttons.
+        self.roastButton = Button(self.root, text="Roast", command=lambda: self.show_frame(self.roast))
+        self.roastButton.grid(row=0, column=0)
+        self.recipeButton = Button(self.root, text="Recipe", command=lambda: self.show_frame(self.recipes))
+        self.recipeButton.grid(row=0, column=1)
+        self.logButton = Button(self.root, text="Log", command=lambda: self.show_frame(self.log))
+        self.logButton.grid(row=0, column=2)
+
+        # Show the default tab.
+        self.show_frame(self.roast)
+
+    def show_frame(self, tab):
+        tab.tkraise()
