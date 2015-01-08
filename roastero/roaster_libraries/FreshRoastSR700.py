@@ -114,18 +114,15 @@ class FreshRoastSR700:
         self.time = time
 
     def timer(self, threadNum):
-        while(True):
+        while(self.cont == True):
             time.sleep(6)
             if (self.time > 0.0 and
                   (self.currentState == '\x04\x02' or
                   self.currentState == '\x04\x04')):
                     self.time -= .1
 
-            if(self.cont == False):
-                break
-
     def comm(self, threadNum):
-        while(True):
+        while(self.cont == True):
             s = self.genPacket()
             self.sendPacket(s)
             r = self.recvPacket()
@@ -133,10 +130,6 @@ class FreshRoastSR700:
 
             # Control rate at which packets are sent.
             time.sleep(.25)
-
-            # Break out of the thread if the program quits.
-            if(self.cont == False):
-                break
 
     def run(self):
         self.initialize()
@@ -152,3 +145,8 @@ class FreshRoastSR700:
         self.threads.append(timerThread)
         timerThread.daemon = True
         timerThread.start()
+
+    def __del__(self):
+        self.cont = False
+        self.threads[1].join()
+        self.ser.close()
