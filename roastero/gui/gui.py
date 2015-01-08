@@ -1,5 +1,4 @@
 # Import necessary modules.
-from tkinter import *
 import tkinter as tk
 
 # Import classes
@@ -13,7 +12,7 @@ class gui:
         self.bgColor = "white"
 
         # Define root window.
-        self.root = Tk()
+        self.root = tk.Tk()
         self.root.title("Roastero")
         self.root.config(bg=self.bgColor)
         self.root.geometry("800x500")
@@ -36,11 +35,11 @@ class gui:
         self.log.grid(row=1, column=0, sticky="nsew")
 
         # Create tab buttons.
-        self.roastButton = Button(self.root, text="Roast", command=lambda: self.show_frame(self.roast))
+        self.roastButton = tk.Button(self.root, text="Roast", command=lambda: self.show_frame(self.roast))
         self.roastButton.grid(row=0, column=0)
-        self.recipeButton = Button(self.root, text="Recipe", command=lambda: self.show_frame(self.recipes))
+        self.recipeButton = tk.Button(self.root, text="Recipe", command=lambda: self.show_frame(self.recipes))
         self.recipeButton.grid(row=0, column=1)
-        self.logButton = Button(self.root, text="Log", command=lambda: self.show_frame(self.log))
+        self.logButton = tk.Button(self.root, text="Log", command=lambda: self.show_frame(self.log))
         self.logButton.grid(row=0, column=2)
 
         # Show the default tab.
