@@ -10,7 +10,7 @@ class MainWindow(QMainWindow):
         # Define main window for the application.
         super(MainWindow, self).__init__()
         self.setWindowTitle('Roastero')
-        self.setMinimumSize(800,500)
+        self.setMinimumSize(800,600)
         #self.setWindowIcon(QIcon("icon.png"))
 
         # Open qss file.
