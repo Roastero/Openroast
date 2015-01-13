@@ -1,0 +1,67 @@
+QMainWindow{
+  background-color: #2e3138;
+}
+
+QToolBar{
+  background-color: #444952;
+  border-radius: 5px;
+  margin: 5px;
+}
+
+QPushButton#toolbar{
+  border-radius: 5px;
+  width: 100px;
+  height: 30px;
+  color: #fff;
+  margin: 5px;
+  font-family: "Asap";
+  font: bold;
+}
+
+QPushButton#toolbar:disabled {
+    background-color: #23252a;
+    color: #444952;
+}
+
+QPushButton#toolbar:hover {
+    background-color: #23252a;
+    color: #444952;
+}
+
+QPushButton#mainButton{
+  border-radius: 5px;
+  width: 140px;
+  height: 36px;
+  background-color: #16a2cf;
+  color: #fff;
+  margin: 5px;
+  font-family: "Asap";
+  font: bold;
+}
+
+QPushButton#mainButton:pressed {
+  background-color: #227c9a;
+}
+
+QPushButton#loginButton{
+  border-radius: 5px;
+  width: 100px;
+  height: 36px;
+  background-color: #85b63f;
+  color: #fff;
+  margin: 5px;
+  font-family: "Asap";
+  font: bold;
+}
+
+QPushButton#loginButton:pressed {
+  background-color: #63892d;
+}
+
+QLabel{
+  color: #fff;
+  margin: 15px;
+  font-family: "Asap";
+  font-size: 20pt;
+  font: bold;
+}

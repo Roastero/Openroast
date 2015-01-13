@@ -1,16 +1,10 @@
 #!/usr/bin/env python3
-# Name: roastero.py
-# Authors: Mark Spicer, Caleb Coffie
-# Purpose: Cross-Platform advanced roaster
 
-from gui.gui import gui
+import sys
+from PyQt5.QtWidgets import QApplication
+from gui.MainWindow import MainWindow
 
-
-
-
-
-
-
-
-
-roastero = gui()
+app = QApplication(sys.argv)
+window = MainWindow()
+window.show()
+sys.exit(app.exec_())
