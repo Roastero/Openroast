@@ -23,7 +23,7 @@ class RecipesTab(QWidget):
 
 
     def create_recipe_browser(self):
-        self.recipeBrowser = QTreeWidget(self)
+        self.recipeBrowser = QListWidget(self)
 
         foods = [
             'Cookie dough', # Must be store-bought
