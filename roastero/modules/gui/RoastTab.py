@@ -6,17 +6,21 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-import matplotlib.dates as mdates
+from matplotlib.dates import MinuteLocator, DateFormatter
 from matplotlib.backend_bases import key_press_handler
 from matplotlib.backends.backend_qt5agg import (
     FigureCanvasQTAgg as FigureCanvas,
     NavigationToolbar2QT as NavigationToolbar)
+
+# Import Fresh Roast SR700 TODO: Make this more dynamic
+from ..roaster_libraries.FreshRoastSR700 import FreshRoastSR700
 
 class RoastTab(QWidget):
     def __init__(self):
         super(RoastTab, self).__init__()
         self.graphXValueList = []
         self.graphYValueList = []
+        self.counter = 0
         self.create_ui()
 
     def create_ui(self):
@@ -68,10 +72,24 @@ class RoastTab(QWidget):
         self.graphFigure.clear()
         self.graphAxes = self.graphFigure.add_subplot(111)
         self.graphAxes.plot_date(self.graphXValueList, self.graphYValueList, '-')
+
+        # Rotate the labels on the x-axis by 80 degrees
+        plt.xticks(rotation=80)
+
+        # Format the graphs a little
+        self.graphAxes.set_ylabel('Temperature (°F)')
+        self.graphAxes.set_xlabel('Time')
+        self.graphFigure.subplots_adjust(bottom=0.2)
+
+        ax = self.graphAxes.get_axes()
+        ax.xaxis.set_major_formatter(DateFormatter('%M:%S'))
+
+        # Draw the graph
         self.graphCanvas.draw()
 
     def graph_get_data(self):
-        currentTime = datetime.datetime.now()
+        self.counter += 1
+        currentTime = datetime.datetime.fromtimestamp(self.counter)
         randomNumber = random.randint(1, 500)
         self.graphXValueList.append(matplotlib.dates.date2num(currentTime))
         self.graphYValueList.append(randomNumber)

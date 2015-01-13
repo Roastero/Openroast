@@ -8,7 +8,7 @@ import serial                       # Used for serial communications.
 import threading                    # Used to create threads.
 import struct                       # Used to convert ints to two hex bytes.
 import time                         # Used for the count down timer.
-from .SerialPortFinder import VidPidToSerialUrl    # Import Serial port finder
+from ..tools.SerialPortFinder import *    # Import Serial port finder
 
 # Define FreshRoastSR700 class.
 class FreshRoastSR700:

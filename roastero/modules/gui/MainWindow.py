@@ -14,7 +14,7 @@ class MainWindow(QMainWindow):
         #self.setWindowIcon(QIcon("icon.png"))
 
         # Open qss file.
-        self.style = open('mainWindowStyle.css').read()
+        self.style = open('modules/gui/mainWindowStyle.css').read()
         self.setStyleSheet(self.style)
 
         # Create menu.
