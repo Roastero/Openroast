@@ -65,3 +65,10 @@ QLabel{
   font-size: 20pt;
   font: bold;
 }
+
+QTabBar{
+  height: 0px;
+  color: #f00;
+  padding: 0px;
+  margin: 0px;
+}

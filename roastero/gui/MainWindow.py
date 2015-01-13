@@ -23,10 +23,8 @@ class MainWindow(QMainWindow):
         # Create toolbar.
         self.create_toolbar()
 
-        # Set the default widget.
-        self.roast = RoastTab()
-        self.roastTabButton.setEnabled(False)
-        self.setCentralWidget(self.roast)
+        # Create tabs.
+        self.create_tabs()
 
     def create_menu(self):
         self.menuBar = QMenuBar()
@@ -72,21 +70,45 @@ class MainWindow(QMainWindow):
         self.loginButton.clicked.connect(self.test)
         self.mainToolBar.addWidget(self.loginButton)
 
-    def select_roast_tab(self):
+        # Add buttons to array to be disabled on selection.
+        self.tabButtons = [self.roastTabButton,
+                           self.recipesTabButton,
+                           self.browseTabButton,
+                           self.logTabButton]
+
+    def create_tabs(self):
+        self.tabs = QStackedWidget()
+
+        # Create widgets to add to tabs.
         self.roast = RoastTab()
-        self.setCentralWidget(self.roast)
+        self.recipes = RecipesTab()
+        self.browse = BrowseTab()
+        self.log = LogTab()
+
+        # Add widgets to tabs.
+        self.tabs.insertWidget(0, self.roast)
+        self.tabs.insertWidget(1, self.recipes)
+        self.tabs.insertWidget(2, self.browse)
+        self.tabs.insertWidget(3, self.log)
+
+        # Set the tabs as the central widget.
+        self.setCentralWidget(self.tabs)
+
+    def select_roast_tab(self):
+        self.tabs.setCurrentIndex(0)
 
     def select_recipes_tab(self):
-        self.recipes = RecipesTab()
-        self.setCentralWidget(self.recipes)
+        self.tabs.setCurrentIndex(1)
 
     def select_browse_tab(self):
-        self.browse = BrowseTab()
-        self.setCentralWidget(self.browse)
+        self.tabs.setCurrentIndex(2)
 
     def select_log_tab(self):
-        self.log = LogTab()
-        self.setCentralWidget(self.log)
+        self.tabs.setCurrentIndex(3)
+
+    def change_blocked_button(self, index):
+        print("hi")
+
 
     def test(self):
         print("test")
