@@ -10,15 +10,20 @@ class RecipesTab(QWidget):
         self.layout = QGridLayout()
 
         # Create recipe browser.
-        self.browser = self.create_recipe_browser()
-        self.layout.addWidget(self.browser, 0, 0)
+        self.create_recipe_browser()
+        self.layout.addWidget(self.recipeBrowser, 0, 0)
+
+        # Create recipe window.
+        self.create_recipe_window()
+        self.layout.addWidget(self.recipeWindow, 0, 1)
+        self.layout.setColumnStretch(1, 2)
 
         # Set main layout for widget.
         self.setLayout(self.layout)
 
 
     def create_recipe_browser(self):
-        recipeBrowser = QTextEdit()
+        self.recipeBrowser = QTreeWidget(self)
 
         foods = [
             'Cookie dough', # Must be store-bought
@@ -28,4 +33,8 @@ class RecipesTab(QWidget):
             'Chocolate whipped cream' # Must be plentiful
         ]
 
-        return recipeBrowser
+        for row in foods:
+            self.recipeBrowser.addItem(row)
+
+    def create_recipe_window(self):
+        self.recipeWindow = QTextEdit()
