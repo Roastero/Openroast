@@ -4,7 +4,7 @@ import matplotlib
 matplotlib.use('Qt5Agg')
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-from matplotlib.figure import Figure
+import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import matplotlib.dates as mdates
 from matplotlib.backend_bases import key_press_handler
@@ -20,17 +20,16 @@ class RoastTab(QWidget):
         self.create_ui()
 
     def create_ui(self):
+        # Create a new layout to add everything to
         self.layout = QGridLayout()
 
         # Create graph widget.
         self.create_graph()
-        animateGraph = animation.FuncAnimation(self.graphFigure, self.graph_draw, interval=1000)
-        self.graph_draw()
 
         # Add graph widget to main layout.
-        self.layout.addWidget(self.graphCanvas, 0, 0)
-        self.layout.addWidget(self.graphToolbar, 1, 0)
+        self.layout.addWidget(self.graphWidget, 0, 0)
 
+        # Add another side widget for testing
         self.recipeBrowser = QTextEdit()
         self.layout.addWidget(self.recipeBrowser, 0, 1)
 
@@ -40,7 +39,7 @@ class RoastTab(QWidget):
     def create_graph(self):
         self.graphWidget = QWidget(self)
 
-        self.graphFigure = Figure((5.0, 4.0), dpi=100)
+        self.graphFigure = plt.figure()
         self.graphCanvas = FigureCanvas(self.graphFigure)
         self.graphCanvas.setParent(self.graphWidget)
         self.graphCanvas.setFocusPolicy(Qt.StrongFocus)
@@ -49,6 +48,14 @@ class RoastTab(QWidget):
         self.graphToolbar = NavigationToolbar(self.graphCanvas, self.graphWidget)
 
         self.graphCanvas.mpl_connect('key_press_event', self.graph_on_key_press)
+
+        graphVerticalBox = QVBoxLayout()
+        graphVerticalBox.addWidget(self.graphCanvas)
+        graphVerticalBox.addWidget(self.graphToolbar)
+        self.graphWidget.setLayout(graphVerticalBox)
+
+        # Animate the the graph with new data
+        animateGraph = animation.FuncAnimation(self.graphFigure, self.graph_draw, interval=1000)
 
     def graph_on_key_press(self, event):
         print('you pressed', event.key)
