@@ -23,11 +23,6 @@ QPushButton#toolbar:disabled {
     color: #444952;
 }
 
-QPushButton#toolbar:hover {
-    background-color: #23252a;
-    color: #444952;
-}
-
 QPushButton#mainButton{
   border-radius: 5px;
   width: 140px;

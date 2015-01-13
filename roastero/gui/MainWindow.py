@@ -65,6 +65,12 @@ class MainWindow(QMainWindow):
         self.logTabButton.clicked.connect(self.select_log_tab)
         self.mainToolBar.addWidget(self.logTabButton)
 
+        # Add spacer to set login button on the right.
+        self.spacer = QWidget()
+        self.spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.mainToolBar.addWidget(self.spacer)
+
+        # Add login button.
         self.loginButton = QPushButton("SIGN IN", self)
         self.loginButton.setObjectName("loginButton")
         self.loginButton.clicked.connect(self.test)
@@ -94,21 +100,32 @@ class MainWindow(QMainWindow):
         # Set the tabs as the central widget.
         self.setCentralWidget(self.tabs)
 
+        # Set the roast button disabled.
+        self.roastTabButton.setEnabled(False)
+
     def select_roast_tab(self):
         self.tabs.setCurrentIndex(0)
+        self.change_blocked_button(0)
 
     def select_recipes_tab(self):
         self.tabs.setCurrentIndex(1)
+        self.change_blocked_button(1)
 
     def select_browse_tab(self):
         self.tabs.setCurrentIndex(2)
+        self.change_blocked_button(2)
 
     def select_log_tab(self):
         self.tabs.setCurrentIndex(3)
+        self.change_blocked_button(3)
 
     def change_blocked_button(self, index):
-        print("hi")
+        # Set all buttons enabled.
+        for button in self.tabButtons:
+            button.setEnabled(True)
 
+        # Set selected button disabled.
+        self.tabButtons[index].setEnabled(False)
 
     def test(self):
         print("test")
