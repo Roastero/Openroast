@@ -29,37 +29,43 @@ class RoastTab(QWidget):
 
         # Create graph widget.
         self.create_graph()
-
-        # Add graph widget to main layout.
         self.layout.addWidget(self.graphWidget, 0, 0)
 
-        # Add another side widget for testing
-        self.recipeBrowser = QTextEdit()
-        self.layout.addWidget(self.recipeBrowser, 0, 1)
+        # Create current temp gauge.
+        self.currentTemp = self.create_temp_window()
+        self.layout.addWidget(self.currentTemp, 0, 1)
 
         # Set main layout for widget.
         self.setLayout(self.layout)
 
     def create_graph(self):
+        # Load external matplotlib file
         self.graphWidget = QWidget(self)
+        self.graphWidget.setObjectName("graph")
 
-        self.graphFigure = plt.figure()
+        plt.rcParams['lines.linewidth'] = 3
+        plt.rcParams['lines.color'] = '#2a2a2a'
+        plt.rcParams['font.size'] = 10.
+
+
+
+
+        self.graphFigure = plt.figure(facecolor='#444952')
         self.graphCanvas = FigureCanvas(self.graphFigure)
-        self.graphCanvas.setParent(self.graphWidget)
-        self.graphCanvas.setFocusPolicy(Qt.StrongFocus)
-        self.graphCanvas.setFocus()
 
-        self.graphToolbar = NavigationToolbar(self.graphCanvas, self.graphWidget)
+
+        #self.graphToolbar = NavigationToolbar(self.graphCanvas, self.graphWidget)
 
         self.graphCanvas.mpl_connect('key_press_event', self.graph_on_key_press)
 
         graphVerticalBox = QVBoxLayout()
         graphVerticalBox.addWidget(self.graphCanvas)
-        graphVerticalBox.addWidget(self.graphToolbar)
+        #graphVerticalBox.addWidget(self.graphToolbar)
         self.graphWidget.setLayout(graphVerticalBox)
 
         # Animate the the graph with new data
         animateGraph = animation.FuncAnimation(self.graphFigure, self.graph_draw, interval=1000)
+
 
     def graph_on_key_press(self, event):
         print('you pressed', event.key)
@@ -71,18 +77,19 @@ class RoastTab(QWidget):
         self.graph_get_data()
         self.graphFigure.clear()
         self.graphAxes = self.graphFigure.add_subplot(111)
-        self.graphAxes.plot_date(self.graphXValueList, self.graphYValueList, '-')
+        self.graphAxes.plot_date(self.graphXValueList, self.graphYValueList, '#85b63f')
 
         # Rotate the labels on the x-axis by 80 degrees
-        plt.xticks(rotation=80)
+        #plt.xticks(rotation=80)
 
         # Format the graphs a little
-        self.graphAxes.set_ylabel('Temperature (°F)')
-        self.graphAxes.set_xlabel('Time')
+        self.graphAxes.set_ylabel('TEMPERATURE (°F)')
+        self.graphAxes.set_xlabel('TIME')
         self.graphFigure.subplots_adjust(bottom=0.2)
 
         ax = self.graphAxes.get_axes()
         ax.xaxis.set_major_formatter(DateFormatter('%M:%S'))
+        ax.set_axis_bgcolor('#23252a')
 
         # Draw the graph
         self.graphCanvas.draw()
@@ -93,3 +100,9 @@ class RoastTab(QWidget):
         randomNumber = random.randint(1, 500)
         self.graphXValueList.append(matplotlib.dates.date2num(currentTime))
         self.graphYValueList.append(randomNumber)
+
+    def create_temp_window(self):
+        gauge = QWidget()
+        layout = QVBoxLayout()
+
+        return gauge

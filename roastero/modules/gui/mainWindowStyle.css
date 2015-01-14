@@ -5,7 +5,7 @@ QMainWindow{
 QToolBar{
   background-color: #444952;
   border-radius: 5px;
-  margin: 5px;
+  margin: 12px 12px 12px 12px;
 }
 
 QPushButton#toolbar{
@@ -44,7 +44,7 @@ QPushButton#loginButton{
   height: 36px;
   background-color: #85b63f;
   color: #fff;
-  margin: 5px;
+  margin: 8px;
   font-family: "Asap";
   font: bold;
 }
@@ -61,9 +61,10 @@ QLabel{
   font: bold;
 }
 
-QTabBar{
-  height: 0px;
+QWidget#graph{
   color: #f00;
-  padding: 0px;
+  background-color: #444952;
+  border-radius: 5px;
   margin: 0px;
+  padding: 0px;
 }
