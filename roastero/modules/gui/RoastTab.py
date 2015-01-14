@@ -30,10 +30,11 @@ class RoastTab(QWidget):
         # Create graph widget.
         self.create_graph()
         self.layout.addWidget(self.graphWidget, 0, 0)
+        self.layout.setColumnStretch(0, 1)
 
-        # Create current temp gauge.
-        self.currentTemp = self.create_temp_window()
-        self.layout.addWidget(self.currentTemp, 0, 1)
+        # Create right pane.
+        self.rightPane = self.create_right_pane()
+        self.layout.addLayout(self.rightPane, 0, 1)
 
         # Set main layout for widget.
         self.setLayout(self.layout)
@@ -47,12 +48,8 @@ class RoastTab(QWidget):
         plt.rcParams['lines.color'] = '#2a2a2a'
         plt.rcParams['font.size'] = 10.
 
-
-
-
         self.graphFigure = plt.figure(facecolor='#444952')
         self.graphCanvas = FigureCanvas(self.graphFigure)
-
 
         #self.graphToolbar = NavigationToolbar(self.graphCanvas, self.graphWidget)
 
@@ -101,8 +98,95 @@ class RoastTab(QWidget):
         self.graphXValueList.append(matplotlib.dates.date2num(currentTime))
         self.graphYValueList.append(randomNumber)
 
-    def create_temp_window(self):
-        gauge = QWidget()
-        layout = QVBoxLayout()
+    def create_right_pane(self):
+        rightPane = QVBoxLayout()
 
-        return gauge
+        # Create guage window.
+        guageWindow = self.create_gauge_window()
+        rightPane.addLayout(guageWindow)
+
+        # Create button panel.
+        buttonPanel = self.create_button_panel()
+        rightPane.addLayout(buttonPanel)
+
+        # Create sliders.
+        sliderPanel = self.create_slider_panel()
+        rightPane.addLayout(sliderPanel)
+
+        # Add a bottom spacer to keep sizing.
+        spacer = QWidget()
+        spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        rightPane.addWidget(spacer)
+
+        return rightPane
+
+    def create_gauge_window(self):
+        guageWindow = QGridLayout()
+
+        # Create current temp gauge.
+        currentTemp = self.create_info_box("CURRENT TEMP", "tempGuage")
+        guageWindow.addLayout(currentTemp, 0, 0)
+
+        # Create target temp gauge.
+        targetTemp = self.create_info_box("TARGET TEMP", "tempGuage")
+        guageWindow.addLayout(targetTemp, 0, 1)
+
+        # Create current time.
+        currentTime = self.create_info_box("CURRENT TIME", "timeWindow")
+        guageWindow.addLayout(currentTime, 1, 0)
+
+        # Create totalTime.
+        totalTime = self.create_info_box("TOTAL TIME", "timeWindow")
+        guageWindow.addLayout(totalTime, 1, 1)
+
+        return guageWindow
+
+    def create_button_panel(self):
+        buttonPanel = QGridLayout()
+
+        button01 = QPushButton("Hi")
+        button01.setObjectName("mainButton")
+        buttonPanel.addWidget(button01, 0, 0)
+
+        button01 = QPushButton("Hi")
+        button01.setObjectName("mainButton")
+        buttonPanel.addWidget(button01, 0, 1)
+
+        button01 = QPushButton("Hi")
+        button01.setObjectName("mainButton")
+        buttonPanel.addWidget(button01, 1, 0)
+
+        button01 = QPushButton("Hi")
+        button01.setObjectName("mainButton")
+        buttonPanel.addWidget(button01, 1, 1)
+
+        return buttonPanel
+
+    def create_slider_panel(self):
+        sliderPanel = QGridLayout()
+
+        label01 = QLabel("ADJUST TARGET TEMP")
+        sliderPanel.addWidget(label01, 0, 0)
+
+        slider01 = QSlider(Qt.Horizontal)
+        sliderPanel.addWidget(slider01, 1, 0)
+
+        label01 = QLabel("ADJUST SECTION TIME")
+        sliderPanel.addWidget(label01, 2, 0)
+
+        slider01 = QSlider(Qt.Horizontal)
+        sliderPanel.addWidget(slider01, 3, 0)
+
+        return sliderPanel
+
+    def create_info_box(self, labelText, objectName):
+        infoBox = QVBoxLayout()
+        infoBox.setSpacing(0)
+        label = QLabel(labelText)
+        label.setObjectName("label")
+        info = QLabel("300")
+        info.setAlignment(Qt.AlignCenter)
+        info.setObjectName(objectName)
+        infoBox.addWidget(label)
+        infoBox.addWidget(info)
+        return infoBox

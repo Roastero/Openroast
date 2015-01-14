@@ -53,12 +53,46 @@ QPushButton#loginButton:pressed {
   background-color: #63892d;
 }
 
-QLabel{
+QLabel#logo{
   color: #fff;
   margin: 15px;
   font-family: "Asap";
   font-size: 20pt;
   font: bold;
+}
+
+QLabel#label{
+  border-radius: 5px;
+  border-bottom-left-radius: 0px;
+  border-bottom-right-radius: 0px;
+  background-color: #444952;
+  color: #fff;
+  font-family: "Asap";
+  font-size: 14pt;
+  font: bold;
+  padding: 12px;
+}
+
+QLabel#tempGuage{
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  background-color: #23252a;
+  color: #16a2cf;
+  font-size: 40pt;
+  font-family: "Asap";
+  font: bold;
+  padding: 10px;
+}
+
+QLabel#timeWindow{
+  border-bottom-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  background-color: #23252a;
+  color: #85b63f;
+  font-size: 40pt;
+  font-family: "Asap";
+  font: bold;
+  padding: 10px;
 }
 
 QWidget#graph{
@@ -67,4 +101,15 @@ QWidget#graph{
   border-radius: 5px;
   margin: 0px;
   padding: 0px;
+}
+
+QListWidget{
+  background-color: #23252b;
+  border-radius: 5px;
+}
+
+QListWidget::item{
+  background-color: #444953;
+  border: 2px;
+  border-color: #f00;
 }

@@ -39,6 +39,7 @@ class MainWindow(QMainWindow):
 
         # Add logo.
         self.logo = QLabel("ROASTERO")
+        self.logo.setObjectName("logo")
         self.mainToolBar.addWidget(self.logo)
 
         # Add roasting tab button.

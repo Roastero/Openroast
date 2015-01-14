@@ -1,5 +1,6 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QStandardItem, QStandardItemModel
+from PyQt5.QtCore import *
 class RecipesTab(QWidget):
     def __init__(self):
         super(RecipesTab, self).__init__()
@@ -37,4 +38,4 @@ class RecipesTab(QWidget):
             self.recipeBrowser.addItem(row)
 
     def create_recipe_window(self):
-        self.recipeWindow = QTextEdit()
+        self.recipeWindow = QWidget()
