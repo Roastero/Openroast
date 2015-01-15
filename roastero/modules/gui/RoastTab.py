@@ -144,21 +144,30 @@ class RoastTab(QWidget):
     def create_button_panel(self):
         buttonPanel = QGridLayout()
 
-        button01 = QPushButton("Hi")
+        button01 = QPushButton("START")
         button01.setObjectName("mainButton")
         buttonPanel.addWidget(button01, 0, 0)
 
-        button01 = QPushButton("Hi")
+        button01 = QPushButton("STOP")
         button01.setObjectName("mainButton")
         buttonPanel.addWidget(button01, 0, 1)
 
-        button01 = QPushButton("Hi")
+        button01 = QPushButton("CONNECT")
+        button01.setObjectName("mainButton")
+        buttonPanel.addWidget(button01, 0, 2)
+
+        button01 = QPushButton("PREVIOUS")
         button01.setObjectName("mainButton")
         buttonPanel.addWidget(button01, 1, 0)
 
-        button01 = QPushButton("Hi")
+        button01 = QPushButton("NEXT")
         button01.setObjectName("mainButton")
         buttonPanel.addWidget(button01, 1, 1)
+
+        fanDrop = QComboBox()
+        fanDrop.setObjectName("fanDrop")
+        fanDrop.addItems(["FAN", "1", "2", "3", "4", "5", "6", "7", "8", "9"])
+        buttonPanel.addWidget(fanDrop, 1, 2)
 
         return buttonPanel
 

@@ -113,3 +113,9 @@ QListWidget::item{
   border: 2px;
   border-color: #f00;
 }
+
+QLabel{
+  color: #fff;
+  font-family: "Asap";
+  font: bold;
+}
