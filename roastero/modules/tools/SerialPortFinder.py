@@ -6,10 +6,10 @@
 from serial.tools import list_ports
 import re
 
-def VidPidToSerialUrl(vidpid):
+def vid_pid_to_serial_url(vidpid):
     #Get all com ports currently connected to the system
     currentComPorts = list(list_ports.comports())
     for port in currentComPorts:
-        if re.search(vidpid, port[2]):
+        if re.search(vidpid, port[2], flags=re.IGNORECASE):
             return port[0]
     return 'Error: VID:PID Not found on system'
