@@ -87,6 +87,8 @@ class RoastTab(QWidget):
         ax = self.graphAxes.get_axes()
         ax.xaxis.set_major_formatter(DateFormatter('%M:%S'))
         ax.set_axis_bgcolor('#23252a')
+        # ax.xaxis.label.set_color('#ffffff')
+        # ax.yaxis.label.set_color('#ffffff')
 
         # Draw the graph
         self.graphCanvas.draw()
@@ -152,9 +154,9 @@ class RoastTab(QWidget):
         button01.setObjectName("mainButton")
         buttonPanel.addWidget(button01, 0, 1)
 
-        button01 = QPushButton("CONNECT")
-        button01.setObjectName("mainButton")
-        buttonPanel.addWidget(button01, 0, 2)
+        label01 = QLabel("FAN SPEED")
+        label01.setAlignment(Qt.AlignCenter)
+        buttonPanel.addWidget(label01, 0, 2)
 
         button01 = QPushButton("PREVIOUS")
         button01.setObjectName("mainButton")
@@ -164,10 +166,24 @@ class RoastTab(QWidget):
         button01.setObjectName("mainButton")
         buttonPanel.addWidget(button01, 1, 1)
 
-        fanDrop = QComboBox()
-        fanDrop.setObjectName("fanDrop")
-        fanDrop.addItems(["FAN", "1", "2", "3", "4", "5", "6", "7", "8", "9"])
-        buttonPanel.addWidget(fanDrop, 1, 2)
+        # fanDrop = QComboBox()
+        # fanDrop.setObjectName("fanDrop")
+        #
+        # # Allow fan drop to be centered.
+        # fanDrop.setEditable(True);
+        # fanDrop.lineEdit().setAlignment(Qt.AlignCenter);
+        # fanDrop.lineEdit().setReadOnly(True)
+        #
+        # fanDrop.addItems(["FAN", "1", "2", "3", "4", "5", "6", "7", "8", "9"])
+        # buttonPanel.addWidget(fanDrop, 1, 2)
+
+        fanSpeed = QSpinBox()
+        fanSpeed.setRange(1, 9)
+        fanSpeed.setFocusPolicy(Qt.NoFocus)
+        fanSpeed.setAlignment(Qt.AlignCenter)
+        fanSpeed.lineEdit().setReadOnly(True)
+        fanSpeed.lineEdit().deselect()
+        buttonPanel.addWidget(fanSpeed, 1, 2)
 
         return buttonPanel
 

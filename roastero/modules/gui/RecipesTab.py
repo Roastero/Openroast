@@ -25,6 +25,7 @@ class RecipesTab(QWidget):
 
     def create_recipe_browser(self):
         self.recipeBrowser = QListWidget(self)
+        self.recipeBrowser.setFocusPolicy(Qt.NoFocus)
 
         foods = [
             'Cookie dough', # Must be store-bought

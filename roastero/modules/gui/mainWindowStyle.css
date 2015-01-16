@@ -119,3 +119,103 @@ QLabel{
   font-family: "Asap";
   font: bold;
 }
+
+QComboBox {
+  border-radius: 5px;
+  width: 105px;
+  height: 36px;
+  background-color: #16a2cf;
+  color: #fff;
+  margin: 2px;
+  font-family: "Asap";
+  font: bold;
+  padding-left: 5px;
+}
+
+QComboBox:on { /* shift the text when the popup opens */
+  padding: 5px;
+}
+
+QComboBox QAbstractItemView {
+  border-radius: 5px;
+  border: 1px;
+  background-color: #148eb5;
+}
+
+QComboBox::drop-down {
+  width: 35px;
+  background-color: #148eb5;
+  border-left-width: 1px;
+  border-left-color: #1d86aa;
+  border-left-style: solid;
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+QComboBox::down-arrow {
+  image: url(modules/gui/downArrow.png);
+}
+
+QSpinBox {
+  background-color: #16a2cf;
+  border: 0px;
+  border-radius: 5px;
+  height: 36px;
+  color: #fff;
+  font-family: "Asap";
+  font: bold;
+  width: 105px;
+}
+
+QSpinBox::up-button {
+  width: 35px;
+  background-color: #16a2cf;
+  border-left-width: 2px;
+  border-left-color: #1d86aa;
+  border-left-style: solid;
+  border-top-right-radius: 5px;
+  image: url(modules/gui/upArrow.png);
+}
+
+QSpinBox::up-button:pressed {
+  background-color: #148eb5;
+}
+
+QSpinBox::down-button {
+  width: 35px;
+  background-color: #16a2cf;
+  border-left-width: 2px;
+  border-left-color: #1d86aa;
+  border-left-style: solid;
+  border-bottom-right-radius: 5px;
+  image: url(modules/gui/downArrow.png);
+}
+
+QSpinBox::down-button:pressed {
+  background-color: #148eb5;
+}
+
+QSlider::groove {
+  border-radius: 5px;
+  height: 8px;
+}
+
+QSlider::handle:horizontal {
+  background-color: #fff;
+  width: 16px;
+  height: 12px;
+  margin: -4px 0; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */
+  border-radius: 8px;
+}
+
+QSlider::add-page:horizontal {
+  background: #23252b;
+  border-radius: 4px;
+  height: 10px;
+}
+
+QSlider::sub-page:horizontal {
+  background: #f0b017;
+  border-radius: 4px;
+  height: 10px;
+}

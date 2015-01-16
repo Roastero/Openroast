@@ -36,6 +36,7 @@ class MainWindow(QMainWindow):
     def create_toolbar(self):
         self.mainToolBar = self.addToolBar('mainToolBar')
         self.mainToolBar.setMovable(False)
+        self.mainToolBar.setFloatable(False)
 
         # Add logo.
         self.logo = QLabel("ROASTERO")
