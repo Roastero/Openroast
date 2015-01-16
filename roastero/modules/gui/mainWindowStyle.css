@@ -188,7 +188,7 @@ QSpinBox::down-button {
   border-left-color: #1d86aa;
   border-left-style: solid;
   border-bottom-right-radius: 5px;
-  image: url(modules/gui/downArrow.png);
+  image: url(modules/gui/images/downArrow.png);
 }
 
 QSpinBox::down-button:pressed {
