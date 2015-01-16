@@ -97,21 +97,40 @@ QLabel#timeWindow{
 
 QWidget#graph{
   color: #f00;
-  background-color: #444952;
+  background-color: #444953;
   border-radius: 5px;
   margin: 0px;
   padding: 0px;
 }
 
 QListWidget{
-  background-color: #23252b;
+  font-family: "Asap";
+  font: bold;
+  color: #fff;
   border-radius: 5px;
+  background-color: #444953;
+  outline: none;
+}
+
+QListView {
+  outline: none;
 }
 
 QListWidget::item{
   background-color: #444953;
-  border: 2px;
-  border-color: #f00;
+  height: 30px;
+  padding: 5px;
+  border-top-width: 1px;
+  border-color: #333841;
+  border-style: solid;
+}
+
+QListWidget::item:selected{
+  background-color: #23252b;
+  color: #fff;
+  border-top-color: #8ab71b;
+  border-top-style: solid;
+  border-top-width: 2px;
 }
 
 QLabel{
