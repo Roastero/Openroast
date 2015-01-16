@@ -153,7 +153,7 @@ QComboBox::drop-down {
 }
 
 QComboBox::down-arrow {
-  image: url(modules/gui/downArrow.png);
+  image: url(modules/gui/images/downArrow.png);
 }
 
 QSpinBox {
@@ -174,7 +174,7 @@ QSpinBox::up-button {
   border-left-color: #1d86aa;
   border-left-style: solid;
   border-top-right-radius: 5px;
-  image: url(modules/gui/upArrow.png);
+  image: url(modules/gui/images/upArrow.png);
 }
 
 QSpinBox::up-button:pressed {
