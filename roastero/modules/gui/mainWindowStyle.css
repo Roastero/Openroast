@@ -219,3 +219,28 @@ QSlider::sub-page:horizontal {
   border-radius: 4px;
   height: 10px;
 }
+
+QSlider#inverted::groove {
+  border-radius: 5px;
+  height: 8px;
+}
+
+QSlider#inverted::handle:horizontal {
+  background-color: #fff;
+  width: 16px;
+  height: 12px;
+  margin: -4px 0; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */
+  border-radius: 8px;
+}
+
+QSlider#inverted::add-page:horizontal {
+  background: #f0b017;
+  border-radius: 4px;
+  height: 10px;
+}
+
+QSlider#inverted::sub-page:horizontal {
+  background: #23252b;
+  border-radius: 4px;
+  height: 10px;
+}

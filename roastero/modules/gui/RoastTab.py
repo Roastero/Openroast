@@ -1,6 +1,8 @@
 import random
 import datetime
 import matplotlib
+import threading
+import time
 matplotlib.use('Qt5Agg')
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -21,7 +23,13 @@ class RoastTab(QWidget):
         self.graphXValueList = []
         self.graphYValueList = []
         self.counter = 0
+        self.roaster = FreshRoastSR700()
+        #self.valueChanged = pyqtSignal(int)
         self.create_ui()
+        self.dataThread = threading.Thread(target=self.update_data, args=(4,))
+        self.dataThread.daemon = True
+        self.dataThread.start()
+
 
     def create_ui(self):
         # Create a new layout to add everything to
@@ -71,7 +79,8 @@ class RoastTab(QWidget):
         key_press_handler(event, self.graphCanvas, self.graphToolbar)
 
     def graph_draw(self, *args, **kwargs):
-        self.graph_get_data()
+        if (self.roaster.get_current_status() == 1 or self.roaster.get_current_status() == 2):
+            self.graph_get_data()
         self.graphFigure.clear()
         self.graphAxes = self.graphFigure.add_subplot(111)
         self.graphAxes.plot_date(self.graphXValueList, self.graphYValueList, '#85b63f')
@@ -96,9 +105,18 @@ class RoastTab(QWidget):
     def graph_get_data(self):
         self.counter += 1
         currentTime = datetime.datetime.fromtimestamp(self.counter)
-        randomNumber = random.randint(1, 500)
         self.graphXValueList.append(matplotlib.dates.date2num(currentTime))
-        self.graphYValueList.append(randomNumber)
+        self.graphYValueList.append(self.roaster.get_current_temp())
+
+    def update_data(self, threadNum):
+        self.update_section_time()
+        self.update_total_time()
+        while(True):
+            time.sleep(1)
+            self.currentTempLabel.setText(str(self.roaster.get_current_temp()))
+            if (self.roaster.get_current_status() == 1 or self.roaster.get_current_status() == 2):
+                self.update_section_time()
+                self.update_total_time()
 
     def create_right_pane(self):
         rightPane = QVBoxLayout()
@@ -126,19 +144,23 @@ class RoastTab(QWidget):
         guageWindow = QGridLayout()
 
         # Create current temp gauge.
-        currentTemp = self.create_info_box("CURRENT TEMP", "tempGuage")
+        self.currentTempLabel = QLabel()
+        currentTemp = self.create_info_box("CURRENT TEMP", "tempGuage", self.currentTempLabel)
         guageWindow.addLayout(currentTemp, 0, 0)
 
         # Create target temp gauge.
-        targetTemp = self.create_info_box("TARGET TEMP", "tempGuage")
+        self.targetTempLabel = QLabel()
+        targetTemp = self.create_info_box("TARGET TEMP", "tempGuage", self.targetTempLabel)
         guageWindow.addLayout(targetTemp, 0, 1)
 
         # Create current time.
-        currentTime = self.create_info_box("CURRENT TIME", "timeWindow")
+        self.sectionTimeLabel = QLabel()
+        currentTime = self.create_info_box("CURRENT SECTION TIME", "timeWindow", self.sectionTimeLabel)
         guageWindow.addLayout(currentTime, 1, 0)
 
         # Create totalTime.
-        totalTime = self.create_info_box("TOTAL TIME", "timeWindow")
+        self.totalTimeLabel = QLabel()
+        totalTime = self.create_info_box("TOTAL TIME", "timeWindow", self.totalTimeLabel)
         guageWindow.addLayout(totalTime, 1, 1)
 
         return guageWindow
@@ -146,25 +168,28 @@ class RoastTab(QWidget):
     def create_button_panel(self):
         buttonPanel = QGridLayout()
 
-        button01 = QPushButton("START")
-        button01.setObjectName("mainButton")
-        buttonPanel.addWidget(button01, 0, 0)
+        self.startButton = QPushButton("START")
+        self.startButton.setObjectName("mainButton")
+        self.startButton.clicked.connect(self.roaster.roast)
+        buttonPanel.addWidget(self.startButton, 0, 0)
 
-        button01 = QPushButton("STOP")
-        button01.setObjectName("mainButton")
-        buttonPanel.addWidget(button01, 0, 1)
+        self.stopButton = QPushButton("STOP")
+        self.stopButton.setObjectName("mainButton")
+        self.stopButton.clicked.connect(self.roaster.idle)
+        buttonPanel.addWidget(self.stopButton, 0, 1)
 
         label01 = QLabel("FAN SPEED")
         label01.setAlignment(Qt.AlignCenter)
         buttonPanel.addWidget(label01, 0, 2)
 
-        button01 = QPushButton("PREVIOUS")
-        button01.setObjectName("mainButton")
-        buttonPanel.addWidget(button01, 1, 0)
+        self.coolButton = QPushButton("COOL")
+        self.coolButton.setObjectName("mainButton")
+        self.coolButton.clicked.connect(self.cooling_phase)
+        buttonPanel.addWidget(self.coolButton, 1, 0)
 
-        button01 = QPushButton("NEXT")
-        button01.setObjectName("mainButton")
-        buttonPanel.addWidget(button01, 1, 1)
+        self.nextButton = QPushButton("NEXT")
+        self.nextButton.setObjectName("mainButton")
+        buttonPanel.addWidget(self.nextButton, 1, 1)
 
         # fanDrop = QComboBox()
         # fanDrop.setObjectName("fanDrop")
@@ -177,41 +202,75 @@ class RoastTab(QWidget):
         # fanDrop.addItems(["FAN", "1", "2", "3", "4", "5", "6", "7", "8", "9"])
         # buttonPanel.addWidget(fanDrop, 1, 2)
 
-        fanSpeed = QSpinBox()
-        fanSpeed.setRange(1, 9)
-        fanSpeed.setFocusPolicy(Qt.NoFocus)
-        fanSpeed.setAlignment(Qt.AlignCenter)
-        fanSpeed.lineEdit().setReadOnly(True)
-        fanSpeed.lineEdit().deselect()
-        buttonPanel.addWidget(fanSpeed, 1, 2)
+        self.fanSpeedSpinBox = QSpinBox()
+        self.fanSpeedSpinBox.setRange(1, 9)
+        self.fanSpeedSpinBox.setFocusPolicy(Qt.NoFocus)
+        self.fanSpeedSpinBox.setAlignment(Qt.AlignCenter)
+        self.fanSpeedSpinBox.lineEdit().setReadOnly(True)
+        self.fanSpeedSpinBox.lineEdit().deselect()
+        self.fanSpeedSpinBox.valueChanged.connect(self.change_fan_speed)
+        self.change_fan_speed()
+
+        buttonPanel.addWidget(self.fanSpeedSpinBox, 1, 2)
 
         return buttonPanel
 
     def create_slider_panel(self):
         sliderPanel = QGridLayout()
 
-        label01 = QLabel("ADJUST TARGET TEMP")
-        sliderPanel.addWidget(label01, 0, 0)
+        tempSliderLabel = QLabel("ADJUST TARGET TEMP")
+        sliderPanel.addWidget(tempSliderLabel, 0, 0)
 
-        slider01 = QSlider(Qt.Horizontal)
-        sliderPanel.addWidget(slider01, 1, 0)
+        self.tempSlider = QSlider(Qt.Horizontal)
+        self.tempSlider.setRange(150, 600)
+        self.tempSlider.sliderMoved.connect(self.change_target_temp)
+        self.change_target_temp()
+        sliderPanel.addWidget(self.tempSlider, 1, 0)
 
-        label01 = QLabel("ADJUST SECTION TIME")
-        sliderPanel.addWidget(label01, 2, 0)
+        timeSliderLabel = QLabel("ADJUST SECTION TIME")
+        sliderPanel.addWidget(timeSliderLabel, 2, 0)
 
-        slider01 = QSlider(Qt.Horizontal)
-        sliderPanel.addWidget(slider01, 3, 0)
+        self.timeSlider = QSlider(Qt.Horizontal)
+        self.timeSlider.setObjectName("inverted")
+        self.timeSlider.setInvertedAppearance(True)
+        self.timeSlider.setInvertedControls(True)
+        self.timeSlider.setRange(0, 720)
+        self.timeSlider.sliderMoved.connect(self.set_section_time)
+        sliderPanel.addWidget(self.timeSlider, 3, 0)
 
         return sliderPanel
 
-    def create_info_box(self, labelText, objectName):
+    def create_info_box(self, labelText, objectName, valueLabel):
         infoBox = QVBoxLayout()
         infoBox.setSpacing(0)
         label = QLabel(labelText)
         label.setObjectName("label")
-        info = QLabel("300")
-        info.setAlignment(Qt.AlignCenter)
-        info.setObjectName(objectName)
+        valueLabel.setAlignment(Qt.AlignCenter)
+        valueLabel.setObjectName(objectName)
         infoBox.addWidget(label)
-        infoBox.addWidget(info)
+        infoBox.addWidget(valueLabel)
         return infoBox
+
+    def change_target_temp(self):
+        self.targetTempLabel.setText(str(self.tempSlider.value()))
+        self.roaster.set_target_temp(self.tempSlider.value())
+
+    def change_target_temp_slider(self, temp):
+        self.tempSlider.setValue(temp)
+
+    def change_fan_speed(self):
+        self.roaster.set_fan_speed(self.fanSpeedSpinBox.value())
+
+    def set_section_time(self):
+        self.sectionTimeLabel.setText(time.strftime("%M:%S", time.gmtime(self.timeSlider.value())))
+        self.roaster.set_section_time(self.timeSlider.value())
+
+    def update_section_time(self):
+        self.timeSlider.setValue(self.roaster.get_section_time())
+        self.sectionTimeLabel.setText(str(time.strftime("%M:%S", time.gmtime(self.roaster.get_section_time()))))
+
+    def update_total_time(self):
+        self.totalTimeLabel.setText(str(time.strftime("%M:%S", time.gmtime(self.roaster.get_total_time()))))
+
+    def cooling_phase(self):
+        self.roaster.cooling_phase()
