@@ -9,20 +9,21 @@ import threading                    # Used to create threads.
 import struct                       # Used to convert ints to two hex bytes.
 import time                         # Used for the count down timer.
 from ..tools.SerialPortFinder import *    # Import Serial port finder
+import binascii
 
 # Define FreshRoastSR700 class.
 class FreshRoastSR700:
     def __init__(self):
         # Define variables for roaster settings.
         self.header = ''            # 2 byte hex value
-        self.id = '\x61\x74'        # 2 byte hex value, does not change
+        self.id = b'\x61\x74'        # 2 byte hex value, does not change
         self.flags = ''             # 1 byte hex value
         self.currentState = ''      # 2 byte hex value
         self.fanSpeed = 0           # Int from 0 to 9
         self.time = 0.0             # Decimal from 0.0 to 9.9 minutes
         self.heatSetting = 0        # Int from 0 to 3
-        self.CurrentTemp = 0        # Int in degrees Fahrenheit
-        self.footer = '\xAA\xFA'    # 2 byte hex value, does not change
+        self.currentTemp = 0        # Int in degrees Fahrenheit
+        self.footer = b'\xAA\xFA'    # 2 byte hex value, does not change
 
         # Additional variables
         self.program = []           # A list used to hold the roast program
@@ -32,7 +33,7 @@ class FreshRoastSR700:
         self.threads = []           # A list used to keep track of threads
 
         # Open serial connection to roaster.
-        self.ser = serial.Serial(port=VidPidToSerialUrl("1a86:5523"),
+        self.ser = serial.Serial(port=vid_pid_to_serial_url("1A86:5523"),
                                 baudrate=9600,
                                 bytesize=8,
                                 parity='N',
@@ -45,95 +46,109 @@ class FreshRoastSR700:
                                 interCharTimeout=None
         )
 
-    def genPacket(self):
+        # Run communications loop
+        self.run()
+
+    def gen_packet(self):
         # Return packet in byte format.
         return (self.header + self.id + self.flags + self.currentState +
-        chr(self.fanSpeed) + chr(int(self.time * 10)) + chr(self.heatSetting) +
-        '\x00\x00' + self.footer)
+        self.fanSpeed.to_bytes(1, byteorder='big') +
+        int(self.time * 10).to_bytes(1, byteorder='big') +
+        self.heatSetting.to_bytes(1, byteorder='big') +
+        b'\x00\x00' + self.footer)
 
-    def openPacket(self, message):
-        message = message.encode('hex')
+    def open_packet(self, message):
         # self.flags = message[8:-18]
         # self.currentState = message[10:-14]
         # self.fanSpeed = message[14:-12]
         # self.time = message[16:-10]
         # self.heatSetting = message[16:-10]
-        if (message[20:-6] == "ff"):
-            self.temp = 0
+        if (message[10:-2] == b'\xff\x00'):
+            self.currentTemp = 150
         else:
-            self.temp = int(message[20:-4],16)
+            self.currentTemp = message[10:-2][1]
+            print(message[10:-2][1])
+        print(message)
+        print(message[10:-2])
 
-    def sendPacket(self, message):
+    def send_packet(self, message):
         self.ser.write(message)
 
-    def recvPacket(self):
+    def recv_packet(self):
         return self.ser.read(14)
+
 
     def initialize(self):
         # Set initial values of the roaster.
-        self.header = '\xAA\x55'
-        self.flags = '\x63'
-        self.currentState = '\x00\x00'
+        self.header = b'\xAA\x55'
+        self.flags = b'\x63'
+        self.currentState = b'\x00\x00'
         self.fanSpeed = 0
         self.time = 0.0
         self.heatSetting = 0
         self.currentTemp = struct.pack('>H', 0)
 
         # Generate the initial message and send it
-        message = self.genPacket()
-        self.sendPacket(message)
+        message = self.gen_packet()
+        self.send_packet(message)
 
         # Set the header back to the regular header for comm
-        self.header = '\xAA\xAA'
+        self.header = b'\xAA\xAA'
 
-    def getProgram(self):
-        r = '\xAA'
-        while(r.encode('hex')[8:-18] != "af"):
-            r = self.recvPacket()
+    def get_program(self):
+        r = self.recv_packet()
+        while(str(r)[14:-35] != "af"):
+            r = self.recv_packet()
             self.program.append(r)
 
+    def get_current_temp(self):
+        return self.currentTemp
+
     def idle(self):
-        self.currentState = '\x02\x01'
+        self.currentState = b'\x02\x01'
 
     def roast(self):
-        self.currentState = '\x04\x02'
+        self.currentState = b'\x04\x02'
 
     def cool(self):
-        self.currentState = '\x04\x04'
+        self.currentState = b'\x04\x04'
 
     def sleep(self):
-        self.currentState = '\x08\x01'
+        self.currentState = b'\x08\x01'
 
-    def setFanSpeed(self,speed):
+    def set_fan_speed(self,speed):
         self.fanSpeed = speed
 
-    def setHeatSetting(self,setting):
+    def set_heat_setting(self,setting):
         self.heatSetting = setting
 
-    def setTime(self,time):
+    def set_time(self,time):
         self.time = time
 
     def timer(self, threadNum):
         while(self.cont == True):
             time.sleep(6)
             if (self.time > 0.0 and
-                  (self.currentState == '\x04\x02' or
-                  self.currentState == '\x04\x04')):
+                  (self.currentState == b'\x04\x02' or
+                  self.currentState == b'\x04\x04')):
                     self.time -= .1
+            elif self.time == 0.0 and self.currentState == b'\x04\x04':
+                self.idle()
 
     def comm(self, threadNum):
         while(self.cont == True):
-            s = self.genPacket()
-            self.sendPacket(s)
-            r = self.recvPacket()
-            self.openPacket(r)
+            s = self.gen_packet()
+            self.send_packet(s)
+            r = self.recv_packet()
+            self.open_packet(r)
 
             # Control rate at which packets are sent.
             time.sleep(.25)
 
     def run(self):
-        self.initialize()
-        self.getProgram()
+        for x in range(1,5):
+            self.initialize()
+        self.get_program()
         self.idle()
 
         commThread = threading.Thread(target=self.comm, args=(1,))
@@ -145,6 +160,12 @@ class FreshRoastSR700:
         self.threads.append(timerThread)
         timerThread.daemon = True
         timerThread.start()
+
+    def cooling_phase(self, time):
+        self.cool()
+        self.set_heat_setting(0)
+        self.set_fan_speed(9)
+        self.set_time(time)
 
     def __del__(self):
         self.cont = False
