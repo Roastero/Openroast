@@ -24,48 +24,34 @@ class RecipesTab(QWidget):
 
 
     def create_recipe_browser(self):
-        # self.recipeBrowser = QListWidget(self)
-        # self.recipeBrowser.setFocusPolicy(Qt.NoFocus)
-        #
-        # foods = [
-        #     'COLUMBIA', # Must be store-bought
-        #     'ECUADOR', # Must be homemade
-        #     'NICARAGUA', # Must be saucy
-        #     'COSTA RICA', # Must be spicy
-        #     'BRAZIL', # Must be plentiful
-        #     'COLUMBIA', # Must be store-bought
-        #     'ECUADOR', # Must be homemade
-        #     'NICARAGUA', # Must be saucy
-        #     'COSTA RICA', # Must be spicy
-        #     'BRAZIL', # Must be plentiful
-        #     'COLUMBIA', # Must be store-bought
-        #     'ECUADOR', # Must be homemade
-        #     'NICARAGUA', # Must be saucy
-        #     'COSTA RICA', # Must be spicy
-        #     'BRAZIL', # Must be plentiful
-        #     'COLUMBIA', # Must be store-bought
-        #     'ECUADOR', # Must be homemade
-        #     'NICARAGUA', # Must be saucy
-        #     'COSTA RICA', # Must be spicy
-        #     'BRAZIL' # Must be plentiful
-        # ]
-        #
-        # for row in foods:
-        #     self.recipeBrowser.insertItem(1, row)
+        self.recipeBrowser = QListWidget(self)
+        self.recipeBrowser.setFocusPolicy(Qt.NoFocus)
 
-        self.recipeBrowser = QTreeWidget()
+        foods = [
+            'COLUMBIA', # Must be store-bought
+            'ECUADOR', # Must be homemade
+            'NICARAGUA', # Must be saucy
+            'COSTA RICA', # Must be spicy
+            'BRAZIL', # Must be plentiful
+            'COLUMBIA', # Must be store-bought
+            'ECUADOR', # Must be homemade
+            'NICARAGUA', # Must be saucy
+            'COSTA RICA', # Must be spicy
+            'BRAZIL', # Must be plentiful
+            'COLUMBIA', # Must be store-bought
+            'ECUADOR', # Must be homemade
+            'NICARAGUA', # Must be saucy
+            'COSTA RICA', # Must be spicy
+            'BRAZIL', # Must be plentiful
+            'COLUMBIA', # Must be store-bought
+            'ECUADOR', # Must be homemade
+            'NICARAGUA', # Must be saucy
+            'COSTA RICA', # Must be spicy
+            'BRAZIL' # Must be plentiful
+        ]
 
-        treeItem01 = QTreeWidget(self.recipeBrowser)
-
-        list1 = QListWidget()                #This will contain your icon list
-        list1.setMovement(QListView.Static)  #otherwise the icons are draggable
-        list1.setResizeMode(QListView.Adjust) #Redo layout every time we resize
-        list1.setViewMode(QListView.IconMode) #Layout left-to-right, not top-to-bottom
-
-        listItem = QListWidgetItem(list1)
-        listItem.setSizeHint(QSize(100,100)) #Or else the widget items will overlap (irritating bug)
-        list1.setItemWidget(listItem,displayItem(1))
-
+        for row in foods:
+            self.recipeBrowser.insertItem(1, row)
 
     def create_recipe_window(self):
         self.recipeWindow = QWidget()
