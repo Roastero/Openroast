@@ -1,33 +1,48 @@
-import time                         # Used for the count down timer.
-import threading                    # Used to create threads.
-
+import time
+import threading
 
 class Roaster:
     def __init__(self):
         self.currentTemp = 0        # Int in degrees Fahrenheit
-        self.targetTemp = 0
-        self.sectionTime = 0
-        self.totalTime = 0
-        self.connected = False
+        self.targetTemp = 0         # Int in degrees Fahrenheit
+        self.sectionTime = 0        # Int in seconds
+        self.totalTime = 0          # Int in seconds
+        self.connected = False      # Determines if roaster is connected.
 
         # Thread control variables
         self.cont = True            # True or False, used to exit program
         self.threads = []           # A list used to keep track of threads
 
-    def initialize(self):
-        pass
+    def run(self):
+        # Start thread to communicate with the roasters serial connection.
+        commThread = threading.Thread(target=self.comm, args=(1,))
+        self.threads.append(commThread)
+        commThread.daemon = True
+        commThread.start()
 
-    def get_current_temp(self):
-        pass
+        # Start thread to keep track of time.
+        timerThread = threading.Thread(target=self.timer_thread, args=(2,))
+        self.threads.append(timerThread)
+        timerThread.daemon = True
+        timerThread.start()
 
-    def get_target_temp(self):
-        pass
+        # Start a thread to control the thermostat of the roaster.
+        thermostatThread = threading.Thread(target=self.thermostat_thread, args=(3,))
+        self.threads.append(thermostatThread)
+        thermostatThread.daemon = True
+        thermostatThread.start()
 
-    def set_target_temp(self):
-        pass
+    def timer(self):
+        # Count down during roast and cool phase.
+        if(self.get_current_status() == 1 or self.get_current_status() == 2):
+            time.sleep(1)
+            self.totalTime += 1
+            if(self.sectionTime > 0):
+                self.sectionTime -= 1
 
-    def idle(self):
-        pass
+        # When the roast is finished cooling, set roaster to idle.
+        if(self.get_current_status() == 2 and self.sectionTime <= 0):
+            self.idle()
 
     def set_section_time(self,time):
         self.sectionTime = time
@@ -45,41 +60,31 @@ class Roaster:
         while(True):
             self.timer()
 
-    def timer(self):
-        if(self.get_current_status() == 1 or self.get_current_status() == 2):
-            time.sleep(1)
-            self.totalTime += 1
-            if(self.sectionTime > 0):
-                self.sectionTime -= 1
-        if(self.get_current_status() == 2 and self.sectionTime == 0):
-            self.idle()
-        #RoastTab.update_section_time(self.sectionTime)
+    def thermostat_thread(self, threadNum):
+        while(True):
+            time.sleep(.25)
+            self.thermostat()
+
+    def initialize(self):
+        pass
+
+    def get_current_temp(self):
+        pass
+
+    def get_target_temp(self):
+        pass
+
+    def set_target_temp(self):
+        pass
+
+    def idle(self):
+        pass
 
     def get_current_status(self):
         pass
 
     def comm(self, threadNum):
         pass
-
-    def run(self):
-        commThread = threading.Thread(target=self.comm, args=(1,))
-        self.threads.append(commThread)
-        commThread.daemon = True
-        commThread.start()
-
-        timerThread = threading.Thread(target=self.timer_thread, args=(2,))
-        self.threads.append(timerThread)
-        timerThread.daemon = True
-        timerThread.start()
-
-        thermostatThread = threading.Thread(target=self.thermostat_thread, args=(3,))
-        self.threads.append(thermostatThread)
-        thermostatThread.daemon = True
-        thermostatThread.start()
-
-    def thermostat_thread(self, threadNum):
-        while(True):
-            self.thermostat()
 
     def thermostat(self):
         pass

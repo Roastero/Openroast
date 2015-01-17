@@ -1,4 +1,3 @@
-import random
 import datetime
 import matplotlib
 import threading
@@ -13,28 +12,30 @@ from matplotlib.backend_bases import key_press_handler
 from matplotlib.backends.backend_qt5agg import (
     FigureCanvasQTAgg as FigureCanvas,
     NavigationToolbar2QT as NavigationToolbar)
-
-# Import Fresh Roast SR700 TODO: Make this more dynamic
 from ..roaster_libraries.FreshRoastSR700 import FreshRoastSR700
 
 class RoastTab(QWidget):
     def __init__(self):
         super(RoastTab, self).__init__()
+
+        # Class variables.
         self.graphXValueList = []
         self.graphYValueList = []
         self.counter = 0
         self.roaster = FreshRoastSR700()
-        #self.valueChanged = pyqtSignal(int)
         self.timeSliderPressed = False
         self.tempSliderPressed = False
+
+        # Create the tab ui.
         self.create_ui()
 
+        # Create thread to update gui data.
         self.dataThread = threading.Thread(target=self.update_data, args=(4,))
         self.dataThread.daemon = True
         self.dataThread.start()
 
     def create_ui(self):
-        # Create a new layout to add everything to
+        # Create the main layout for the roast tab.
         self.layout = QGridLayout()
 
         # Create graph widget.
@@ -46,21 +47,21 @@ class RoastTab(QWidget):
         self.rightPane = self.create_right_pane()
         self.layout.addLayout(self.rightPane, 0, 1)
 
-        # Create not connected label
+        # Create not connected label.
         self.connectionStatusLabel = QLabel("Please connect your roaster.")
-        self.connectionStatusLabel.setAlignment(Qt.AlignCenter)
         self.connectionStatusLabel.setObjectName("connectionStatus")
-        # self.connectionStatusLabel.setHidden(True)
+        self.connectionStatusLabel.setAlignment(Qt.AlignCenter)
         self.layout.addWidget(self.connectionStatusLabel, 0, 0)
 
         # Set main layout for widget.
         self.setLayout(self.layout)
 
     def create_graph(self):
-        # Load external matplotlib file
+        # Create the graph widget.
         self.graphWidget = QWidget(self)
         self.graphWidget.setObjectName("graph")
 
+        # Style attributes of matplotlib.
         plt.rcParams['lines.linewidth'] = 3
         plt.rcParams['lines.color'] = '#2a2a2a'
         plt.rcParams['font.size'] = 10.
@@ -68,36 +69,23 @@ class RoastTab(QWidget):
         self.graphFigure = plt.figure(facecolor='#444952')
         self.graphCanvas = FigureCanvas(self.graphFigure)
 
-        #self.graphToolbar = NavigationToolbar(self.graphCanvas, self.graphWidget)
-
-        self.graphCanvas.mpl_connect('key_press_event', self.graph_on_key_press)
-
+        # Add graph widgets to layout for graph.
         graphVerticalBox = QVBoxLayout()
         graphVerticalBox.addWidget(self.graphCanvas)
-        #graphVerticalBox.addWidget(self.graphToolbar)
         self.graphWidget.setLayout(graphVerticalBox)
 
         # Animate the the graph with new data
         animateGraph = animation.FuncAnimation(self.graphFigure, self.graph_draw, interval=1000)
 
-
-    def graph_on_key_press(self, event):
-        print('you pressed', event.key)
-        # implement the default mpl key press events described at
-        # http://matplotlib.org/users/navigation_toolbar.html#navigation-keyboard-shortcuts
-        key_press_handler(event, self.graphCanvas, self.graphToolbar)
-
     def graph_draw(self, *args, **kwargs):
+        # Start graphing the roast if the roast has started.
         if (self.roaster.get_current_status() == 1 or self.roaster.get_current_status() == 2):
             self.graph_get_data()
-        #self.graphFigure.clear()
+
         self.graphAxes = self.graphFigure.add_subplot(111)
         self.graphAxes.plot_date(self.graphXValueList, self.graphYValueList, '#85b63f')
 
-        # Rotate the labels on the x-axis by 80 degrees
-        #plt.xticks(rotation=80)
-
-        # Format the graphs a little
+        # Add formatting to the graphs.
         self.graphAxes.set_ylabel('TEMPERATURE (°F)')
         self.graphAxes.set_xlabel('TIME')
         self.graphFigure.subplots_adjust(bottom=0.2)
@@ -105,8 +93,8 @@ class RoastTab(QWidget):
         ax = self.graphAxes.get_axes()
         ax.xaxis.set_major_formatter(DateFormatter('%M:%S'))
         ax.set_axis_bgcolor('#23252a')
-        # ax.xaxis.label.set_color('#ffffff')
-        # ax.yaxis.label.set_color('#ffffff')
+
+        self.graphCanvas.draw()
 
     def graph_get_data(self):
         self.counter += 1
@@ -115,19 +103,23 @@ class RoastTab(QWidget):
         self.graphYValueList.append(self.roaster.get_current_temp())
 
     def update_data(self, threadNum):
+        # Update the gui data on thread start.
         self.update_section_time()
         self.update_total_time()
+
         while(True):
             time.sleep(1)
             self.currentTempLabel.setText(str(self.roaster.get_current_temp()))
             if (self.roaster.get_current_status() == 1 or self.roaster.get_current_status() == 2):
                 self.update_section_time()
                 self.update_total_time()
+
+            # Check connection status of the roaster.
             if (self.roaster.get_connection_status()):
                 self.connectionStatusLabel.setHidden(True)
+                self.setEnabled(True)
             else:
                 self.connectionStatusLabel.setHidden(False)
-            if not self.roaster.get_connection_status():
                 self.setEnabled(False)
 
     def create_right_pane(self):
@@ -180,40 +172,35 @@ class RoastTab(QWidget):
     def create_button_panel(self):
         buttonPanel = QGridLayout()
 
+        # Create start roast button.
         self.startButton = QPushButton("START")
         self.startButton.setObjectName("mainButton")
         self.startButton.clicked.connect(self.roaster.roast)
         buttonPanel.addWidget(self.startButton, 0, 0)
 
+        # Create stop roast button.
         self.stopButton = QPushButton("STOP")
         self.stopButton.setObjectName("mainButton")
         self.stopButton.clicked.connect(self.roaster.idle)
         buttonPanel.addWidget(self.stopButton, 0, 1)
 
-        label01 = QLabel("FAN SPEED")
-        label01.setAlignment(Qt.AlignCenter)
-        buttonPanel.addWidget(label01, 0, 2)
+        # Create fan label.
+        fanLabel = QLabel("FAN SPEED")
+        fanLabel.setAlignment(Qt.AlignCenter)
+        buttonPanel.addWidget(fanLabel, 0, 2)
 
+        # Create cool button.
         self.coolButton = QPushButton("COOL")
         self.coolButton.setObjectName("mainButton")
         self.coolButton.clicked.connect(self.cooling_phase)
         buttonPanel.addWidget(self.coolButton, 1, 0)
 
+        # Create next button.
         self.nextButton = QPushButton("NEXT")
         self.nextButton.setObjectName("mainButton")
         buttonPanel.addWidget(self.nextButton, 1, 1)
 
-        # fanDrop = QComboBox()
-        # fanDrop.setObjectName("fanDrop")
-        #
-        # # Allow fan drop to be centered.
-        # fanDrop.setEditable(True);
-        # fanDrop.lineEdit().setAlignment(Qt.AlignCenter);
-        # fanDrop.lineEdit().setReadOnly(True)
-        #
-        # fanDrop.addItems(["FAN", "1", "2", "3", "4", "5", "6", "7", "8", "9"])
-        # buttonPanel.addWidget(fanDrop, 1, 2)
-
+        # Create fan speed spin box.
         self.fanSpeedSpinBox = QSpinBox()
         self.fanSpeedSpinBox.setRange(1, 9)
         self.fanSpeedSpinBox.setFocusPolicy(Qt.NoFocus)
@@ -221,8 +208,6 @@ class RoastTab(QWidget):
         self.fanSpeedSpinBox.lineEdit().setReadOnly(True)
         self.fanSpeedSpinBox.lineEdit().deselect()
         self.fanSpeedSpinBox.valueChanged.connect(self.change_fan_speed)
-        self.change_fan_speed()
-
         buttonPanel.addWidget(self.fanSpeedSpinBox, 1, 2)
 
         return buttonPanel
@@ -230,9 +215,11 @@ class RoastTab(QWidget):
     def create_slider_panel(self):
         sliderPanel = QGridLayout()
 
+        # Create temperature slider label.
         tempSliderLabel = QLabel("ADJUST TARGET TEMP")
         sliderPanel.addWidget(tempSliderLabel, 0, 0)
 
+        # Create temperature slider.
         self.tempSlider = QSlider(Qt.Horizontal)
         self.tempSlider.setRange(150, 600)
         self.tempSlider.sliderMoved.connect(self.change_target_temp)
@@ -241,9 +228,11 @@ class RoastTab(QWidget):
         self.change_target_temp()
         sliderPanel.addWidget(self.tempSlider, 1, 0)
 
+        # Create timer slider.
         timeSliderLabel = QLabel("ADJUST SECTION TIME")
         sliderPanel.addWidget(timeSliderLabel, 2, 0)
 
+        # Create timer slider.
         self.timeSlider = QSlider(Qt.Horizontal)
         self.timeSlider.setObjectName("inverted")
         self.timeSlider.setInvertedAppearance(True)
@@ -257,6 +246,7 @@ class RoastTab(QWidget):
         return sliderPanel
 
     def create_info_box(self, labelText, objectName, valueLabel):
+        # Create temp/time info boxes.
         infoBox = QVBoxLayout()
         infoBox.setSpacing(0)
         label = QLabel(labelText)

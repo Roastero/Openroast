@@ -7,8 +7,9 @@ from .BrowseTab import BrowseTab
 
 class MainWindow(QMainWindow):
     def __init__(self):
-        # Define main window for the application.
         super(MainWindow, self).__init__()
+
+        # Define main window for the application.
         self.setWindowTitle('Roastero')
         self.setMinimumSize(800,600)
         #self.setWindowIcon(QIcon("icon.png"))
@@ -34,6 +35,7 @@ class MainWindow(QMainWindow):
         self.fileMenu.addAction("Connect Roaster", self.roast.connect_roaster)
 
     def create_toolbar(self):
+        # Create toolbar.
         self.mainToolBar = self.addToolBar('mainToolBar')
         self.mainToolBar.setMovable(False)
         self.mainToolBar.setFloatable(False)
@@ -75,7 +77,7 @@ class MainWindow(QMainWindow):
         # Add login button.
         self.loginButton = QPushButton("SIGN IN", self)
         self.loginButton.setObjectName("loginButton")
-        self.loginButton.clicked.connect(self.test)
+        #self.loginButton.clicked.connect(self.test)
         self.mainToolBar.addWidget(self.loginButton)
 
         # Add buttons to array to be disabled on selection.
@@ -128,6 +130,3 @@ class MainWindow(QMainWindow):
 
         # Set selected button disabled.
         self.tabButtons[index].setEnabled(False)
-
-    def test(self):
-        print("test")

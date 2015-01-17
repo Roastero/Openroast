@@ -16,21 +16,19 @@ from .Roaster import Roaster
 class FreshRoastSR700(Roaster):
     def __init__(self):
         super().__init__()
+
         # Define variables for roaster settings.
         self.header = ''            # 2 byte hex value
-        self.id = b'\x61\x74'        # 2 byte hex value, does not change
+        self.id = b'\x61\x74'       # 2 byte hex value, does not change
         self.flags = ''             # 1 byte hex value
         self.currentState = ''      # 2 byte hex value
         self.fanSpeed = 0           # Int from 0 to 9
         self.heatSetting = 0        # Int from 0 to 3
-        self.footer = b'\xAA\xFA'    # 2 byte hex value, does not change
+        self.footer = b'\xAA\xFA'   # 2 byte hex value, does not change
         self.time = 0.0             # Decimal of minutes to be sent to roaster
 
         # Additional variables
         self.program = []           # A list used to hold the roast program
-
-        # # Run communications loop
-        # self.run()
 
     def gen_packet(self):
         # Return packet in byte format.
@@ -41,24 +39,17 @@ class FreshRoastSR700(Roaster):
         b'\x00\x00' + self.footer)
 
     def open_packet(self, message):
-        # self.flags = message[8:-18]
-        # self.currentState = message[10:-14]
-        # self.fanSpeed = message[14:-12]
-        # self.time = message[16:-10]
-        # self.heatSetting = message[16:-10]
-        if (message[10:-2] == (b'\xff\x00')):
+        # Check if the temperature is lower than 150 and set accordingly.
+        if(bytes(message[10:-2]) == (b'\xff\x00')):
             self.currentTemp = 150
         else:
-            #self.currentTemp = int(re.sub('[^a-f0-9]+', '', str(message[10:-2])[2:-1]), 16)
-            #print (256*ord(message[10:-2]))
-            print(message)
+            self.currentTemp = int.from_bytes(bytes(message[10:-2]), byteorder='big')
 
     def send_packet(self, message):
         self.ser.write(message)
 
     def recv_packet(self):
         return self.ser.read(14)
-
 
     def initialize(self):
         # Set initial values of the roaster.
@@ -129,7 +120,7 @@ class FreshRoastSR700(Roaster):
             self.open_packet(r)
 
             # Control rate at which packets are sent.
-            time.sleep(.20)
+            time.sleep(.25)
 
     def run(self):
         # Open serial connection to roaster.
@@ -146,37 +137,55 @@ class FreshRoastSR700(Roaster):
                                 interCharTimeout=None
         )
 
+        # Set the connected variable to true if a serial connection is made.
         if self.ser:
             self.connected = True
 
+        # Attempt to make a serial connection several times.
         for x in range(1,6):
             self.initialize()
+
+        # Get the program from the roaster.
         self.get_program()
+
+        # Set the inital state of the roaster to idle.
         self.idle()
+        self.set_fan_speed(1)
+
+        # Run the parents class run method.
         super().run()
 
     def timer(self):
         super().timer()
+
         # Set timer on roaster
         if (self.sectionTime <= 594):
             self.time = self.sectionTime / 60
         else:
             self.time = 9.9
 
-    def cooling_phase(self, time=180):
+    def cooling_phase(self, coolTime=180):
+        # Set to roast phase briefly to allow cooling phase to begin.
+        if(self.get_current_status() == 3):
+            self.roast()
+            time.sleep(.25)
+
+        # Begin roast phase.
         self.cool()
         self.set_heat_setting(0)
         self.set_fan_speed(9)
-        self.set_section_time(time)
+        self.set_section_time(coolTime)
 
     def thermostat(self):
         if (self.get_current_status() == 1):
-            if (self.currentTemp < self.targetTemp):
+            if(self.currentTemp + 30 < self.targetTemp):
                 self.set_heat_setting(3)
-            elif (self.targetTemp < self.currentTemp):
-                self.set_heat_setting(0)
-            else:
+            elif(self.currentTemp + 20 < self.targetTemp):
                 self.set_heat_setting(2)
+            elif(self.currentTemp + 5 < self.targetTemp):
+                self.set_heat_setting(1)
+            elif (self.currentTemp > self.targetTemp):
+                self.set_heat_setting(0)
 
     def __del__(self):
         self.ser.close()
