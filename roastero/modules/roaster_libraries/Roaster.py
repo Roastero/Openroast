@@ -8,6 +8,7 @@ class Roaster:
         self.targetTemp = 0
         self.sectionTime = 0
         self.totalTime = 0
+        self.connected = False
 
         # Thread control variables
         self.cont = True            # True or False, used to exit program
@@ -36,6 +37,9 @@ class Roaster:
 
     def get_total_time(self):
         return self.totalTime
+
+    def get_connection_status(self):
+        return self.connected
 
     def timer_thread(self, threadNum):
         while(True):

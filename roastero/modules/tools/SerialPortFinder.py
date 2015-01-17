@@ -12,4 +12,4 @@ def vid_pid_to_serial_url(vidpid):
     for port in currentComPorts:
         if re.search(vidpid, port[2], flags=re.IGNORECASE):
             return port[0]
-    return 'Error: VID:PID Not found on system'
+    raise LookupError('VID:PID Not found on system')

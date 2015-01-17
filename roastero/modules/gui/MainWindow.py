@@ -17,21 +17,21 @@ class MainWindow(QMainWindow):
         self.style = open('modules/gui/mainWindowStyle.css').read()
         self.setStyleSheet(self.style)
 
-        # Create menu.
-        self.create_menu()
-
         # Create toolbar.
         self.create_toolbar()
 
         # Create tabs.
         self.create_tabs()
 
+        # Create menu.
+        self.create_menu()
+
     def create_menu(self):
         self.menuBar = QMenuBar()
 
         # Create file menu.
         self.fileMenu = self.menuBar.addMenu("File")
-        self.fileMenu.addAction("Test")
+        self.fileMenu.addAction("Connect Roaster", self.roast.connect_roaster)
 
     def create_toolbar(self):
         self.mainToolBar = self.addToolBar('mainToolBar')

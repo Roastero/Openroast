@@ -263,3 +263,8 @@ QSlider#inverted::sub-page:horizontal {
   border-radius: 4px;
   height: 10px;
 }
+
+QLabel#connectionStatus{
+  border-radius: 5px;
+  background-color: rgba(230,230,230,50%);
+}

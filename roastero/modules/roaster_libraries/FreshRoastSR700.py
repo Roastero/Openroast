@@ -29,22 +29,8 @@ class FreshRoastSR700(Roaster):
         # Additional variables
         self.program = []           # A list used to hold the roast program
 
-        # Open serial connection to roaster.
-        self.ser = serial.Serial(port=vid_pid_to_serial_url("1A86:5523"),
-                                baudrate=9600,
-                                bytesize=8,
-                                parity='N',
-                                stopbits=1.5,
-                                timeout=None,
-                                xonxoff=False,
-                                rtscts=False,
-                                writeTimeout=None,
-                                dsrdtr=False,
-                                interCharTimeout=None
-        )
-
-        # Run communications loop
-        self.run()
+        # # Run communications loop
+        # self.run()
 
     def gen_packet(self):
         # Return packet in byte format.
@@ -60,10 +46,10 @@ class FreshRoastSR700(Roaster):
         # self.fanSpeed = message[14:-12]
         # self.time = message[16:-10]
         # self.heatSetting = message[16:-10]
-        if (message[10:-2] == b'\xff\x00'):
+        if (message[10:-2] == (b'\xff\x00')):
             self.currentTemp = 150
         else:
-            #self.currentTemp = int(re.sub('[^a-uy-z0-9]+', '', str(message[10:-2])[2:-1]), 16)
+            #self.currentTemp = int(re.sub('[^a-f0-9]+', '', str(message[10:-2])[2:-1]), 16)
             #print (256*ord(message[10:-2]))
             print(message)
 
@@ -146,6 +132,23 @@ class FreshRoastSR700(Roaster):
             time.sleep(.20)
 
     def run(self):
+        # Open serial connection to roaster.
+        self.ser = serial.Serial(port=vid_pid_to_serial_url("1A86:5523"),
+                                baudrate=9600,
+                                bytesize=8,
+                                parity='N',
+                                stopbits=1.5,
+                                timeout=None,
+                                xonxoff=False,
+                                rtscts=False,
+                                writeTimeout=None,
+                                dsrdtr=False,
+                                interCharTimeout=None
+        )
+
+        if self.ser:
+            self.connected = True
+
         for x in range(1,6):
             self.initialize()
         self.get_program()

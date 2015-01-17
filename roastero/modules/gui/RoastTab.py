@@ -25,11 +25,13 @@ class RoastTab(QWidget):
         self.counter = 0
         self.roaster = FreshRoastSR700()
         #self.valueChanged = pyqtSignal(int)
+        self.timeSliderPressed = False
+        self.tempSliderPressed = False
         self.create_ui()
+
         self.dataThread = threading.Thread(target=self.update_data, args=(4,))
         self.dataThread.daemon = True
         self.dataThread.start()
-
 
     def create_ui(self):
         # Create a new layout to add everything to
@@ -43,6 +45,13 @@ class RoastTab(QWidget):
         # Create right pane.
         self.rightPane = self.create_right_pane()
         self.layout.addLayout(self.rightPane, 0, 1)
+
+        # Create not connected label
+        self.connectionStatusLabel = QLabel("Please connect your roaster.")
+        self.connectionStatusLabel.setAlignment(Qt.AlignCenter)
+        self.connectionStatusLabel.setObjectName("connectionStatus")
+        # self.connectionStatusLabel.setHidden(True)
+        self.layout.addWidget(self.connectionStatusLabel, 0, 0)
 
         # Set main layout for widget.
         self.setLayout(self.layout)
@@ -81,7 +90,7 @@ class RoastTab(QWidget):
     def graph_draw(self, *args, **kwargs):
         if (self.roaster.get_current_status() == 1 or self.roaster.get_current_status() == 2):
             self.graph_get_data()
-        self.graphFigure.clear()
+        #self.graphFigure.clear()
         self.graphAxes = self.graphFigure.add_subplot(111)
         self.graphAxes.plot_date(self.graphXValueList, self.graphYValueList, '#85b63f')
 
@@ -99,9 +108,6 @@ class RoastTab(QWidget):
         # ax.xaxis.label.set_color('#ffffff')
         # ax.yaxis.label.set_color('#ffffff')
 
-        # Draw the graph
-        self.graphCanvas.draw()
-
     def graph_get_data(self):
         self.counter += 1
         currentTime = datetime.datetime.fromtimestamp(self.counter)
@@ -117,6 +123,12 @@ class RoastTab(QWidget):
             if (self.roaster.get_current_status() == 1 or self.roaster.get_current_status() == 2):
                 self.update_section_time()
                 self.update_total_time()
+            if (self.roaster.get_connection_status()):
+                self.connectionStatusLabel.setHidden(True)
+            else:
+                self.connectionStatusLabel.setHidden(False)
+            if not self.roaster.get_connection_status():
+                self.setEnabled(False)
 
     def create_right_pane(self):
         rightPane = QVBoxLayout()
@@ -224,6 +236,8 @@ class RoastTab(QWidget):
         self.tempSlider = QSlider(Qt.Horizontal)
         self.tempSlider.setRange(150, 600)
         self.tempSlider.sliderMoved.connect(self.change_target_temp)
+        self.tempSlider.sliderPressed.connect(self.toggle_temp_slider_status)
+        self.tempSlider.sliderReleased.connect(self.toggle_temp_slider_status)
         self.change_target_temp()
         sliderPanel.addWidget(self.tempSlider, 1, 0)
 
@@ -236,6 +250,8 @@ class RoastTab(QWidget):
         self.timeSlider.setInvertedControls(True)
         self.timeSlider.setRange(0, 720)
         self.timeSlider.sliderMoved.connect(self.set_section_time)
+        self.timeSlider.sliderPressed.connect(self.toggle_time_slider_status)
+        self.timeSlider.sliderReleased.connect(self.toggle_time_slider_status)
         sliderPanel.addWidget(self.timeSlider, 3, 0)
 
         return sliderPanel
@@ -274,3 +290,12 @@ class RoastTab(QWidget):
 
     def cooling_phase(self):
         self.roaster.cooling_phase()
+
+    def toggle_temp_slider_status(self):
+        self.tempSliderPressed = not self.tempSliderPressed
+
+    def toggle_time_slider_status(self):
+        self.timeSliderPressed = not self.timeSliderPressed
+
+    def connect_roaster(self):
+        self.roaster.run()
