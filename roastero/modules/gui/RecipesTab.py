@@ -1,5 +1,5 @@
 from PyQt5.QtWidgets import *
-from PyQt5.QtGui import QStandardItem, QStandardItemModel
+from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 class RecipesTab(QWidget):
     def __init__(self):
@@ -24,34 +24,22 @@ class RecipesTab(QWidget):
 
 
     def create_recipe_browser(self):
-        self.recipeBrowser = QListWidget(self)
+        model = QFileSystemModel()
+        model.setRootPath('./recipes')
+        #model.setIconProvider()
+        self.recipeBrowser = QTreeView()
+        self.recipeBrowser.setModel(model)
+        self.recipeBrowser.setRootIndex(model.index("./recipes"))
         self.recipeBrowser.setFocusPolicy(Qt.NoFocus)
+        self.recipeBrowser.header().close()
 
-        foods = [
-            'COLUMBIA', # Must be store-bought
-            'ECUADOR', # Must be homemade
-            'NICARAGUA', # Must be saucy
-            'COSTA RICA', # Must be spicy
-            'BRAZIL', # Must be plentiful
-            'COLUMBIA', # Must be store-bought
-            'ECUADOR', # Must be homemade
-            'NICARAGUA', # Must be saucy
-            'COSTA RICA', # Must be spicy
-            'BRAZIL', # Must be plentiful
-            'COLUMBIA', # Must be store-bought
-            'ECUADOR', # Must be homemade
-            'NICARAGUA', # Must be saucy
-            'COSTA RICA', # Must be spicy
-            'BRAZIL', # Must be plentiful
-            'COLUMBIA', # Must be store-bought
-            'ECUADOR', # Must be homemade
-            'NICARAGUA', # Must be saucy
-            'COSTA RICA', # Must be spicy
-            'BRAZIL' # Must be plentiful
-        ]
 
-        for row in foods:
-            self.recipeBrowser.insertItem(1, row)
+        self.recipeBrowser.setAnimated(True)
+        self.recipeBrowser.setIndentation(0)
+        self.recipeBrowser.setSortingEnabled(True)
+        self.recipeBrowser.setColumnHidden(1, True)
+        self.recipeBrowser.setColumnHidden(2, True)
+        self.recipeBrowser.setColumnHidden(3, True)
 
     def create_recipe_window(self):
         self.recipeWindow = QWidget()

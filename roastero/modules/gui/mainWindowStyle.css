@@ -243,3 +243,44 @@ QLabel#connectionStatus{
   border-radius: 5px;
   background-color: rgba(68,73,83);
 }
+
+QTreeView {
+  background-color: #23252b;
+  border-radius: 5px;
+  color: #fff;
+  font-family: "Asap";
+  font: bold;
+}
+
+QTreeView::item:has-children{
+  background-color: #444953;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #333841;
+}
+
+QTreeView::item::open:has-children{
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #8ab71b;
+  color: #fff;
+}
+
+QTreeView::item::has-children:selected{
+  color: #fff;
+}
+
+QTreeView::item {
+  background-color: #23252b;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #1d1f24;
+  height: 36px;
+}
+
+QTreeView::item:!has-children:selected {
+  border-left-style: solid;
+  border-left-width: 2px;
+  border-left-color: #2aa1d3;
+  color: #fff;
+}

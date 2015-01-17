@@ -5,10 +5,12 @@
 
 # Import necessary modules.
 import threading
+import sys
 import serial                       # Used for serial communications.
 import struct                       # Used to convert ints to two hex bytes.
 import time                         # Used for the count down timer.
 from ..tools.SerialPortFinder import *    # Import Serial port finder
+from ..tools.pid import *
 import binascii
 from .Roaster import Roaster
 
@@ -164,16 +166,60 @@ class FreshRoastSR700(Roaster):
         self.set_fan_speed(9)
         self.set_section_time(coolTime)
 
-    def thermostat(self):
-        if (self.get_current_status() == 1):
-            if(self.currentTemp + 30 < self.targetTemp):
-                self.set_heat_setting(3)
-            elif(self.currentTemp + 20 < self.targetTemp):
-                self.set_heat_setting(2)
-            elif(self.currentTemp + 5 < self.targetTemp):
-                self.set_heat_setting(1)
-            elif (self.currentTemp > self.targetTemp):
+    def thermostat(self, p):
+        counter = 0
+        previous = 0
+
+        highLowLookup = {
+            0.1 : [1,9],
+            0.2 : [1,4],
+            0.3 : [3,7],
+            0.4 : [2,3],
+            0.5 : [1,1],
+            0.6 : [3,2],
+            0.7 : [7,3],
+            0.8 : [4,1],
+            0.9 : [9,1],
+            1.0 : [1000,0],
+            0.0 : [0,1000]
+        }
+
+        while True:
+            output = p.update(self.currentTemp, self.targetTemp)
+            lowVal, highVal = int(output), output - int(output)
+
+            if(highVal < 0):
                 self.set_heat_setting(0)
+            else:
+                highVal = round(highVal, 1)
+                highTime = (highLowLookup.get(highVal))[0]
+                lowTime = (highLowLookup.get(highVal))[1]
+
+                if(previous == 0):
+                    if(counter >= lowTime):
+                        previous = 1
+                        counter = 0
+                        lowVal += 1
+                    else:
+                        previous = 0
+                else:
+                    if(counter >= highTime):
+                        previous = 0
+                        counter = 0
+                    else:
+                        previous = 1
+                        lowVal += 1
+
+                # Determine saturation.
+                if(lowVal < 0):
+                    lowVal = 0
+                elif(lowVal > 3):
+                    lowVal = 3
+
+                counter += 1
+                self.set_heat_setting(lowVal)
+
+            time.sleep(.25)
 
     def auto_connect_thread(self, threadNum):
         # Attempt to make a connection to the roaster until it finds the device.

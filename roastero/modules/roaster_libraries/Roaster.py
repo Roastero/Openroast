@@ -1,9 +1,10 @@
 import time
 import threading
+from ..tools.pid import *
 
 class Roaster:
     def __init__(self):
-        self.currentTemp = 0        # Int in degrees Fahrenheit
+        self.currentTemp = 150      # Int in degrees Fahrenheit
         self.targetTemp = 0         # Int in degrees Fahrenheit
         self.sectionTime = 0        # Int in seconds
         self.totalTime = 0          # Int in seconds
@@ -61,9 +62,11 @@ class Roaster:
             self.timer()
 
     def thermostat_thread(self, threadNum):
+        p=PID(0.015, 0.015, 0.0004)
+        p.setPoint(5.0)
         while(True):
             time.sleep(.25)
-            self.thermostat()
+            self.thermostat(p)
 
     def set_total_time(self, time):
         self.totalTime = time
