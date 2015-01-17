@@ -82,6 +82,8 @@ class RoastTab(QWidget):
         if (self.roaster.get_current_status() == 1 or self.roaster.get_current_status() == 2):
             self.graph_get_data()
 
+        self.graphFigure.clear()
+
         self.graphAxes = self.graphFigure.add_subplot(111)
         self.graphAxes.plot_date(self.graphXValueList, self.graphYValueList, '#85b63f')
 
@@ -234,9 +236,6 @@ class RoastTab(QWidget):
 
         # Create timer slider.
         self.timeSlider = QSlider(Qt.Horizontal)
-        self.timeSlider.setObjectName("inverted")
-        self.timeSlider.setInvertedAppearance(True)
-        self.timeSlider.setInvertedControls(True)
         self.timeSlider.setRange(0, 720)
         self.timeSlider.sliderMoved.connect(self.set_section_time)
         self.timeSlider.sliderPressed.connect(self.toggle_time_slider_status)
@@ -287,5 +286,19 @@ class RoastTab(QWidget):
     def toggle_time_slider_status(self):
         self.timeSliderPressed = not self.timeSliderPressed
 
-    def connect_roaster(self):
-        self.roaster.run()
+    # def connect_roaster(self):
+    #     self.roaster.run()
+
+    def start_new_roast(self):
+        self.graphXValueList = []
+        self.graphYValueList = []
+        self.counter = 0
+        self.graphFigure.clear()
+        self.roaster.set_section_time(0)
+        self.update_section_time()
+        self.roaster.set_total_time(0)
+        self.update_total_time()
+        self.roaster.set_target_temp(150)
+        self.change_target_temp_slider(150)
+        self.change_target_temp()
+        self.roaster.set_fan_speed(1)

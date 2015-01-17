@@ -4,6 +4,7 @@
 # Purpose: A class to interface with the Fresh Roast SR700 coffee roaster.
 
 # Import necessary modules.
+import threading
 import serial                       # Used for serial communications.
 import struct                       # Used to convert ints to two hex bytes.
 import time                         # Used for the count down timer.
@@ -29,6 +30,11 @@ class FreshRoastSR700(Roaster):
 
         # Additional variables
         self.program = []           # A list used to hold the roast program
+
+        autoConnectThread = threading.Thread(target=self.auto_connect_thread, args=(5,))
+        self.threads.append(autoConnectThread)
+        autoConnectThread.daemon = True
+        autoConnectThread.start()
 
     def gen_packet(self):
         # Return packet in byte format.
@@ -59,7 +65,7 @@ class FreshRoastSR700(Roaster):
         self.fanSpeed = 0
         self.time = 0.0
         self.heatSetting = 0
-        self.currentTemp = b'\x00\x00'
+        self.currentTemp = 150
 
         # Generate the initial message and send it
         message = self.gen_packet()
@@ -123,24 +129,6 @@ class FreshRoastSR700(Roaster):
             time.sleep(.25)
 
     def run(self):
-        # Open serial connection to roaster.
-        self.ser = serial.Serial(port=vid_pid_to_serial_url("1A86:5523"),
-                                baudrate=9600,
-                                bytesize=8,
-                                parity='N',
-                                stopbits=1.5,
-                                timeout=None,
-                                xonxoff=False,
-                                rtscts=False,
-                                writeTimeout=None,
-                                dsrdtr=False,
-                                interCharTimeout=None
-        )
-
-        # Set the connected variable to true if a serial connection is made.
-        if self.ser:
-            self.connected = True
-
         # Attempt to make a serial connection several times.
         for x in range(1,6):
             self.initialize()
@@ -187,5 +175,36 @@ class FreshRoastSR700(Roaster):
             elif (self.currentTemp > self.targetTemp):
                 self.set_heat_setting(0)
 
-    def __del__(self):
-        self.ser.close()
+    def auto_connect_thread(self, threadNum):
+        # Attempt to make a connection to the roaster until it finds the device.
+        while(True):
+            try:
+                vid_pid_to_serial_url("1A86:5523")
+                break
+            except LookupError:
+                continue
+
+            time.sleep(1)
+
+        # Open serial connection to roaster.
+        self.ser = serial.Serial(port=vid_pid_to_serial_url("1A86:5523"),
+                                baudrate=9600,
+                                bytesize=8,
+                                parity='N',
+                                stopbits=1.5,
+                                timeout=None,
+                                xonxoff=False,
+                                rtscts=False,
+                                writeTimeout=None,
+                                dsrdtr=False,
+                                interCharTimeout=None
+        )
+
+        # Set the connected variable to true if a serial connection is made.
+        if self.ser:
+            self.connected = True
+
+        self.run()
+
+    # def __del__(self):
+    #     self.ser.close()

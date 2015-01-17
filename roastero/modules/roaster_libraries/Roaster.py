@@ -65,6 +65,9 @@ class Roaster:
             time.sleep(.25)
             self.thermostat()
 
+    def set_total_time(self, time):
+        self.totalTime = time
+
     def initialize(self):
         pass
 
@@ -91,4 +94,4 @@ class Roaster:
 
     def __del__(self):
         self.cont = False
-        self.threads[1].join()
+        # self.threads[1].join()
