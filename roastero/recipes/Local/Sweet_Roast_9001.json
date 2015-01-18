@@ -1,0 +1,26 @@
+{
+  "recipeID" : "0001",
+  "roastName" : "Sweet Roast 9001",
+  "steps" : [
+    {"fanSpeed" : 4, "targetTemp" : 200, "sectionTime" : 10},
+    {"fanSpeed" : 6, "targetTemp" : 300, "sectionTime" : 20},
+    {"fanSpeed" : 9, "sectionTime" : 10, "cooling" : true}
+  ],
+  "roastDescription" : {
+    "roastType" : "medium",
+    "description" : "This is a really great roast! Mike the turtle approved!"
+  },
+  "creator" : "lodge93",
+  "totalTime" : 320,
+  "bean" : {
+    "region" : "South America",
+    "country" : "Columbia",
+    "source" : {
+      "reseller" : "Sweet Marias",
+      "link" : "www.sweetmarias.com"
+    }
+  },
+  "compatibleRoasters" : [
+    "Fresh Roast SR700"
+  ]
+}

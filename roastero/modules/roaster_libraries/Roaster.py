@@ -1,6 +1,7 @@
 import time
 import threading
 from ..tools.pid import *
+from ..roaster_libraries.Recipe import Recipe
 
 class Roaster:
     def __init__(self):
@@ -13,6 +14,10 @@ class Roaster:
         # Thread control variables
         self.cont = True            # True or False, used to exit program
         self.threads = []           # A list used to keep track of threads
+
+        self.recipe = self.load_recipe('./recipes/Local/Sweet_Roast_9001.json')
+        # self.load_current_section()
+
 
     def run(self):
         # Start thread to communicate with the roasters serial connection.
@@ -40,6 +45,8 @@ class Roaster:
             self.totalTime += 1
             if(self.sectionTime > 0):
                 self.sectionTime -= 1
+            else:
+                self.load_next_section()
 
         # When the roast is finished cooling, set roaster to idle.
         if(self.get_current_status() == 2 and self.sectionTime <= 0):
@@ -62,7 +69,7 @@ class Roaster:
             self.timer()
 
     def thermostat_thread(self, threadNum):
-        p=PID(0.015, 0.015, 0.0004)
+        p=PID(0.015, 0.02, 0.0035)
         p.setPoint(5.0)
         while(True):
             time.sleep(.25)
@@ -70,6 +77,33 @@ class Roaster:
 
     def set_total_time(self, time):
         self.totalTime = time
+
+    def load_recipe(self, file):
+        return Recipe(file)
+
+    def load_next_section(self):
+        if(self.recipe.get_current_section() < self.recipe.get_num_recipe_sections() - 1):
+            self.recipe.set_next_section()
+
+            if(self.recipe.get_current_cooling_status()):
+                self.set_section_time(self.recipe.get_current_section_time())
+                self.set_fan_speed(self.recipe.get_curent_fan_speed())
+                self.set_target_temp(self.recipe.get_current_target_temp())
+                self.set_section_time(self.recipe.get_current_section_time())
+                self.cool()
+                self.set_heat_setting(0)
+            else:
+                self.set_fan_speed(self.recipe.get_curent_fan_speed())
+                self.set_target_temp(self.recipe.get_current_target_temp())
+                self.set_section_time(self.recipe.get_current_section_time())
+
+        else:
+            self.idle()
+
+    def load_current_section(self):
+        self.set_fan_speed(self.recipe.get_curent_fan_speed())
+        self.set_target_temp(self.recipe.get_current_target_temp())
+        self.set_section_time(self.recipe.get_current_section_time())
 
     def initialize(self):
         pass

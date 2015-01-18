@@ -106,6 +106,9 @@ class FreshRoastSR700(Roaster):
     def set_fan_speed(self,speed):
         self.fanSpeed = speed
 
+    def get_fan_speed(self):
+        return self.fanSpeed
+
     def set_heat_setting(self,setting):
         self.heatSetting = setting
 

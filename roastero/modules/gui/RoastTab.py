@@ -111,6 +111,11 @@ class RoastTab(QWidget):
 
         while(True):
             time.sleep(1)
+
+            self.targetTempLabel.setText(str(self.roaster.get_target_temp()))
+            self.change_target_temp_slider(self.roaster.get_target_temp())
+            self.update_fan_box()
+
             self.currentTempLabel.setText(str(self.roaster.get_current_temp()))
             if (self.roaster.get_current_status() == 1 or self.roaster.get_current_status() == 2):
                 self.update_section_time()
@@ -200,6 +205,7 @@ class RoastTab(QWidget):
         # Create next button.
         self.nextButton = QPushButton("NEXT")
         self.nextButton.setObjectName("mainButton")
+        self.nextButton.clicked.connect(self.next_section)
         buttonPanel.addWidget(self.nextButton, 1, 1)
 
         # Create fan speed spin box.
@@ -266,6 +272,9 @@ class RoastTab(QWidget):
     def change_fan_speed(self):
         self.roaster.set_fan_speed(self.fanSpeedSpinBox.value())
 
+    def update_fan_box(self):
+        self.fanSpeedSpinBox.setValue(self.roaster.get_fan_speed())
+
     def set_section_time(self):
         self.sectionTimeLabel.setText(time.strftime("%M:%S", time.gmtime(self.timeSlider.value())))
         self.roaster.set_section_time(self.timeSlider.value())
@@ -302,3 +311,18 @@ class RoastTab(QWidget):
         self.change_target_temp_slider(150)
         self.change_target_temp()
         self.roaster.set_fan_speed(1)
+        self.fanSpeedSpinBox.setValue(1)
+
+    def current_section(self):
+        self.roaster.load_current_section()
+        self.update_section_time()
+        self.targetTempLabel.setText(str(self.roaster.get_target_temp()))
+        self.change_target_temp_slider(self.roaster.get_target_temp())
+        self.update_fan_box()
+
+    def next_section(self):
+        self.roaster.load_next_section()
+        self.update_section_time()
+        self.targetTempLabel.setText(str(self.roaster.get_target_temp()))
+        self.change_target_temp_slider(self.roaster.get_target_temp())
+        self.update_fan_box()

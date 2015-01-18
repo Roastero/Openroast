@@ -42,4 +42,6 @@ class RecipesTab(QWidget):
         self.recipeBrowser.setColumnHidden(3, True)
 
     def create_recipe_window(self):
-        self.recipeWindow = QWidget()
+        self.recipeWindow = QPlainTextEdit()
+        text=open('./recipes/Favorites/test01').read()
+        self.recipeWindow.setPlainText(text)
