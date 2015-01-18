@@ -24,12 +24,12 @@ class RecipesTab(QWidget):
 
 
     def create_recipe_browser(self):
-        model = QFileSystemModel()
-        model.setRootPath('./recipes')
+        self.model = QFileSystemModel()
+        self.model.setRootPath('./recipes')
         #model.setIconProvider()
         self.recipeBrowser = QTreeView()
-        self.recipeBrowser.setModel(model)
-        self.recipeBrowser.setRootIndex(model.index("./recipes"))
+        self.recipeBrowser.setModel(self.model)
+        self.recipeBrowser.setRootIndex(self.model.index("./recipes"))
         self.recipeBrowser.setFocusPolicy(Qt.NoFocus)
         self.recipeBrowser.header().close()
 
