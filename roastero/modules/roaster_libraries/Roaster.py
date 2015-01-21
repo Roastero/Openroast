@@ -10,6 +10,9 @@ class Roaster:
         self.sectionTime = 0        # Int in seconds
         self.totalTime = 0          # Int in seconds
         self.connected = False      # Determines if roaster is connected.
+        self.p = 0.13
+        self.i = 0.06
+        self.d = 0.02
 
         # Thread control variables
         self.cont = True            # True or False, used to exit program
@@ -29,13 +32,13 @@ class Roaster:
         # Start thread to keep track of time.
         timerThread = threading.Thread(target=self.timer_thread, args=(2,))
         self.threads.append(timerThread)
-        timerThread.daemon = True
+        timerThread.setDaemon(True)
         timerThread.start()
 
         # Start a thread to control the thermostat of the roaster.
         thermostatThread = threading.Thread(target=self.thermostat_thread, args=(3,))
         self.threads.append(thermostatThread)
-        thermostatThread.daemon = True
+        thermostatThread.setDaemon(True)
         thermostatThread.start()
 
     def timer(self):
@@ -69,11 +72,20 @@ class Roaster:
             self.timer()
 
     def thermostat_thread(self, threadNum):
-        p=PID(0.015, 0.02, 0.0035)
-        p.setPoint(5.0)
+        self.p=PID(self.p, self.i, self.d)
+        #p.setPoint(5.0)
         while(True):
-            time.sleep(.25)
-            self.thermostat(p)
+            #time.sleep(.25)
+            self.thermostat(self.p)
+
+    def set_p(self, p):
+        self.p.update_p(p)
+
+    def set_i(self, i):
+        self.p.update_i(i)
+
+    def set_d(self, d):
+        self.p.update_p(d)
 
     def set_total_time(self, time):
         self.totalTime = time

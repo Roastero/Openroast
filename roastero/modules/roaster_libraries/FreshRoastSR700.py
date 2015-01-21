@@ -189,14 +189,18 @@ class FreshRoastSR700(Roaster):
 
         while True:
             output = p.update(self.currentTemp, self.targetTemp)
+
+            print(output)
             lowVal, highVal = int(output), output - int(output)
 
             if(highVal < 0):
                 self.set_heat_setting(0)
             else:
                 highVal = round(highVal, 1)
-                highTime = (highLowLookup.get(highVal))[0]
-                lowTime = (highLowLookup.get(highVal))[1]
+                #highTime = (highLowLookup.get(highVal))[0]
+                #lowTime = (highLowLookup.get(highVal))[1]
+                highTime = 0
+                lowTime = 0
 
                 if(previous == 0):
                     if(counter >= lowTime):
@@ -221,6 +225,16 @@ class FreshRoastSR700(Roaster):
 
                 counter += 1
                 self.set_heat_setting(lowVal)
+
+
+            # if(output > 3):
+            #     self.set_heat_setting(3)
+            # elif(output > 2):
+            #     self.set_heat_setting(2)
+            # elif(output > 1):
+            #     self.set_heat_setting(1)
+            # else:
+            #     self.set_heat_setting(0)
 
             time.sleep(.25)
 
@@ -255,5 +269,5 @@ class FreshRoastSR700(Roaster):
 
         self.run()
 
-    # def __del__(self):
-    #     self.ser.close()
+    def __del__(self):
+        self.ser.close()

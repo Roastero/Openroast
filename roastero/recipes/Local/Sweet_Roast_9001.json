@@ -2,9 +2,10 @@
   "recipeID" : "0001",
   "roastName" : "Sweet Roast 9001",
   "steps" : [
-    {"fanSpeed" : 4, "targetTemp" : 200, "sectionTime" : 10},
-    {"fanSpeed" : 6, "targetTemp" : 300, "sectionTime" : 20},
-    {"fanSpeed" : 9, "sectionTime" : 10, "cooling" : true}
+    {"fanSpeed" : 9, "targetTemp" : 320, "sectionTime" : 310},
+    {"fanSpeed" : 9, "targetTemp" : 340, "sectionTime" : 140},
+    {"fanSpeed" : 6, "targetTemp" : 360, "sectionTime" : 90},
+    {"fanSpeed" : 9, "sectionTime" : 60, "cooling" : true}
   ],
   "roastDescription" : {
     "roastType" : "medium",

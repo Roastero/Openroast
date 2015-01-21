@@ -70,3 +70,12 @@ class PID:
 
     def getDerivator(self):
         return self.Derivator
+
+    def update_p(self, p):
+        self.Kp = p
+
+    def update_i(self, i):
+        self.Ki = i
+
+    def update_d(self, d):
+        self.Kd = d
