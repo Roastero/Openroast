@@ -164,77 +164,46 @@ class FreshRoastSR700(Roaster):
             time.sleep(.25)
 
         # Begin roast phase.
+        self.roast()
         self.cool()
         self.set_heat_setting(0)
+        self.set_target_temp(150)
         self.set_fan_speed(9)
         self.set_section_time(coolTime)
 
     def thermostat(self, p):
-        counter = 0
-        previous = 0
-
-        highLowLookup = {
-            0.1 : [1,9],
-            0.2 : [1,4],
-            0.3 : [3,7],
-            0.4 : [2,3],
-            0.5 : [1,1],
-            0.6 : [3,2],
-            0.7 : [7,3],
-            0.8 : [4,1],
-            0.9 : [9,1],
-            1.0 : [1000,0],
-            0.0 : [0,1000]
-        }
-
-        while True:
+        while(True):
+            # Get updated output from PID function.
             output = p.update(self.currentTemp, self.targetTemp)
 
-            print(output)
-            lowVal, highVal = int(output), output - int(output)
-
-            if(highVal < 0):
+            # Add additional settings so that there are seven isntead of four.
+            if(output >= 3.0):
+                self.set_heat_setting(3)
+                print("high")
+            elif(output >= 2.5):
+                self.set_heat_setting(3)
+                time.sleep(.25)
+                self.set_heat_setting(2)
+                print("high - med")
+            elif(output >= 2.0):
+                self.set_heat_setting(2)
+                print("med")
+            elif(output >= 1.5):
+                self.set_heat_setting(2)
+                time.sleep(.25)
+                self.set_heat_setting(1)
+                print("med - low")
+            elif(output >= 1.0):
+                self.set_heat_setting(1)
+                print("low")
+            elif(output >= 0.5):
+                self.set_heat_setting(1)
+                time.sleep(.25)
                 self.set_heat_setting(0)
+                print("low - off")
             else:
-                highVal = round(highVal, 1)
-                #highTime = (highLowLookup.get(highVal))[0]
-                #lowTime = (highLowLookup.get(highVal))[1]
-                highTime = 0
-                lowTime = 0
-
-                if(previous == 0):
-                    if(counter >= lowTime):
-                        previous = 1
-                        counter = 0
-                        lowVal += 1
-                    else:
-                        previous = 0
-                else:
-                    if(counter >= highTime):
-                        previous = 0
-                        counter = 0
-                    else:
-                        previous = 1
-                        lowVal += 1
-
-                # Determine saturation.
-                if(lowVal < 0):
-                    lowVal = 0
-                elif(lowVal > 3):
-                    lowVal = 3
-
-                counter += 1
-                self.set_heat_setting(lowVal)
-
-
-            # if(output > 3):
-            #     self.set_heat_setting(3)
-            # elif(output > 2):
-            #     self.set_heat_setting(2)
-            # elif(output > 1):
-            #     self.set_heat_setting(1)
-            # else:
-            #     self.set_heat_setting(0)
+                self.set_heat_setting(0)
+                print("off")
 
             time.sleep(.25)
 
@@ -270,4 +239,9 @@ class FreshRoastSR700(Roaster):
         self.run()
 
     def __del__(self):
-        self.ser.close()
+        self.sleep()
+        time.sleep(1)
+        try:
+            self.ser.close()
+        except:
+            pass

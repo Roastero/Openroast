@@ -10,15 +10,15 @@ class Roaster:
         self.sectionTime = 0        # Int in seconds
         self.totalTime = 0          # Int in seconds
         self.connected = False      # Determines if roaster is connected.
-        self.p = 0.13
-        self.i = 0.06
-        self.d = 0.02
+        self.p = 0.06
+        self.i = 0.90
+        self.d = 0.90
 
         # Thread control variables
         self.cont = True            # True or False, used to exit program
         self.threads = []           # A list used to keep track of threads
 
-        self.recipe = self.load_recipe('./recipes/Local/Sweet_Roast_9001.json')
+        self.recipe = self.load_recipe('./recipes/Local/Nicaragua_Don_Roger_Natural.json')
         # self.load_current_section()
 
 
@@ -75,7 +75,6 @@ class Roaster:
         self.p=PID(self.p, self.i, self.d)
         #p.setPoint(5.0)
         while(True):
-            #time.sleep(.25)
             self.thermostat(self.p)
 
     def set_p(self, p):
@@ -104,6 +103,7 @@ class Roaster:
                 self.set_section_time(self.recipe.get_current_section_time())
                 self.cool()
                 self.set_heat_setting(0)
+                self.set_target_temp(150)
             else:
                 self.set_fan_speed(self.recipe.get_curent_fan_speed())
                 self.set_target_temp(self.recipe.get_current_target_temp())
