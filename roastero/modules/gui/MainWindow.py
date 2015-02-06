@@ -2,8 +2,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QIcon
 from .RoastTab import RoastTab
 from .RecipesTab import RecipesTab
-from .LogTab import LogTab
-from .BrowseTab import BrowseTab
+from PyQt5.QtCore import *
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -12,6 +11,7 @@ class MainWindow(QMainWindow):
         # Define main window for the application.
         self.setWindowTitle('Roastero')
         self.setMinimumSize(800,600)
+        self.setContextMenuPolicy(Qt.NoContextMenu)
         #self.setWindowIcon(QIcon("icon.png"))
 
         # Open qss file.
@@ -28,7 +28,7 @@ class MainWindow(QMainWindow):
         self.create_menu()
 
     def create_menu(self):
-        self.menuBar = QMenuBar()
+        self.menuBar = QMenuBar(None)
 
         # Create file menu.
         self.fileMenu = self.menuBar.addMenu("File")
@@ -59,34 +59,14 @@ class MainWindow(QMainWindow):
         self.recipesTabButton.clicked.connect(self.select_recipes_tab)
         self.mainToolBar.addWidget(self.recipesTabButton)
 
-        # Add browse tab button.
-        self.browseTabButton = QPushButton("BROWSE", self)
-        self.browseTabButton.setObjectName("toolbar")
-        self.browseTabButton.clicked.connect(self.select_browse_tab)
-        self.mainToolBar.addWidget(self.browseTabButton)
-
-        # Add log tab button.
-        self.logTabButton = QPushButton("LOG", self)
-        self.logTabButton.setObjectName("toolbar")
-        self.logTabButton.clicked.connect(self.select_log_tab)
-        self.mainToolBar.addWidget(self.logTabButton)
-
         # Add spacer to set login button on the right.
         self.spacer = QWidget()
         self.spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.mainToolBar.addWidget(self.spacer)
 
-        # Add login button.
-        self.loginButton = QPushButton("SIGN IN", self)
-        self.loginButton.setObjectName("loginButton")
-        #self.loginButton.clicked.connect(self.test)
-        self.mainToolBar.addWidget(self.loginButton)
-
         # Add buttons to array to be disabled on selection.
         self.tabButtons = [self.roastTabButton,
-                           self.recipesTabButton,
-                           self.browseTabButton,
-                           self.logTabButton]
+                           self.recipesTabButton]
 
     def create_tabs(self):
         self.tabs = QStackedWidget()
@@ -94,14 +74,10 @@ class MainWindow(QMainWindow):
         # Create widgets to add to tabs.
         self.roast = RoastTab()
         self.recipes = RecipesTab()
-        self.browse = BrowseTab()
-        self.log = LogTab()
 
         # Add widgets to tabs.
         self.tabs.insertWidget(0, self.roast)
         self.tabs.insertWidget(1, self.recipes)
-        self.tabs.insertWidget(2, self.browse)
-        self.tabs.insertWidget(3, self.log)
 
         # Set the tabs as the central widget.
         self.setCentralWidget(self.tabs)
@@ -116,14 +92,6 @@ class MainWindow(QMainWindow):
     def select_recipes_tab(self):
         self.tabs.setCurrentIndex(1)
         self.change_blocked_button(1)
-
-    def select_browse_tab(self):
-        self.tabs.setCurrentIndex(2)
-        self.change_blocked_button(2)
-
-    def select_log_tab(self):
-        self.tabs.setCurrentIndex(3)
-        self.change_blocked_button(3)
 
     def change_blocked_button(self, index):
         # Set all buttons enabled.

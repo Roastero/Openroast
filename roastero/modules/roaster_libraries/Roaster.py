@@ -123,6 +123,15 @@ class Roaster:
     def get_current_temp(self):
         pass
 
+    def get_specific_section_temp(self, index):
+        return self.recipe.get_section_temp(index)
+
+    def get_specific_section_time(self, index):
+        return self.recipe.get_section_time(index)
+
+    def get_num_recipe_sections(self):
+        return self.recipe.get_num_recipe_sections()
+
     def get_target_temp(self):
         pass
 

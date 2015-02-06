@@ -34,6 +34,10 @@ QPushButton#mainButton{
   font: bold;
 }
 
+QPushButton#mainButton:disabled{
+  background- color: #444952;
+}
+
 QPushButton#mainButton:pressed {
   background-color: #227c9a;
 }

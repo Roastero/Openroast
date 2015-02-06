@@ -2,6 +2,7 @@ import datetime
 import matplotlib
 import threading
 import time
+import math
 matplotlib.use('Qt5Agg')
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
@@ -48,42 +49,42 @@ class RoastTab(QWidget):
         self.rightPane = self.create_right_pane()
         self.layout.addLayout(self.rightPane, 0, 1)
 
+        # Create progress bar.
+        self.progressBar = self.create_progress_bar()
+        self.layout.addLayout(self.progressBar, 1, 0, 1, 2, Qt.AlignCenter)
+
         # Create not connected label.
         self.connectionStatusLabel = QLabel("Please connect your roaster.")
         self.connectionStatusLabel.setObjectName("connectionStatus")
         self.connectionStatusLabel.setAlignment(Qt.AlignCenter)
         self.layout.addWidget(self.connectionStatusLabel, 0, 0)
 
-
-        self.p = QDoubleSpinBox()
-        self.p.setRange(0.000, 0.900)
-        self.p.valueChanged.connect(self.change_p)
-        self.layout.addWidget(self.p, 1, 0)
-
-        self.i = QDoubleSpinBox()
-        self.i.setRange(0.000, 0.900)
-        self.i.valueChanged.connect(self.change_p)
-        self.layout.addWidget(self.i, 1, 1)
-
-        self.d = QDoubleSpinBox()
-        self.d.setRange(0.000, 0.900)
-        self.d.valueChanged.connect(self.change_p)
-        self.layout.addWidget(self.d, 1, 2)
-
-
-
+#        self.p = QDoubleSpinBox()
+#        self.p.setRange(0.000, 0.900)
+#        self.p.valueChanged.connect(self.change_p)
+#        self.layout.addWidget(self.p, 1, 0)
+#
+#        self.i = QDoubleSpinBox()
+#        self.i.setRange(0.000, 0.900)
+#        self.i.valueChanged.connect(self.change_p)
+#        self.layout.addWidget(self.i, 1, 1)
+#
+#        self.d = QDoubleSpinBox()
+#        self.d.setRange(0.000, 0.900)
+#        self.d.valueChanged.connect(self.change_p)
+#        self.layout.addWidget(self.d, 1, 2)
 
         # Set main layout for widget.
         self.setLayout(self.layout)
 
-    def change_p(self):
-        self.roaster.set_p(self.p.value())
-
-    def change_i(self):
-        self.roaster.set_i(self.d.value())
-
-    def change_d(self):
-        self.roaster.set_d(self.d.value())
+#    def change_p(self):
+#        self.roaster.set_p(self.p.value())
+#
+#    def change_i(self):
+#        self.roaster.set_i(self.d.value())
+#
+#    def change_d(self):
+#        self.roaster.set_d(self.d.value())
 
     def create_graph(self):
         # Create the graph widget.
@@ -180,12 +181,43 @@ class RoastTab(QWidget):
 
         return rightPane
 
+    def create_progress_bar(self):
+        progressBar = QGridLayout()
+        
+        # An array to hold all progress bars.
+        self.sectionBars = []
+
+        for i in range(0, self.roaster.get_num_recipe_sections()):
+            # Calculate display time. 
+            minutes, seconds = self.calc_display_time(
+                self.roaster.get_specific_section_time(i))
+            labelText = str(minutes) +  ":" +  str(seconds) + "@"  + str(self.roaster.get_specific_section_temp(i))
+            label = QLabel(labelText)
+            label.setAlignment(Qt.AlignCenter)
+            progressBar.addWidget(label, 0, i)
+            bar = QProgressBar(self)
+            progressBar.addWidget(bar, 1, i)
+            self.sectionBars.append(bar)
+
+        return progressBar
+
+    def calc_display_time(self, time):
+        time = time / 60
+        minutes = math.floor((time))
+        seconds = int((time - math.floor(time)) * 60)
+
+        if(seconds == 0):
+            seconds = '00'
+
+        return(minutes, seconds)
+
     def create_gauge_window(self):
         guageWindow = QGridLayout()
 
         # Create current temp gauge.
         self.currentTempLabel = QLabel()
-        currentTemp = self.create_info_box("CURRENT TEMP", "tempGuage", self.currentTempLabel)
+        currentTemp = self.create_info_box("CURRENT TEMP", "tempGuage", 
+            self.currentTempLabel)
         guageWindow.addLayout(currentTemp, 0, 0)
 
         # Create target temp gauge.

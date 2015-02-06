@@ -34,6 +34,15 @@ class Recipe:
             return self.data["steps"][self.currentSection]["cooling"]
         else:
             return False
+    
+    def get_section_time(self, index):
+        return self.data["steps"][index]["sectionTime"]
+
+    def get_section_temp(self, index):
+        if(self.data["steps"][index].get("targetTemp")):
+            return self.data["steps"][index]["targetTemp"]
+        else:
+            return 150
 
     def set_next_section(self):
         self.currentSection += 1
