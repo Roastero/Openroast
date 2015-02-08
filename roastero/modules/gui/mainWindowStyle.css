@@ -1,290 +1,327 @@
 QMainWindow{
-  background-color: #2e3138;
+    background-color: #2e3138;
 }
 
 QToolBar{
-  background-color: #444952;
-  border-radius: 5px;
-  margin: 12px 12px 12px 12px;
+    background-color: #444952;
+    border-radius: 5px;
+    margin: 12px 12px 0px 12px;
 }
 
 QPushButton#toolbar{
-  border-radius: 5px;
-  width: 100px;
-  height: 30px;
-  color: #fff;
-  margin: 5px;
-  font-family: "Asap";
-  font: bold;
+    border-radius: 5px;
+    width: 100px;
+    height: 30px;
+    color: #fff;
+    font-family: "Asap";
+    font: bold;
+    margin: 15px 5px 3px 5px;
 }
 
 QPushButton#toolbar:disabled {
-    background-color: #23252a;
-    color: #444952;
+      background-color: #23252a;
+      color: #444952;
 }
 
 QPushButton#mainButton{
-  border-radius: 5px;
-  width: 140px;
-  height: 36px;
-  background-color: #16a2cf;
-  color: #fff;
-  margin: 5px;
-  font-family: "Asap";
-  font: bold;
+    border-radius: 5px;
+    width: 140px;
+    height: 36px;
+    background-color: #16a2cf;
+    color: #fff;
+    margin: 5px;
+    font-family: "Asap";
+    font: bold;
 }
 
 QPushButton#mainButton:disabled{
-  background- color: #444952;
+    background- color: #444952;
 }
 
 QPushButton#mainButton:pressed {
-  background-color: #227c9a;
+    background-color: #227c9a;
 }
 
 QPushButton#loginButton{
-  border-radius: 5px;
-  width: 100px;
-  height: 36px;
-  background-color: #85b63f;
-  color: #fff;
-  margin: 8px;
-  font-family: "Asap";
-  font: bold;
+    border-radius: 5px;
+    width: 100px;
+    height: 36px;
+    background-color: #85b63f;
+    color: #fff;
+    margin: 8px;
+    font-family: "Asap";
+    font: bold;
 }
 
 QPushButton#loginButton:pressed {
-  background-color: #63892d;
+    background-color: #63892d;
 }
 
 QLabel#logo{
-  color: #fff;
-  margin: 15px;
-  font-family: "Asap";
-  font-size: 20pt;
-  font: bold;
+    color: #fff;
+    padding: 15px 15px 3px 15px;
+    font-family: "Asap";
+    font-size: 20pt;
+    font: bold;
 }
 
 QLabel#label{
-  border-radius: 5px;
-  border-bottom-left-radius: 0px;
-  border-bottom-right-radius: 0px;
-  background-color: #444952;
-  color: #fff;
-  font-family: "Asap";
-  font-size: 14pt;
-  font: bold;
-  padding: 12px;
+    border-radius: 5px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    background-color: #444952;
+    color: #fff;
+    font-family: "Asap";
+    font-size: 14pt;
+    font: bold;
+    padding: 12px;
 }
 
 QLabel#tempGuage{
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
-  background-color: #23252a;
-  color: #16a2cf;
-  font-size: 40pt;
-  font-family: "Asap";
-  font: bold;
-  padding: 10px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-color: #23252a;
+    color: #16a2cf;
+    font-size: 40pt;
+    font-family: "Asap";
+    font: bold;
+    padding: 10px;
 }
 
 QLabel#timeWindow{
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
-  background-color: #23252a;
-  color: #85b63f;
-  font-size: 40pt;
-  font-family: "Asap";
-  font: bold;
-  padding: 10px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-color: #23252a;
+    color: #85b63f;
+    font-size: 40pt;
+    font-family: "Asap";
+    font: bold;
+    padding: 10px;
 }
 
 QWidget#graph{
-  color: #f00;
-  background-color: #444953;
-  border-radius: 5px;
-  margin: 0px;
-  padding: 0px;
+    color: #f00;
+    background-color: #444953;
+    border-radius: 5px;
+    margin: 0px;
+    padding: 0px;
 }
 
 QListWidget{
-  font-family: "Asap";
-  font: bold;
-  color: #fff;
-  border-radius: 5px;
-  background-color: #444953;
-  outline: none;
+    font-family: "Asap";
+    font: bold;
+    color: #fff;
+    border-radius: 5px;
+    background-color: #444953;
+    outline: none;
 }
 
 QListView {
-  outline: none;
+    outline: none;
 }
 
 QListWidget::item{
-  background-color: #444953;
-  height: 30px;
-  padding: 5px;
-  border-top-width: 1px;
-  border-color: #333841;
-  border-style: solid;
+    background-color: #444953;
+    height: 30px;
+    padding: 5px;
+    border-top-width: 1px;
+    border-color: #333841;
+    border-style: solid;
 }
 
 QListWidget::item:selected{
-  background-color: #23252b;
-  color: #fff;
-  border-top-color: #8ab71b;
-  border-top-style: solid;
-  border-top-width: 2px;
+    background-color: #23252b;
+    color: #fff;
+    border-top-color: #8ab71b;
+    border-top-style: solid;
+    border-top-width: 2px;
 }
 
 QLabel{
-  color: #fff;
-  font-family: "Asap";
-  font: bold;
+    color: #fff;
+    font-family: "Asap";
+    font: bold;
 }
 
 QComboBox {
-  border-radius: 5px;
-  width: 105px;
-  height: 36px;
-  background-color: #16a2cf;
-  color: #fff;
-  margin: 2px;
-  font-family: "Asap";
-  font: bold;
-  padding-left: 5px;
+    border-radius: 5px;
+    width: 105px;
+    height: 36px;
+    background-color: #16a2cf;
+    color: #fff;
+    margin: 2px;
+    font-family: "Asap";
+    font: bold;
+    padding-left: 5px;
 }
 
 QComboBox:on { /* shift the text when the popup opens */
-  padding: 5px;
+    padding: 5px;
 }
 
 QComboBox QAbstractItemView {
-  border-radius: 5px;
-  border: 1px;
-  background-color: #148eb5;
+    border-radius: 5px;
+    border: 1px;
+    background-color: #148eb5;
 }
 
 QComboBox::drop-down {
-  width: 35px;
-  background-color: #148eb5;
-  border-left-width: 1px;
-  border-left-color: #1d86aa;
-  border-left-style: solid;
-  border-top-right-radius: 5px;
-  border-bottom-right-radius: 5px;
+    width: 35px;
+    background-color: #148eb5;
+    border-left-width: 1px;
+    border-left-color: #1d86aa;
+    border-left-style: solid;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
 }
 
 QComboBox::down-arrow {
-  image: url(modules/gui/images/downArrow.png);
+    image: url(modules/gui/images/downArrow.png);
 }
 
 QSpinBox {
-  background-color: #16a2cf;
-  border: 0px;
-  border-radius: 5px;
-  height: 36px;
-  color: #fff;
-  font-family: "Asap";
-  font: bold;
-  width: 105px;
+    background-color: #16a2cf;
+    border: 0px;
+    border-radius: 5px;
+    height: 36px;
+    color: #fff;
+    font-family: "Asap";
+    font: bold;
+    width: 105px;
 }
 
 QSpinBox::up-button {
-  width: 35px;
-  background-color: #16a2cf;
-  border-left-width: 2px;
-  border-left-color: #1d86aa;
-  border-left-style: solid;
-  border-top-right-radius: 5px;
-  image: url(modules/gui/images/upArrow.png);
+    width: 35px;
+    background-color: #16a2cf;
+    border-left-width: 2px;
+    border-left-color: #1d86aa;
+    border-left-style: solid;
+    border-top-right-radius: 5px;
+    image: url(modules/gui/images/upArrow.png);
 }
 
 QSpinBox::up-button:pressed {
-  background-color: #148eb5;
+    background-color: #148eb5;
 }
 
 QSpinBox::down-button {
-  width: 35px;
-  background-color: #16a2cf;
-  border-left-width: 2px;
-  border-left-color: #1d86aa;
-  border-left-style: solid;
-  border-bottom-right-radius: 5px;
-  image: url(modules/gui/images/downArrow.png);
+    width: 35px;
+    background-color: #16a2cf;
+    border-left-width: 2px;
+    border-left-color: #1d86aa;
+    border-left-style: solid;
+    border-bottom-right-radius: 5px;
+    image: url(modules/gui/images/downArrow.png);
 }
 
 QSpinBox::down-button:pressed {
-  background-color: #148eb5;
+    background-color: #148eb5;
 }
 
 QSlider::groove {
-  border-radius: 5px;
-  height: 8px;
+    border-radius: 5px;
+    height: 8px;
 }
 
 QSlider::handle:horizontal {
-  background-color: #fff;
-  width: 16px;
-  height: 12px;
-  margin: -4px 0; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */
-  border-radius: 8px;
+    background-color: #fff;
+    width: 16px;
+    height: 12px;
+    margin: -4px 0; /* handle is placed by default on the contents rect of the groove. Expand outside the groove */
+    border-radius: 8px;
 }
 
 QSlider::add-page:horizontal {
-  background: #23252b;
-  border-radius: 4px;
-  height: 10px;
+    background: #23252b;
+    border-radius: 4px;
+    height: 10px;
 }
 
 QSlider::sub-page:horizontal {
-  background: #f0b017;
-  border-radius: 4px;
-  height: 10px;
+    background: #f0b017;
+    border-radius: 4px;
+    height: 10px;
 }
 
 QLabel#connectionStatus{
-  border-radius: 5px;
-  background-color: rgba(68,73,83);
+    border-radius: 5px;
+    background-color: rgba(68,73,83);
 }
 
 QTreeView {
-  background-color: #23252b;
-  border-radius: 5px;
-  color: #fff;
-  font-family: "Asap";
-  font: bold;
+    background-color: #23252b;
+    border-radius: 5px;
+    color: #fff;
+    font-family: "Asap";
+    font: bold;
 }
 
 QTreeView::item:has-children{
-  background-color: #444953;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #333841;
+    background-color: #444953;
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-top-color: #333841;
 }
 
 QTreeView::item::open:has-children{
-  border-bottom-style: solid;
-  border-bottom-width: 2px;
-  border-bottom-color: #8ab71b;
-  color: #fff;
+    border-bottom-style: solid;
+    border-bottom-width: 2px;
+    border-bottom-color: #8ab71b;
+    color: #fff;
 }
 
 QTreeView::item::has-children:selected{
-  color: #fff;
+    color: #fff;
 }
 
 QTreeView::item {
-  background-color: #23252b;
-  border-top-style: solid;
-  border-top-width: 1px;
-  border-top-color: #1d1f24;
-  height: 36px;
+    background-color: #23252b;
+    border-top-style: solid;
+    border-top-width: 1px;
+    border-top-color: #1d1f24;
+    height: 36px;
 }
 
 QTreeView::item:!has-children:selected {
-  border-left-style: solid;
-  border-left-width: 2px;
-  border-left-color: #2aa1d3;
-  color: #fff;
+    border-left-style: solid;
+    border-left-width: 2px;
+    border-left-color: #2aa1d3;
+    color: #fff;
+}
+
+QProgressBar {
+    background-color: #23252b;
+    height: 30px;
+}
+
+QProgressBar::chunk{
+    background-color: #85b63f;
+}
+
+QProgressBar#firstProgressBar{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-right: 2px solid #171a1e;
+}
+
+QProgressBar#firstProgressBar::chunk{
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+QProgressBar#middleProgressBar{
+    border-right: 2px solid #171a1e;
+}
+
+QProgressBar#lastProgressBar{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+QProgressBar#lastProgressBar::chunk{
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+QLabel#progressLabel{
 }

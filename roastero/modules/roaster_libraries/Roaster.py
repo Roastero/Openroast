@@ -132,6 +132,9 @@ class Roaster:
     def get_num_recipe_sections(self):
         return self.recipe.get_num_recipe_sections()
 
+    def get_current_section(self):
+        return self.recipe.get_current_section()
+
     def get_target_temp(self):
         pass
 

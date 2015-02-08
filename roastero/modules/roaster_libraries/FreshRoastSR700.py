@@ -179,31 +179,24 @@ class FreshRoastSR700(Roaster):
             # Add additional settings so that there are seven isntead of four.
             if(output >= 3.0):
                 self.set_heat_setting(3)
-                print("high")
             elif(output >= 2.5):
                 self.set_heat_setting(3)
                 time.sleep(.25)
                 self.set_heat_setting(2)
-                print("high - med")
             elif(output >= 2.0):
                 self.set_heat_setting(2)
-                print("med")
             elif(output >= 1.5):
                 self.set_heat_setting(2)
                 time.sleep(.25)
                 self.set_heat_setting(1)
-                print("med - low")
             elif(output >= 1.0):
                 self.set_heat_setting(1)
-                print("low")
             elif(output >= 0.5):
                 self.set_heat_setting(1)
                 time.sleep(.25)
                 self.set_heat_setting(0)
-                print("low - off")
             else:
                 self.set_heat_setting(0)
-                print("off")
 
             time.sleep(.25)
 

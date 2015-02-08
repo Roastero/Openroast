@@ -74,6 +74,8 @@ class RoastTab(QWidget):
 #        self.d.valueChanged.connect(self.change_p)
 #        self.layout.addWidget(self.d, 1, 2)
 
+
+
         # Set main layout for widget.
         self.setLayout(self.layout)
 
@@ -105,17 +107,20 @@ class RoastTab(QWidget):
         self.graphWidget.setLayout(graphVerticalBox)
 
         # Animate the the graph with new data
-        animateGraph = animation.FuncAnimation(self.graphFigure, self.graph_draw, interval=1000)
+        animateGraph = animation.FuncAnimation(self.graphFigure, 
+            self.graph_draw, interval=1000)
 
     def graph_draw(self, *args, **kwargs):
         # Start graphing the roast if the roast has started.
-        if (self.roaster.get_current_status() == 1 or self.roaster.get_current_status() == 2):
+        if (self.roaster.get_current_status() == 1 or 
+                self.roaster.get_current_status() == 2):
             self.graph_get_data()
 
         self.graphFigure.clear()
 
         self.graphAxes = self.graphFigure.add_subplot(111)
-        self.graphAxes.plot_date(self.graphXValueList, self.graphYValueList, '#85b63f')
+        self.graphAxes.plot_date(self.graphXValueList, self.graphYValueList, 
+            '#85b63f')
 
         # Add formatting to the graphs.
         self.graphAxes.set_ylabel('TEMPERATURE (°F)')
@@ -147,9 +152,22 @@ class RoastTab(QWidget):
             self.update_fan_box()
 
             self.currentTempLabel.setText(str(self.roaster.get_current_temp()))
-            if (self.roaster.get_current_status() == 1 or self.roaster.get_current_status() == 2):
+            if (self.roaster.get_current_status() == 1 or 
+                    self.roaster.get_current_status() == 2):
                 self.update_section_time()
                 self.update_total_time()
+
+                # Update current section progress bar.
+                currentTime = (self.roaster.get_specific_section_time(self.roaster.get_current_section()) - self.roaster.get_section_time())
+                value = (currentTime / self.roaster.get_specific_section_time(self.roaster.get_current_section()))
+               
+                value = round(value * 100)
+#                print(value)
+#                
+#                if(value >= 0 or value < 100):
+#                    self.sectionBars[self.roaster.get_current_section()].setValue(value)
+#                else:
+#                    self.sectionBars[self.roaster.get_current_section()].setValue(100)
 
             # Check connection status of the roaster.
             if (self.roaster.get_connection_status()):
@@ -183,21 +201,42 @@ class RoastTab(QWidget):
 
     def create_progress_bar(self):
         progressBar = QGridLayout()
+        progressBar.setHorizontalSpacing(0)
         
         # An array to hold all progress bars.
         self.sectionBars = []
 
         for i in range(0, self.roaster.get_num_recipe_sections()):
-            # Calculate display time. 
-            minutes, seconds = self.calc_display_time(
-                self.roaster.get_specific_section_time(i))
-            labelText = str(minutes) +  ":" +  str(seconds) + "@"  + str(self.roaster.get_specific_section_temp(i))
+            # Calculate display time and generate label text. 
+            time = self.roaster.get_specific_section_time(i)
+            minutes, seconds = self.calc_display_time(time)
+            labelText = (str(minutes) +  ":" + str(seconds) + "@" + 
+                str(self.roaster.get_specific_section_temp(i)))
+
+            # Create label for section.
             label = QLabel(labelText)
+            label.setObjectName("progressLabel")
             label.setAlignment(Qt.AlignCenter)
             progressBar.addWidget(label, 0, i)
+
+            # Create progress bar for section.
             bar = QProgressBar(self)
-            progressBar.addWidget(bar, 1, i)
+            bar.setTextVisible(False)
+
+            # Add css styling based upon the order of the progress bars.
+            if(i == 0):
+                bar.setObjectName("firstProgressBar")
+            elif(i == self.roaster.get_num_recipe_sections() - 1):
+                bar.setObjectName("lastProgressBar")
+            else:
+                bar.setObjectName("middleProgressBar")
+            
+            # Add progress bar to layout and array.
             self.sectionBars.append(bar)
+            progressBar.addWidget(bar, 0, i)
+
+            # Add stretch factor to column based upon minutes.
+            progressBar.setColumnStretch(i, time)
 
         return progressBar
 
@@ -337,15 +376,18 @@ class RoastTab(QWidget):
         self.fanSpeedSpinBox.setValue(self.roaster.get_fan_speed())
 
     def set_section_time(self):
-        self.sectionTimeLabel.setText(time.strftime("%M:%S", time.gmtime(self.timeSlider.value())))
+        self.sectionTimeLabel.setText(time.strftime("%M:%S", 
+            time.gmtime(self.timeSlider.value())))
         self.roaster.set_section_time(self.timeSlider.value())
 
     def update_section_time(self):
         self.timeSlider.setValue(self.roaster.get_section_time())
-        self.sectionTimeLabel.setText(str(time.strftime("%M:%S", time.gmtime(self.roaster.get_section_time()))))
+        self.sectionTimeLabel.setText(str(time.strftime("%M:%S", 
+            time.gmtime(self.roaster.get_section_time()))))
 
     def update_total_time(self):
-        self.totalTimeLabel.setText(str(time.strftime("%M:%S", time.gmtime(self.roaster.get_total_time()))))
+        self.totalTimeLabel.setText(str(time.strftime("%M:%S", 
+            time.gmtime(self.roaster.get_total_time()))))
 
     def cooling_phase(self):
         self.roaster.cooling_phase()
