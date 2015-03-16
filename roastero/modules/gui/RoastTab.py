@@ -30,11 +30,11 @@ class RoastTab(QWidget):
         # Create the tab ui.
         self.create_ui()
 
-        # Create thread to update gui data.
-        self.dataThread = threading.Thread(target=self.update_data, args=(4,))
-        self.roaster.threads.append(self.dataThread)
-        self.dataThread.daemon = True
-        self.dataThread.start()
+        # Create timer to update gui data.
+        self.timer = QTimer()
+        self.timer.setInterval(1000)
+        self.timer.timeout.connect(self.update_data)
+        self.timer.start()
 
     def create_ui(self):
         # Create the main layout for the roast tab.
@@ -107,19 +107,19 @@ class RoastTab(QWidget):
         self.graphWidget.setLayout(graphVerticalBox)
 
         # Animate the the graph with new data
-        animateGraph = animation.FuncAnimation(self.graphFigure, 
+        animateGraph = animation.FuncAnimation(self.graphFigure,
             self.graph_draw, interval=1000)
 
     def graph_draw(self, *args, **kwargs):
         # Start graphing the roast if the roast has started.
-        if (self.roaster.get_current_status() == 1 or 
+        if (self.roaster.get_current_status() == 1 or
                 self.roaster.get_current_status() == 2):
             self.graph_get_data()
 
         self.graphFigure.clear()
 
         self.graphAxes = self.graphFigure.add_subplot(111)
-        self.graphAxes.plot_date(self.graphXValueList, self.graphYValueList, 
+        self.graphAxes.plot_date(self.graphXValueList, self.graphYValueList,
             '#85b63f')
 
         # Add formatting to the graphs.
@@ -139,43 +139,36 @@ class RoastTab(QWidget):
         self.graphXValueList.append(matplotlib.dates.date2num(currentTime))
         self.graphYValueList.append(self.roaster.get_current_temp())
 
-    def update_data(self, threadNum):
-        # Update the gui data on thread start.
-        self.update_section_time()
-        self.update_total_time()
+    def update_data(self):
+        self.targetTempLabel.setText(str(self.roaster.get_target_temp()))
+        self.change_target_temp_slider(self.roaster.get_target_temp())
+        self.update_fan_box()
 
-        while(True):
-            time.sleep(1)
+        self.currentTempLabel.setText(str(self.roaster.get_current_temp()))
+        if (self.roaster.get_current_status() == 1 or
+                self.roaster.get_current_status() == 2):
+            self.update_section_time()
+            self.update_total_time()
 
-            self.targetTempLabel.setText(str(self.roaster.get_target_temp()))
-            self.change_target_temp_slider(self.roaster.get_target_temp())
-            self.update_fan_box()
+            # Update current section progress bar.
+            currentTime = (self.roaster.get_specific_section_time(self.roaster.get_current_section()) - self.roaster.get_section_time())
+            value = (currentTime / self.roaster.get_specific_section_time(self.roaster.get_current_section()))
 
-            self.currentTempLabel.setText(str(self.roaster.get_current_temp()))
-            if (self.roaster.get_current_status() == 1 or 
-                    self.roaster.get_current_status() == 2):
-                self.update_section_time()
-                self.update_total_time()
-
-                # Update current section progress bar.
-                currentTime = (self.roaster.get_specific_section_time(self.roaster.get_current_section()) - self.roaster.get_section_time())
-                value = (currentTime / self.roaster.get_specific_section_time(self.roaster.get_current_section()))
-               
-                value = round(value * 100)
+            value = round(value * 100)
 #                print(value)
-#                
+#
 #                if(value >= 0 or value < 100):
 #                    self.sectionBars[self.roaster.get_current_section()].setValue(value)
 #                else:
 #                    self.sectionBars[self.roaster.get_current_section()].setValue(100)
 
-            # Check connection status of the roaster.
-            if (self.roaster.get_connection_status()):
-                self.connectionStatusLabel.setHidden(True)
-                self.setEnabled(True)
-            else:
-                self.connectionStatusLabel.setHidden(False)
-                self.setEnabled(False)
+        # Check connection status of the roaster.
+        if (self.roaster.get_connection_status()):
+            self.connectionStatusLabel.setHidden(True)
+            self.setEnabled(True)
+        else:
+            self.connectionStatusLabel.setHidden(False)
+            self.setEnabled(False)
 
     def create_right_pane(self):
         rightPane = QVBoxLayout()
@@ -202,15 +195,15 @@ class RoastTab(QWidget):
     def create_progress_bar(self):
         progressBar = QGridLayout()
         progressBar.setHorizontalSpacing(0)
-        
+
         # An array to hold all progress bars.
         self.sectionBars = []
 
         for i in range(0, self.roaster.get_num_recipe_sections()):
-            # Calculate display time and generate label text. 
+            # Calculate display time and generate label text.
             time = self.roaster.get_specific_section_time(i)
             minutes, seconds = self.calc_display_time(time)
-            labelText = (str(minutes) +  ":" + str(seconds) + "@" + 
+            labelText = (str(minutes) +  ":" + str(seconds) + "@" +
                 str(self.roaster.get_specific_section_temp(i)))
 
             # Create label for section.
@@ -230,7 +223,7 @@ class RoastTab(QWidget):
                 bar.setObjectName("lastProgressBar")
             else:
                 bar.setObjectName("middleProgressBar")
-            
+
             # Add progress bar to layout and array.
             self.sectionBars.append(bar)
             progressBar.addWidget(bar, 0, i)
@@ -255,7 +248,7 @@ class RoastTab(QWidget):
 
         # Create current temp gauge.
         self.currentTempLabel = QLabel()
-        currentTemp = self.create_info_box("CURRENT TEMP", "tempGuage", 
+        currentTemp = self.create_info_box("CURRENT TEMP", "tempGuage",
             self.currentTempLabel)
         guageWindow.addLayout(currentTemp, 0, 0)
 
@@ -376,17 +369,17 @@ class RoastTab(QWidget):
         self.fanSpeedSpinBox.setValue(self.roaster.get_fan_speed())
 
     def set_section_time(self):
-        self.sectionTimeLabel.setText(time.strftime("%M:%S", 
+        self.sectionTimeLabel.setText(time.strftime("%M:%S",
             time.gmtime(self.timeSlider.value())))
         self.roaster.set_section_time(self.timeSlider.value())
 
     def update_section_time(self):
         self.timeSlider.setValue(self.roaster.get_section_time())
-        self.sectionTimeLabel.setText(str(time.strftime("%M:%S", 
+        self.sectionTimeLabel.setText(str(time.strftime("%M:%S",
             time.gmtime(self.roaster.get_section_time()))))
 
     def update_total_time(self):
-        self.totalTimeLabel.setText(str(time.strftime("%M:%S", 
+        self.totalTimeLabel.setText(str(time.strftime("%M:%S",
             time.gmtime(self.roaster.get_total_time()))))
 
     def cooling_phase(self):
