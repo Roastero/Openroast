@@ -30,6 +30,10 @@ class RoastTab(QWidget):
         # Create the tab ui.
         self.create_ui()
 
+        # Update initial GUI information
+        self.update_section_time()
+        self.update_total_time()
+
         # Create timer to update gui data.
         self.timer = QTimer()
         self.timer.setInterval(1000)
