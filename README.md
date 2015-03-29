@@ -2,6 +2,7 @@
 A coffee roasting application to control the Fresh Roast SR700.
 
 ## Dependencies
+
 - Python3
 - PyQt5
 - Qt5
@@ -12,6 +13,7 @@ A coffee roasting application to control the Fresh Roast SR700.
 
 ## Setup a Development Environment
 ### Mac
+
     git clone https://github.com/Roastero/Roastero.git
     cd Roastero
     brew install Python3
@@ -24,6 +26,7 @@ A coffee roasting application to control the Fresh Roast SR700.
     cp /usr/local/lib/python3.4/site-packages/sip* env/lib/python3.4/site-packages/
 
 #### Patching PySerial for Mac
+
 While developing the application we found a bug in the PySerial library.
 We tried to contact the developers but with no luck as of 2-1-15(v2.7).
 For this reason you will have to manually patch Pyserial. It's not
@@ -35,7 +38,21 @@ This should fix PySerial for now.
 
 ### Windows
 
+The best way to create a development environment on windows is to use a package manager like chocolatey. This will simplify the whole process of finding packages and downloading/installing them. To install choco I'd recomend you take a look at their website [here](https://chocolatey.org/). On you have choco all setup you can run the following commands.
+
+    choco install python pip
+    pip install python-dateutil pyserial
+
+In order to install matplotlib on Windows you will have to download and install it manually. You can grab an installation package from [here](http://matplotlib.org/downloads.html).
+
+A requirement for matplotlib is also numpy which can be installed with package from [here](http://www.lfd.uci.edu/~gohlke/pythonlibs/#numpy). You can install this newly downloaded WHL file by doing the following command.
+
+    pip install PackageName.whl
+
+The same goes for pyqt5. You will have to download it from [here](http://www.riverbankcomputing.com/software/pyqt/download5) and install it yourself.
+
 ## Fedora 21 Linux
+
     git clone https://github.com/Roastero/Roastero.git
     cd Roastero
     sudo pip3 install virtualenv
@@ -44,6 +61,7 @@ This should fix PySerial for now.
     sudo pip3 install pyserial matplotlib python3-pyqt5
 
 ### Ubuntu Linux
+
     git clone https://github.com/Roastero/Roastero.git
     cd Roastero
     sudo apt-get install python3 python3-pip qt5-default libfreetype6-dev
@@ -51,7 +69,6 @@ This should fix PySerial for now.
     virtualenv env -p Python3
     source env/bin/activate
     sudo pip install pyserial python3-matplotlib python3-pyqt5
-
 
 ## License
 The code is being released under GPL v3.
