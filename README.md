@@ -1,9 +1,18 @@
 # Roastero
 A coffee roasting application to control the Fresh Roast SR700.
 
+## Dependencies
+- Python3
+- PyQt5
+- Qt5
+- Matplotlib 1.4.0+
+
+## Usage
+
+
 ## Setup a Development Environment
 ### Mac
-    git clone git@yeso.201.io:roastero/roastero.git
+    git clone https://github.com/Roastero/Roastero.git
     cd Roastero
     brew install Python3
     pip install virtualenv
@@ -26,5 +35,23 @@ This should fix PySerial for now.
 
 ### Windows
 
+## Fedora 21 Linux
+    git clone https://github.com/Roastero/Roastero.git
+    cd Roastero
+    sudo pip3 install virtualenv
+    virtualenv env -p python3
+    source env/bin/activate
+    sudo pip3 install pyserial matplotlib python3-pyqt5
 
-### Linux
+### Ubuntu Linux
+    git clone https://github.com/Roastero/Roastero.git
+    cd Roastero
+    sudo apt-get install python3 python3-pip qt5-default libfreetype6-dev
+    sudo pip3 install virtualenv
+    virtualenv env -p Python3
+    source env/bin/activate
+    sudo pip install pyserial python3-matplotlib python3-pyqt5
+
+
+## License
+The code is being released under GPL v3.
