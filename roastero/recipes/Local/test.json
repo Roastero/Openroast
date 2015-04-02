@@ -1,6 +1,6 @@
 {
-  "recipeID" : "0001",
-  "roastName" : "Nicaragua Don Roger - Natural",
+  "recipeID" : "0002",
+  "roastName" : "Nicaragua Don Roger - Natural - TEST",
   "steps" : [
     {"fanSpeed" : 9, "targetTemp" : 150, "sectionTime" : 1},
     {"fanSpeed" : 9, "targetTemp" : 151, "sectionTime" : 1},

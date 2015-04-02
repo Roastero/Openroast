@@ -1,0 +1,28 @@
+{
+  "recipeID" : "0004",
+  "roastName" : "Test Recipe 2",
+  "steps" : [
+    {"fanSpeed" : 9, "targetTemp" : 370, "sectionTime" : 120},
+    {"fanSpeed" : 9, "targetTemp" : 420, "sectionTime" : 60},
+    {"fanSpeed" : 5, "targetTemp" : 470, "sectionTime" : 90},
+    {"fanSpeed" : 3, "targetTemp" : 470, "sectionTime" : 150},
+    {"fanSpeed" : 9, "sectionTime" : 60, "cooling" : true}
+  ],
+  "roastDescription" : {
+    "roastType" : "medium",
+    "description" : "This is a really great roast! Mike the turtle approved!"
+  },
+  "creator" : "lodge93",
+  "totalTime" : 420,
+  "bean" : {
+    "region" : "Central America",
+    "country" : "Nicaragua",
+    "source" : {
+      "reseller" : "Joe Beans",
+      "link" : "www.joebeans.com"
+    }
+  },
+  "compatibleRoasters" : [
+    "Fresh Roast SR700"
+  ]
+}
