@@ -128,9 +128,12 @@ class RecipesTab(QWidget):
 
 
             # Time Value
-            sectionTime = time.strftime("%M:%S", time.gmtime(recipeObject["steps"][row]["sectionTime"]))
-            sectionTimeWidget = QTableWidgetItem()
-            sectionTimeWidget.setText(sectionTime)
+            sectionTimeWidget = TimeEditNoWheel()
+            sectionTimeWidget.setDisplayFormat("mm:ss")
+            # Set QTimeEdit to the right time from recipe
+            sectionTimeStr = time.strftime("%M:%S", time.gmtime(recipeObject["steps"][row]["sectionTime"]))
+            sectionTime = QTime().fromString(sectionTimeStr, "mm:ss")
+            sectionTimeWidget.setTime(sectionTime)
 
             # Fan Speed Value
             sectionFanSpeedWidget = ComboBoxNoWheel()
@@ -140,9 +143,10 @@ class RecipesTab(QWidget):
             # Add widgets
             self.recipeStepsTable.setCellWidget(row, 0, sectionTempWidget)
             self.recipeStepsTable.setCellWidget(row, 1, sectionFanSpeedWidget)
-            self.recipeStepsTable.setItem(row, 2, sectionTimeWidget)
+            self.recipeStepsTable.setCellWidget(row, 2, sectionTimeWidget)
 
 class RecipeModel(QFileSystemModel):
+    """A Subclass of QFileSystemModel to add a column"""
     def columnCount(self, parent = QModelIndex()):
         return super(RecipeModel, self).columnCount()+1
 
@@ -162,5 +166,9 @@ class RecipeModel(QFileSystemModel):
         return super(RecipeModel, self).data(index, role)
 
 class ComboBoxNoWheel(QComboBox):
+    def wheelEvent (self, event):
+        event.ignore()
+
+class TimeEditNoWheel(QTimeEdit):
     def wheelEvent (self, event):
         event.ignore()
