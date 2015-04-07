@@ -5,7 +5,7 @@ QMainWindow{
 QToolBar{
     background-color: #444953;
     border-radius: 5px;
-    margin: 12px 9px 0px 9px;
+    margin: 12% 12% 0px 12%;
 }
 
 QPushButton#toolbar{
