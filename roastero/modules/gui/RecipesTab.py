@@ -20,6 +20,10 @@ class RecipesTab(QWidget):
         self.layout.addLayout(self.recipeWindow, 0, 1)
         self.layout.setColumnStretch(1, 2)
 
+        # Creat Recipe buttons menu
+        self.create_recipe_buttons()
+        self.layout.addLayout(self.recipeButtonsLayout, 1, 0, 1, 2)
+
         # Set main layout for widget.
         self.setLayout(self.layout)
 
@@ -56,7 +60,6 @@ class RecipesTab(QWidget):
         self.recipeDescriptionBox = QTextEdit()
         self.recipeDescriptionBox.setReadOnly(True)
         self.recipeStepsTable = QTableWidget()
-        self.recipeRoastButton = QPushButton("Roast Now")
 
         self.recipeWindow.addWidget(self.recipeNameLabel, 0, 0)
         self.recipeWindow.addWidget(self.recipeCreatorLabel, 1, 0)
@@ -67,7 +70,16 @@ class RecipesTab(QWidget):
         self.recipeWindow.addWidget(self.beanLinkLabel, 7, 0)
         self.recipeWindow.addWidget(self.recipeDescriptionBox, 8, 0)
         self.recipeWindow.addWidget(self.recipeStepsTable, 8, 1)
-        self.recipeWindow.addWidget(self.recipeRoastButton, 9, 1)
+
+    def create_recipe_buttons(self):
+        self.recipeButtonsLayout = QGridLayout()
+        self.recipeRoastButton = QPushButton("Roast Now")
+        self.saveRecipeButton = QPushButton("Save Changes")
+        self.createNewRecipeButton = QPushButton("Create a New Recipe")
+
+        self.recipeButtonsLayout.addWidget(self.createNewRecipeButton, 0, 0)
+        self.recipeButtonsLayout.addWidget(self.saveRecipeButton, 0, 1)
+        self.recipeButtonsLayout.addWidget(self.recipeRoastButton, 0, 2)
 
 
     def on_recipeBrowser_clicked(self, index):
