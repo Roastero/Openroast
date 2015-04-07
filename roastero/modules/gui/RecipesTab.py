@@ -49,6 +49,7 @@ class RecipesTab(QWidget):
         self.recipeBrowser.clicked.connect(self.on_recipeBrowser_clicked)
 
     def create_recipe_window(self):
+        # Create all of the gui Objects
         self.recipeWindow = QGridLayout()
         self.recipeNameLabel = QLabel("Recipe Name")
         self.recipeCreatorLabel = QLabel("Created by ")
@@ -61,6 +62,18 @@ class RecipesTab(QWidget):
         self.recipeDescriptionBox.setReadOnly(True)
         self.recipeStepsTable = QTableWidget()
 
+        # Assign Object Names for qss
+        self.recipeNameLabel.setObjectName("RecipeName")
+        self.recipeCreatorLabel.setObjectName("RecipeCreator")
+        self.recipeTotalTimeLabel.setObjectName("RecipeTotalTime")
+        self.recipeRoastTypeLabel.setObjectName("RecipeRoastType")
+        self.beanRegionLabel.setObjectName("RecipeBeanRegion")
+        self.beanCountryLabel.setObjectName("RecipeBeanCountry")
+        self.beanLinkLabel.setObjectName("RecipeBeanLink")
+        self.recipeDescriptionBox.setObjectName("RecipeDesciption")
+        self.recipeStepsTable.setObjectName("RecipeSteps")
+
+        # Add objects to the layout
         self.recipeWindow.addWidget(self.recipeNameLabel, 0, 0)
         self.recipeWindow.addWidget(self.recipeCreatorLabel, 1, 0)
         self.recipeWindow.addWidget(self.recipeRoastTypeLabel, 2, 0)
