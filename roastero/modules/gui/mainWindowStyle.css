@@ -3,9 +3,9 @@ QMainWindow{
 }
 
 QToolBar{
-    background-color: #444952;
+    background-color: #444953;
     border-radius: 5px;
-    margin: 12px 12px 0px 12px;
+    margin: 12px 9px 0px 9px;
 }
 
 QPushButton#toolbar{
@@ -19,15 +19,15 @@ QPushButton#toolbar{
 }
 
 QPushButton#toolbar:disabled {
-      background-color: #23252a;
-      color: #444952;
+      background-color: #23252b;
+      color: #444953;
 }
 
 QPushButton#mainButton{
     border-radius: 5px;
     width: 140px;
     height: 36px;
-    background-color: #16a2cf;
+    background-color: #2aa1d3;
     color: #fff;
     margin: 5px;
     font-family: "Asap";
@@ -35,7 +35,7 @@ QPushButton#mainButton{
 }
 
 QPushButton#mainButton:disabled{
-    background- color: #444952;
+    background- color: #444953;
 }
 
 QPushButton#mainButton:pressed {
@@ -46,7 +46,7 @@ QPushButton#loginButton{
     border-radius: 5px;
     width: 100px;
     height: 36px;
-    background-color: #85b63f;
+    background-color: #8ab71b;
     color: #fff;
     margin: 8px;
     font-family: "Asap";
@@ -69,7 +69,7 @@ QLabel#label{
     border-radius: 5px;
     border-bottom-left-radius: 0px;
     border-bottom-right-radius: 0px;
-    background-color: #444952;
+    background-color: #444953;
     color: #fff;
     font-family: "Asap";
     font-size: 14pt;
@@ -80,8 +80,8 @@ QLabel#label{
 QLabel#tempGuage{
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
-    background-color: #23252a;
-    color: #16a2cf;
+    background-color: #23252b;
+    color: #2aa1d3;
     font-size: 40pt;
     font-family: "Asap";
     font: bold;
@@ -91,8 +91,8 @@ QLabel#tempGuage{
 QLabel#timeWindow{
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
-    background-color: #23252a;
-    color: #85b63f;
+    background-color: #23252b;
+    color: #8ab71b;
     font-size: 40pt;
     font-family: "Asap";
     font: bold;
@@ -147,7 +147,7 @@ QComboBox {
     border-radius: 5px;
     width: 105px;
     height: 36px;
-    background-color: #16a2cf;
+    background-color: #2aa1d3;
     color: #fff;
     margin: 2px;
     font-family: "Asap";
@@ -180,7 +180,7 @@ QComboBox::down-arrow {
 }
 
 QSpinBox {
-    background-color: #16a2cf;
+    background-color: #2aa1d3;
     border: 0px;
     border-radius: 5px;
     height: 36px;
@@ -192,7 +192,7 @@ QSpinBox {
 
 QSpinBox::up-button {
     width: 35px;
-    background-color: #16a2cf;
+    background-color: #2aa1d3;
     border-left-width: 2px;
     border-left-color: #1d86aa;
     border-left-style: solid;
@@ -206,7 +206,7 @@ QSpinBox::up-button:pressed {
 
 QSpinBox::down-button {
     width: 35px;
-    background-color: #16a2cf;
+    background-color: #2aa1d3;
     border-left-width: 2px;
     border-left-color: #1d86aa;
     border-left-style: solid;
@@ -295,7 +295,7 @@ QProgressBar {
 }
 
 QProgressBar::chunk{
-    background-color: #85b63f;
+    background-color: #8ab71b;
 }
 
 QProgressBar#firstProgressBar{
