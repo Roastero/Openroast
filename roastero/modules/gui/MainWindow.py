@@ -3,6 +3,8 @@ from PyQt5.QtGui import QIcon
 from .RoastTab import RoastTab
 from .RecipesTab import RecipesTab
 from PyQt5.QtCore import *
+from ..roaster_libraries.FreshRoastSR700 import FreshRoastSR700
+from ..roaster_libraries.Recipe import Recipe
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -21,6 +23,10 @@ class MainWindow(QMainWindow):
         # Create toolbar.
         self.create_toolbar()
 
+        # Create Recipe and Roaster objects
+        self.roaster = FreshRoastSR700()
+        self.recipe = Recipe(self.roaster)
+
         # Create tabs.
         self.create_tabs()
 
@@ -34,7 +40,7 @@ class MainWindow(QMainWindow):
         self.fileMenu = self.menuBar.addMenu("File")
         # self.fileMenu.addAction("Connect Roaster", self.roast.connect_roaster)
         self.fileMenu.addAction("New Roast", self.roast.start_new_roast)
-        self.fileMenu.addAction("Use Recipe", self.roast.current_section)
+        # self.fileMenu.addAction("Use Recipe", self.roast.current_section)
 
     def create_toolbar(self):
         # Create toolbar.
@@ -72,8 +78,8 @@ class MainWindow(QMainWindow):
         self.tabs = QStackedWidget()
 
         # Create widgets to add to tabs.
-        self.roast = RoastTab()
-        self.recipes = RecipesTab()
+        self.roast = RoastTab(roasterObject = self.roaster, recipeObject = self.recipe)
+        self.recipes = RecipesTab(recipeObject = self.recipe, roastTabObject = self.roast)
 
         # Add widgets to tabs.
         self.tabs.insertWidget(0, self.roast)

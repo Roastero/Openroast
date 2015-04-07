@@ -18,9 +18,8 @@ class Roaster:
         self.cont = True            # True or False, used to exit program
         self.threads = []           # A list used to keep track of threads
 
-        self.recipe = self.load_recipe('./recipes/Local/Nicaragua_Don_Roger_Natural.json')
-        # self.load_current_section()
-
+        # Recipe being used if not False
+        self.recipe = False
 
     def run(self):
         # Start thread to communicate with the roasters serial connection.
@@ -49,7 +48,7 @@ class Roaster:
             if(self.sectionTime > 0):
                 self.sectionTime -= 1
             else:
-                self.load_next_section()
+                self.recipe.move_to_next_section()
 
         # When the roast is finished cooling, set roaster to idle.
         if(self.get_current_status() == 2 and self.sectionTime <= 0):
@@ -89,51 +88,11 @@ class Roaster:
     def set_total_time(self, time):
         self.totalTime = time
 
-    def load_recipe(self, file):
-        return Recipe(file)
-
-    def load_next_section(self):
-        if(self.recipe.get_current_section() < self.recipe.get_num_recipe_sections() - 1):
-            self.recipe.set_next_section()
-
-            if(self.recipe.get_current_cooling_status()):
-                self.set_section_time(self.recipe.get_current_section_time())
-                self.set_fan_speed(self.recipe.get_curent_fan_speed())
-                self.set_target_temp(self.recipe.get_current_target_temp())
-                self.set_section_time(self.recipe.get_current_section_time())
-                self.cool()
-                self.set_heat_setting(0)
-                self.set_target_temp(150)
-            else:
-                self.set_fan_speed(self.recipe.get_curent_fan_speed())
-                self.set_target_temp(self.recipe.get_current_target_temp())
-                self.set_section_time(self.recipe.get_current_section_time())
-
-        else:
-            self.idle()
-
-    def load_current_section(self):
-        self.set_fan_speed(self.recipe.get_curent_fan_speed())
-        self.set_target_temp(self.recipe.get_current_target_temp())
-        self.set_section_time(self.recipe.get_current_section_time())
-
     def initialize(self):
         pass
 
     def get_current_temp(self):
         pass
-
-    def get_specific_section_temp(self, index):
-        return self.recipe.get_section_temp(index)
-
-    def get_specific_section_time(self, index):
-        return self.recipe.get_section_time(index)
-
-    def get_num_recipe_sections(self):
-        return self.recipe.get_num_recipe_sections()
-
-    def get_current_section(self):
-        return self.recipe.get_current_section()
 
     def get_target_temp(self):
         pass
@@ -152,6 +111,9 @@ class Roaster:
 
     def thermostat(self):
         pass
+
+    def pass_recipe_object(self, recipeObject):
+        self.recipe = recipeObject
 
     def __del__(self):
         self.cont = False
