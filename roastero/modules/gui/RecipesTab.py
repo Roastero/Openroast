@@ -3,8 +3,13 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import os, json, time
 class RecipesTab(QWidget):
-    def __init__(self):
+    def __init__(self, recipeObject, roastTabObject):
         super(RecipesTab, self).__init__()
+
+        # Pass in recipe object
+        self.recipe = recipeObject
+
+        self.roastTab = roastTabObject
 
         self.create_ui()
 
@@ -90,10 +95,11 @@ class RecipesTab(QWidget):
         self.saveRecipeButton = QPushButton("Save Changes")
         self.createNewRecipeButton = QPushButton("Create a New Recipe")
 
+        self.recipeRoastButton.clicked.connect(self.load_recipe)
+
         self.recipeButtonsLayout.addWidget(self.createNewRecipeButton, 0, 0)
         self.recipeButtonsLayout.addWidget(self.saveRecipeButton, 0, 1)
         self.recipeButtonsLayout.addWidget(self.recipeRoastButton, 0, 2)
-
 
     def on_recipeBrowser_clicked(self, index):
         indexItem = self.model.index(index.row(), 0, index.parent())
@@ -110,9 +116,11 @@ class RecipesTab(QWidget):
         else:
             with open(filePath) as json_data:
                 recipeObject = json.load(json_data)
-            self.loadRecipeInformation(recipeObject)
+            self.load_recipe_information(recipeObject)
 
-    def loadRecipeInformation(self, recipeObject):
+    def load_recipe_information(self, recipeObject):
+        self.currentlySelectedRecipe = recipeObject
+
         self.recipeNameLabel.setText(recipeObject["roastName"])
         self.recipeCreatorLabel.setText("Created by " + recipeObject["creator"])
         self.recipeRoastTypeLabel.setText("Roast Type: " + recipeObject["roastDescription"]["roastType"])
@@ -169,6 +177,10 @@ class RecipesTab(QWidget):
             self.recipeStepsTable.setCellWidget(row, 0, sectionTempWidget)
             self.recipeStepsTable.setCellWidget(row, 1, sectionFanSpeedWidget)
             self.recipeStepsTable.setCellWidget(row, 2, sectionTimeWidget)
+
+    def load_recipe(self):
+        self.recipe.load_recipe_json(self.currentlySelectedRecipe)
+        self.roastTab.load_recipe_into_roast_tab()
 
 class RecipeModel(QFileSystemModel):
     """A Subclass of QFileSystemModel to add a column"""
