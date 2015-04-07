@@ -61,6 +61,7 @@ class RecipesTab(QWidget):
         self.recipeDescriptionBox = QTextEdit()
         self.recipeDescriptionBox.setReadOnly(True)
         self.recipeStepsTable = QTableWidget()
+        self.recipeRoastButton = QPushButton("Roast Now")
 
         # Assign Object Names for qss
         self.recipeNameLabel.setObjectName("RecipeName")
@@ -72,6 +73,7 @@ class RecipesTab(QWidget):
         self.beanLinkLabel.setObjectName("RecipeBeanLink")
         self.recipeDescriptionBox.setObjectName("RecipeDesciption")
         self.recipeStepsTable.setObjectName("RecipeSteps")
+        self.recipeRoastButton.setObjectName("mainButton")
 
         # Add objects to the layout
         self.recipeWindow.addWidget(self.recipeNameLabel, 0, 0)
