@@ -325,3 +325,105 @@ QProgressBar#lastProgressBar::chunk{
 
 QLabel#progressLabel{
 }
+
+QTextEdit {
+    border-radius: 5px;
+    background-color: #23252b;
+    color: #fff;
+    padding: 5px; 
+    font-family: "Asap";
+}
+
+QTableWidget {
+    border-radius: 5px;
+    background-color: #23252b;
+    color: #fff;
+    padding: 5px; 
+}
+
+QTimeEdit {
+    background-color: #2aa1d3;
+    border: 0px;
+    border-radius: 5px;
+    height: 36px;
+    color: #fff;
+    font-family: "Asap";
+    font: bold;
+    width: 105px;
+}
+
+QTimeEdit QSpinBox {
+    background-color: #2aa1d3;
+    border: 0px;
+    border-radius: 5px;
+    height: 36px;
+    color: #fff;
+    font-family: "Asap";
+    font: bold;
+    width: 105px;
+}
+
+QTimeEdit::up-button {
+    width: 35px;
+    background-color: #2aa1d3;
+    border-left-width: 2px;
+    border-left-color: #1d86aa;
+    border-left-style: solid;
+    border-top-right-radius: 5px;
+    image: url(modules/gui/images/upArrow.png);
+}
+
+QTimeEdit::up-button:pressed {
+    background-color: #148eb5;
+}
+
+QTimeEdit::down-button {
+    width: 35px;
+    background-color: #2aa1d3;
+    border-left-width: 2px;
+    border-left-color: #1d86aa;
+    border-left-style: solid;
+    border-bottom-right-radius: 5px;
+    image: url(modules/gui/images/downArrow.png);
+}
+
+QTimeEdit::down-button:pressed {
+    background-color: #148eb5;
+}
+
+QLabel#RecipeName {
+    font-size: 25pt;
+    text-transform: uppercase;
+}
+
+QPushButton#smallButton{
+    border-radius: 5px;
+    width: 120px;
+    height: 28px;
+    background-color: #8ab71b;
+    color: #fff;
+    margin: 5px;
+    font-size: 12pt;
+    font-family: "Asap";
+    font: bold;
+}
+
+QPushButton#smallButton:pressed {
+    background-color: #63892d;
+}
+
+QPushButton#smallButtonAlt{
+    border-radius: 5px;
+    width: 120px;
+    height: 28px;
+    background-color: #f0b017;
+    color: #fff;
+    margin: 5px;
+    font-size: 12pt;
+    font-family: "Asap";
+    font: bold;
+}
+
+QPushButton#smallButtonAlt:pressed {
+    background-color: #63892d;
+}

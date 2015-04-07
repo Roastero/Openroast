@@ -159,12 +159,10 @@ class RoastTab(QWidget):
             value = (currentTime / self.roaster.get_specific_section_time(self.roaster.get_current_section()))
 
             value = round(value * 100)
-#                print(value)
-#
-#                if(value >= 0 or value < 100):
-#                    self.sectionBars[self.roaster.get_current_section()].setValue(value)
-#                else:
-#                    self.sectionBars[self.roaster.get_current_section()].setValue(100)
+                if(value >= 0 or value < 100):
+                    self.sectionBars[self.roaster.get_current_section()].setValue(value)
+                else:
+                    self.sectionBars[self.roaster.get_current_section()].setValue(100)
 
         # Check connection status of the roaster.
         if (self.roaster.get_connection_status()):

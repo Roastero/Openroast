@@ -5,7 +5,6 @@ import os, json, time
 class RecipesTab(QWidget):
     def __init__(self):
         super(RecipesTab, self).__init__()
-
         self.create_ui()
 
     def create_ui(self):
@@ -14,24 +13,25 @@ class RecipesTab(QWidget):
         # Create recipe browser.
         self.create_recipe_browser()
         self.layout.addWidget(self.recipeBrowser, 0, 0)
+        self.layout.addWidget(self.createNewRecipeButton, 1, 0)
 
         # Create recipe window.
         self.create_recipe_window()
-        self.layout.addLayout(self.recipeWindow, 0, 1)
-        self.layout.setColumnStretch(1, 2)
-
-        # Creat Recipe buttons menu
         self.create_recipe_buttons()
-        self.layout.addLayout(self.recipeButtonsLayout, 1, 0, 1, 2)
+        self.layout.addLayout(self.recipeWindow, 0, 1)
+        self.layout.addLayout(self.recipeButtonsLayout, 1, 1)
+
+        # Set stretch so items align correctly.
+        self.layout.setColumnStretch(1, 2)
+        self.layout.setRowStretch(0, 3)
 
         # Set main layout for widget.
         self.setLayout(self.layout)
 
-
     def create_recipe_browser(self):
         self.model = RecipeModel()
         self.model.setRootPath('./recipes')
-        #model.setIconProvider()
+
         self.recipeBrowser = QTreeView()
         self.recipeBrowser.setModel(self.model)
         self.recipeBrowser.setRootIndex(self.model.index("./recipes"))
@@ -47,6 +47,7 @@ class RecipesTab(QWidget):
         self.recipeBrowser.setColumnHidden(3, True)
 
         self.recipeBrowser.clicked.connect(self.on_recipeBrowser_clicked)
+        self.createNewRecipeButton = QPushButton("NEW RECIPE")
 
     def create_recipe_window(self):
         # Create all of the gui Objects
@@ -61,7 +62,6 @@ class RecipesTab(QWidget):
         self.recipeDescriptionBox = QTextEdit()
         self.recipeDescriptionBox.setReadOnly(True)
         self.recipeStepsTable = QTableWidget()
-        self.recipeRoastButton = QPushButton("Roast Now")
 
         # Assign Object Names for qss
         self.recipeNameLabel.setObjectName("RecipeName")
@@ -71,12 +71,10 @@ class RecipesTab(QWidget):
         self.beanRegionLabel.setObjectName("RecipeBeanRegion")
         self.beanCountryLabel.setObjectName("RecipeBeanCountry")
         self.beanLinkLabel.setObjectName("RecipeBeanLink")
-        self.recipeDescriptionBox.setObjectName("RecipeDesciption")
         self.recipeStepsTable.setObjectName("RecipeSteps")
-        self.recipeRoastButton.setObjectName("mainButton")
 
         # Add objects to the layout
-        self.recipeWindow.addWidget(self.recipeNameLabel, 0, 0)
+        self.recipeWindow.addWidget(self.recipeNameLabel, 0, 0, 1, 2)
         self.recipeWindow.addWidget(self.recipeCreatorLabel, 1, 0)
         self.recipeWindow.addWidget(self.recipeRoastTypeLabel, 2, 0)
         self.recipeWindow.addWidget(self.recipeTotalTimeLabel, 3, 0)
@@ -88,14 +86,22 @@ class RecipesTab(QWidget):
 
     def create_recipe_buttons(self):
         self.recipeButtonsLayout = QGridLayout()
-        self.recipeRoastButton = QPushButton("Roast Now")
-        self.saveRecipeButton = QPushButton("Save Changes")
-        self.createNewRecipeButton = QPushButton("Create a New Recipe")
+        self.recipeButtonsLayout.setSpacing(0)
+        self.recipeRoastButton = QPushButton("ROAST NOW")
+        self.saveRecipeButton = QPushButton("EDIT")
 
-        self.recipeButtonsLayout.addWidget(self.createNewRecipeButton, 0, 0)
+        # Assign object names for qss styling.
+        self.recipeRoastButton.setObjectName("smallButton")
+        self.saveRecipeButton.setObjectName("smallButton")
+        self.createNewRecipeButton.setObjectName("smallButtonAlt")
+
+        # Add spacer.
+        self.spacer = QWidget()
+        self.spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.recipeButtonsLayout.addWidget(self.spacer)
+
         self.recipeButtonsLayout.addWidget(self.saveRecipeButton, 0, 1)
         self.recipeButtonsLayout.addWidget(self.recipeRoastButton, 0, 2)
-
 
     def on_recipeBrowser_clicked(self, index):
         indexItem = self.model.index(index.row(), 0, index.parent())
