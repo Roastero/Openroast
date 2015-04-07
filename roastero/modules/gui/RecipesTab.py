@@ -106,12 +106,8 @@ class RecipesTab(QWidget):
         self.spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         self.recipeButtonsLayout.addWidget(self.spacer)
 
-<<<<<<< HEAD
-=======
         self.recipeRoastButton.clicked.connect(self.load_recipe)
 
-        self.recipeButtonsLayout.addWidget(self.createNewRecipeButton, 0, 0)
->>>>>>> 1f2fa7f3a3373f1393f7e8985049f397e27e9cb1
         self.recipeButtonsLayout.addWidget(self.saveRecipeButton, 0, 1)
         self.recipeButtonsLayout.addWidget(self.recipeRoastButton, 0, 2)
 
