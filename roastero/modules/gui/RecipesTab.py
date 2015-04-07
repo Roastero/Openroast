@@ -47,13 +47,13 @@ class RecipesTab(QWidget):
     def create_recipe_window(self):
         self.recipeWindow = QGridLayout()
         self.recipeNameLabel = QLabel("Recipe Name")
-        self.recipeCreatorLabel = QLabel("Creator Label")
-        self.recipeTotalTimeLabel = QLabel("Total Time")
-        self.recipeRoastTypeLabel = QLabel("Roast Type")
-        self.beanRegionLabel = QLabel("Bean Region")
-        self.beanCountryLabel = QLabel("Bean Country")
-        self.beanLinkLabel = QLabel("Bean Link")
-        self.recipeDescriptionBox = QTextEdit("Description Text Area.")
+        self.recipeCreatorLabel = QLabel("Created by ")
+        self.recipeTotalTimeLabel = QLabel("Total Time: ")
+        self.recipeRoastTypeLabel = QLabel("Roast Type: ")
+        self.beanRegionLabel = QLabel("Bean Region: ")
+        self.beanCountryLabel = QLabel("Bean Country: ")
+        self.beanLinkLabel = QLabel("Purchase the Beans here: ")
+        self.recipeDescriptionBox = QTextEdit()
         self.recipeDescriptionBox.setReadOnly(True)
         self.recipeStepsTable = QTableWidget()
         self.recipeRoastButton = QPushButton("Roast Now")
@@ -68,6 +68,7 @@ class RecipesTab(QWidget):
         self.recipeWindow.addWidget(self.recipeDescriptionBox, 8, 0)
         self.recipeWindow.addWidget(self.recipeStepsTable, 8, 1)
         self.recipeWindow.addWidget(self.recipeRoastButton, 9, 1)
+
 
     def on_recipeBrowser_clicked(self, index):
         indexItem = self.model.index(index.row(), 0, index.parent())
@@ -95,8 +96,6 @@ class RecipesTab(QWidget):
         self.beanLinkLabel.setText("Purchase the Beans here: " + "<a href=\"" + \
         recipeObject["bean"]["source"]["link"] + "\">" + recipeObject["bean"]["source"]["reseller"] + "</a>")
         self.recipeDescriptionBox.setText(recipeObject["roastDescription"]["description"])
-
-
 
         # Total Time
         t = time.strftime("%M:%S", time.gmtime(recipeObject["totalTime"]))
