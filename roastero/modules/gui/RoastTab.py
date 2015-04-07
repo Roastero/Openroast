@@ -235,10 +235,9 @@ class RoastTab(QWidget):
 
                 # Add stretch factor to column based upon minutes.
                 progressBar.setColumnStretch(i, time)
-        else:
-            progressBar.addWidget(QLabel("Recipe not loaded"), 0, 0)
 
         return progressBar
+
     def recreate_progress_bar(self):
         self.progressBar = self.create_progress_bar()
         self.layout.addLayout(self.progressBar, 1, 0, 1, 2, Qt.AlignCenter)
@@ -418,6 +417,8 @@ class RoastTab(QWidget):
         self.change_target_temp()
         self.roaster.set_fan_speed(1)
         self.fanSpeedSpinBox.setValue(1)
+        self.recipe.clear_recipe()
+        self.recreate_progress_bar()
 
     def load_recipe_into_roast_tab(self):
         self.recipe.load_current_section()

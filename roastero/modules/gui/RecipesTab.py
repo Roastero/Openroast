@@ -3,13 +3,15 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import os, json, time
 class RecipesTab(QWidget):
-    def __init__(self, recipeObject, roastTabObject):
+    def __init__(self, recipeObject, roastTabObject, MainWindowObject):
         super(RecipesTab, self).__init__()
 
         # Pass in recipe object
         self.recipe = recipeObject
 
         self.roastTab = roastTabObject
+
+        self.MainWindow = MainWindowObject
 
         self.create_ui()
 
@@ -191,6 +193,7 @@ class RecipesTab(QWidget):
     def load_recipe(self):
         self.recipe.load_recipe_json(self.currentlySelectedRecipe)
         self.roastTab.load_recipe_into_roast_tab()
+        self.MainWindow.select_roast_tab()
 
 class RecipeModel(QFileSystemModel):
     """A Subclass of QFileSystemModel to add a column"""

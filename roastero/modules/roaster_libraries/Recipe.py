@@ -23,6 +23,10 @@ class Recipe:
         recipeFileHandler.close()
         self.recipeLoaded = True
 
+    def clear_recipe(self):
+        self.recipeLoaded = False
+        self.recipe = {}
+
     def check_recipe_loaded(self):
         return self.recipeLoaded
 

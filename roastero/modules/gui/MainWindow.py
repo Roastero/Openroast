@@ -79,7 +79,7 @@ class MainWindow(QMainWindow):
 
         # Create widgets to add to tabs.
         self.roast = RoastTab(roasterObject = self.roaster, recipeObject = self.recipe)
-        self.recipes = RecipesTab(recipeObject = self.recipe, roastTabObject = self.roast)
+        self.recipes = RecipesTab(recipeObject = self.recipe, roastTabObject = self.roast, MainWindowObject = self)
 
         # Add widgets to tabs.
         self.tabs.insertWidget(0, self.roast)
