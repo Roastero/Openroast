@@ -97,6 +97,7 @@ class RecipesTab(QWidget):
         self.saveRecipeButton = QPushButton("EDIT")
         self.beanLinkButton = QPushButton("PURCHASE BEANS")
 
+        self.beanLinkButton.clicked.connect(self.open_link_in_browser)
         # Assign object names for qss styling.
         self.recipeRoastButton.setObjectName("smallButton")
         self.beanLinkButton.setObjectName("smallButton")
@@ -142,7 +143,6 @@ class RecipesTab(QWidget):
 
         self.recipeDescriptionBox.setText(recipeObject["roastDescription"]["description"])
         self.currentBeanUrl = recipeObject["bean"]["source"]["link"]  
-        self.beanLinkButton.clicked.connect(self.open_link_in_browser)
 
         # Total Time
         t = time.strftime("%M:%S", time.gmtime(recipeObject["totalTime"]))
