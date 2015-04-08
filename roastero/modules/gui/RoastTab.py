@@ -239,6 +239,10 @@ class RoastTab(QWidget):
         return progressBar
 
     def recreate_progress_bar(self):
+        # Remove all existing widgets from progressbar layout
+        for i in reversed(range(self.progressBar.count())):
+            self.progressBar.itemAt(i).widget().setParent(None)
+
         self.progressBar = self.create_progress_bar()
         self.layout.addLayout(self.progressBar, 1, 0, 1, 2, Qt.AlignCenter)
 
