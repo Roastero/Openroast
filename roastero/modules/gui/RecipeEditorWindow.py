@@ -1,9 +1,11 @@
 from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import json, time
+from ..gui.CustomQtWidgets import TimeEditNoWheel, ComboBoxNoWheel, TableWidgetDragRows
 
 class RecipeEditor(QDialog):
-    def __init__(self, recipeLocation):
+    def __init__(self, recipeLocation=None):
         super(RecipeEditor, self).__init__()
 
         # Define main window for the application.
@@ -16,10 +18,11 @@ class RecipeEditor(QDialog):
         self.style = open('modules/gui/mainStyle.css').read()
         self.setStyleSheet(self.style)
 
-        self.load_recipe_file(recipeLocation)
-
         self.create_ui()
-        self.preload_recipe_information()
+
+        if recipeLocation:
+            self.load_recipe_file(recipeLocation)
+            self.preload_recipe_information()
 
     def create_ui(self):
         self.layout = QGridLayout(self)
@@ -56,18 +59,23 @@ class RecipeEditor(QDialog):
         self.layout.addWidget(self.beanRegion, 3, 1)
         self.layout.addWidget(beanCountryLabel, 4, 0)
         self.layout.addWidget(self.beanCountry, 4, 1)
-        self.layout.addWidget(recipeDescriptionBoxLabel, 5, 0)
-        self.layout.addWidget(self.recipeDescriptionBox, 6, 0)
-        self.layout.addWidget(recipeStepsLabel, 5, 1)
-        self.layout.addWidget(self.recipeSteps, 6, 1)
+        self.layout.addWidget(beanLinkLabel, 5, 0)
+        self.layout.addWidget(self.beanLink, 5, 1)
+        self.layout.addWidget(beanStoreLabel, 6, 0)
+        self.layout.addWidget(self.beanStore, 6, 1)
+        self.layout.addWidget(recipeDescriptionBoxLabel, 7, 0)
+        self.layout.addWidget(self.recipeDescriptionBox, 8, 0)
+        self.layout.addWidget(recipeStepsLabel, 7, 1)
+        self.layout.addWidget(self.recipeSteps, 8, 1)
 
 
     def create_steps_spreadsheet(self):
-        recipeStepsTable = QTableWidget()
+        recipeStepsTable = TableWidgetDragRows()
+        # print(dir(recipeStepsTable))
+
         # Steps spreadsheet
-        recipeStepsTable.setRowCount(len(self.recipe["steps"]))
-        recipeStepsTable.setColumnCount(3)
-        recipeStepsTable.setHorizontalHeaderLabels(["Temperature", "Fan Speed", "Section Time"])
+        recipeStepsTable.setColumnCount(4)
+        recipeStepsTable.setHorizontalHeaderLabels(["Temperature", "Fan Speed", "Section Time", "Reorder"])
 
         return recipeStepsTable
 
@@ -78,6 +86,7 @@ class RecipeEditor(QDialog):
 
         # loop through recipe and load each step
         for row in range(len(self.recipe["steps"])):
+            recipeStepsTable.insertRow(recipeStepsTable.rowCount())
             # Temperature Value
             sectionTempWidget = ComboBoxNoWheel()
             sectionTempWidget.addItems(targetTempChoices)
@@ -110,10 +119,15 @@ class RecipeEditor(QDialog):
             sectionFanSpeedWidget.addItems(fanSpeedChoices)
             sectionFanSpeedWidget.setCurrentIndex(fanSpeedChoices.index(str(self.recipe["steps"][row]["fanSpeed"])))
 
+            # Move QIcon
+            moveIconItem = QTableWidgetItem()
+            moveIconItem.setIcon(QIcon('modules/gui/images/downArrow.png'))
+
             # Add widgets
             recipeStepsTable.setCellWidget(row, 0, sectionTempWidget)
             recipeStepsTable.setCellWidget(row, 1, sectionFanSpeedWidget)
             recipeStepsTable.setCellWidget(row, 2, sectionTimeWidget)
+            recipeStepsTable.setItem(row, 3, moveIconItem)
 
     def load_recipe_file(self, recipeFile):
         # Load recipe file
@@ -132,11 +146,3 @@ class RecipeEditor(QDialog):
         self.recipeDescriptionBox.setText(self.recipe["roastDescription"]["description"])
 
         self.preload_recipe_steps(self.recipeSteps)
-
-class ComboBoxNoWheel(QComboBox):
-    def wheelEvent (self, event):
-        event.ignore()
-
-class TimeEditNoWheel(QTimeEdit):
-    def wheelEvent (self, event):
-        event.ignore()

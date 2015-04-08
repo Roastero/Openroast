@@ -3,6 +3,7 @@ from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import os, json, time, webbrowser
 from ..gui.RecipeEditorWindow import RecipeEditor
+from ..gui.CustomQtWidgets import RecipeModel
 
 class RecipesTab(QWidget):
     def __init__(self, recipeObject, roastTabObject, MainWindowObject):
@@ -59,6 +60,8 @@ class RecipesTab(QWidget):
         self.recipeBrowser.clicked.connect(self.on_recipeBrowser_clicked)
         self.createNewRecipeButton = QPushButton("NEW RECIPE")
 
+        self.createNewRecipeButton.clicked.connect(self.create_new_recipe)
+
     def create_recipe_window(self):
         # Create all of the gui Objects
         self.recipeWindow = QGridLayout()
@@ -98,7 +101,6 @@ class RecipesTab(QWidget):
         self.editRecipeButton = QPushButton("EDIT")
         self.beanLinkButton = QPushButton("PURCHASE BEANS")
 
-        self.beanLinkButton.clicked.connect(self.open_link_in_browser)
         # Assign object names for qss styling.
         self.recipeRoastButton.setObjectName("smallButton")
         self.beanLinkButton.setObjectName("smallButton")
@@ -112,6 +114,7 @@ class RecipesTab(QWidget):
 
         self.recipeRoastButton.clicked.connect(self.load_recipe)
         self.editRecipeButton.clicked.connect(self.open_recipe_editor)
+        self.beanLinkButton.clicked.connect(self.open_link_in_browser)
 
         self.recipeButtonsLayout.addWidget(self.beanLinkButton, 0, 1)
         self.recipeButtonsLayout.addWidget(self.editRecipeButton, 0, 2)
@@ -156,8 +159,8 @@ class RecipesTab(QWidget):
         self.recipeStepsTable.setHorizontalHeaderLabels(["Temperature", "Fan Speed", "Section Time"])
         for row in range(len(recipeObject["steps"])):
 
-            sectionTempWidget = QTableWidgetItem()
             sectionTimeWidget = QTableWidgetItem()
+            sectionTempWidget = QTableWidgetItem()
             sectionFanSpeedWidget = QTableWidgetItem()
 
             sectionTimeWidget.setText(time.strftime("%M:%S", time.gmtime(recipeObject["steps"][row]["sectionTime"])))
@@ -184,22 +187,6 @@ class RecipesTab(QWidget):
         self.editorWindow = RecipeEditor(self.currentlySelectedRecipePath)
         self.editorWindow.exec_()
 
-class RecipeModel(QFileSystemModel):
-    """A Subclass of QFileSystemModel to add a column"""
-    def columnCount(self, parent = QModelIndex()):
-        return super(RecipeModel, self).columnCount()+1
-
-    def data(self, index, role):
-        if index.column() == self.columnCount() - 1:
-            if role == Qt.DisplayRole:
-                filePath = self.filePath(index)
-                if os.path.isfile(filePath):
-                    with open(filePath) as json_data:
-                        fileContents = json.load(json_data)
-                    return fileContents["roastName"]
-                else:
-                    path = self.filePath(index)
-                    position = path.rfind("/")
-                    return path[position+1:]
-
-        return super(RecipeModel, self).data(index, role)
+    def create_new_recipe(self):
+        self.editorWindow = RecipeEditor()
+        self.editorWindow.exec_()
