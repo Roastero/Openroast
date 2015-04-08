@@ -23,13 +23,49 @@ class RecipeEditor(QDialog):
     def create_ui(self):
         self.layout = QGridLayout(self)
 
+        recipeNameLabel = QLabel("Recipe Name: ")
+        recipeCreatorLabel = QLabel("Created by: ")
+        recipeTotalTimeLabel = QLabel("Total Time: ")
+        recipeRoastTypeLabel = QLabel("Roast Type: ")
+        beanRegionLabel = QLabel("Bean Region: ")
+        beanCountryLabel = QLabel("Bean Country: ")
+        beanLinkLabel = QLabel("Bean Link: ")
+        beanStoreLabel = QLabel("Bean Store Name: ")
+        recipeDescriptionBoxLabel = QLabel("Description: ")
+        recipeStepsLabel = QLabel("Steps: ")
+
+        self.recipeName = QLineEdit()
+        self.recipeCreator = QLineEdit()
+        self.recipeTotalTime = QLineEdit()
+        self.recipeRoastType = QLineEdit()
+        self.beanRegion = QLineEdit()
+        self.beanCountry = QLineEdit()
+        self.beanLink = QLineEdit()
+        self.beanStore = QLineEdit()
+        self.recipeDescriptionBox = QTextEdit()
+
         self.recipeSteps = self.create_steps_speadsheet()
 
-        self.textBrowser = QTextBrowser(self)
-        self.textBrowser.append("This is a QTextBrowser!")
+        self.preload_recipe_information()
 
-        self.layout.addWidget(self.textBrowser, 0, 0)
-        self.layout.addWidget(self.recipeSteps, 1, 0)
+        # Add objects to the layout
+        self.layout.addWidget(recipeNameLabel, 0, 0)
+        self.layout.addWidget(self.recipeName, 0, 1)
+        self.layout.addWidget(recipeCreatorLabel, 1, 0)
+        self.layout.addWidget(self.recipeCreator, 1, 1)
+        self.layout.addWidget(recipeRoastTypeLabel, 2, 0)
+        self.layout.addWidget(self.recipeRoastType, 2, 1)
+        self.layout.addWidget(recipeTotalTimeLabel, 3, 0)
+        self.layout.addWidget(self.recipeTotalTime, 3, 1)
+        self.layout.addWidget(beanRegionLabel, 4, 0)
+        self.layout.addWidget(self.beanRegion, 4, 1)
+        self.layout.addWidget(beanCountryLabel, 5, 0)
+        self.layout.addWidget(self.beanCountry, 5, 1)
+        self.layout.addWidget(recipeDescriptionBoxLabel, 7, 0)
+        self.layout.addWidget(self.recipeDescriptionBox, 8, 0)
+        self.layout.addWidget(recipeStepsLabel, 7, 1)
+        self.layout.addWidget(self.recipeSteps, 8, 1)
+
 
     def create_steps_speadsheet(self):
         recipeStepsTable = QTableWidget()
@@ -88,6 +124,17 @@ class RecipeEditor(QDialog):
         recipeFileHandler = open(recipeFile)
         self.recipe = json.load(recipeFileHandler)
         recipeFileHandler.close()
+
+    def preload_recipe_information(self):
+        self.recipeName.setText(self.recipe["roastName"])
+        self.recipeCreator.setText(self.recipe["creator"])
+        self.recipeTotalTime.setText(str(self.recipe["totalTime"]))
+        self.recipeRoastType.setText(self.recipe["roastDescription"]["roastType"])
+        self.beanRegion.setText(self.recipe["bean"]["region"])
+        self.beanCountry.setText(self.recipe["bean"]["country"])
+        self.beanLink.setText(self.recipe["bean"]["source"]["link"])
+        self.beanStore.setText(self.recipe["bean"]["source"]["reseller"])
+        self.recipeDescriptionBox.setText(self.recipe["roastDescription"]["description"])
 
 class ComboBoxNoWheel(QComboBox):
     def wheelEvent (self, event):
