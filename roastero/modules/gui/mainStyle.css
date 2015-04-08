@@ -8,6 +8,10 @@ QToolBar{
     margin: 12% 12% 0px 12%;
 }
 
+QDialog{
+    background-color: #2e3138;
+}
+
 QPushButton#toolbar{
     border-radius: 5px;
     width: 100px;
@@ -330,7 +334,7 @@ QTextEdit {
     border-radius: 5px;
     background-color: #23252b;
     color: #fff;
-    padding: 5px; 
+    padding: 5px;
     font-family: "Asap";
 }
 
@@ -338,7 +342,7 @@ QTableWidget {
     border-radius: 5px;
     background-color: #23252b;
     color: #fff;
-    padding: 5px; 
+    padding: 5px;
 }
 
 QTimeEdit {

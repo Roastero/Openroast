@@ -13,7 +13,7 @@ class RecipeEditor(QDialog):
         #self.setWindowIcon(QIcon("icon.png"))
 
         # Open qss file.
-        self.style = open('modules/gui/recipeEditorWindowStyle.css').read()
+        self.style = open('modules/gui/mainStyle.css').read()
         self.setStyleSheet(self.style)
 
         self.load_recipe_file(recipeLocation)
