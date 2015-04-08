@@ -1,7 +1,8 @@
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
-import os, json, time
+import os, json, time, webbrowser
+
 class RecipesTab(QWidget):
     def __init__(self, recipeObject, roastTabObject, MainWindowObject):
         super(RecipesTab, self).__init__()
@@ -66,7 +67,6 @@ class RecipesTab(QWidget):
         self.recipeRoastTypeLabel = QLabel("Roast Type: ")
         self.beanRegionLabel = QLabel("Bean Region: ")
         self.beanCountryLabel = QLabel("Bean Country: ")
-        self.beanLinkLabel = QLabel("Purchase the Beans here: ")
         self.recipeDescriptionBox = QTextEdit()
         self.recipeDescriptionBox.setReadOnly(True)
         self.recipeStepsTable = QTableWidget()
@@ -78,7 +78,6 @@ class RecipesTab(QWidget):
         self.recipeRoastTypeLabel.setObjectName("RecipeRoastType")
         self.beanRegionLabel.setObjectName("RecipeBeanRegion")
         self.beanCountryLabel.setObjectName("RecipeBeanCountry")
-        self.beanLinkLabel.setObjectName("RecipeBeanLink")
         self.recipeStepsTable.setObjectName("RecipeSteps")
 
         # Add objects to the layout
@@ -88,18 +87,19 @@ class RecipesTab(QWidget):
         self.recipeWindow.addWidget(self.recipeTotalTimeLabel, 3, 0)
         self.recipeWindow.addWidget(self.beanRegionLabel, 4, 0)
         self.recipeWindow.addWidget(self.beanCountryLabel, 5, 0)
-        self.recipeWindow.addWidget(self.beanLinkLabel, 7, 0)
-        self.recipeWindow.addWidget(self.recipeDescriptionBox, 8, 0)
-        self.recipeWindow.addWidget(self.recipeStepsTable, 8, 1)
+        self.recipeWindow.addWidget(self.recipeDescriptionBox, 7, 0)
+        self.recipeWindow.addWidget(self.recipeStepsTable, 7, 1)
 
     def create_recipe_buttons(self):
         self.recipeButtonsLayout = QGridLayout()
         self.recipeButtonsLayout.setSpacing(0)
         self.recipeRoastButton = QPushButton("ROAST NOW")
         self.saveRecipeButton = QPushButton("EDIT")
+        self.beanLinkButton = QPushButton("PURCHASE BEANS")
 
         # Assign object names for qss styling.
         self.recipeRoastButton.setObjectName("smallButton")
+        self.beanLinkButton.setObjectName("smallButton")
         self.saveRecipeButton.setObjectName("smallButton")
         self.createNewRecipeButton.setObjectName("smallButtonAlt")
 
@@ -110,8 +110,9 @@ class RecipesTab(QWidget):
 
         self.recipeRoastButton.clicked.connect(self.load_recipe)
 
-        self.recipeButtonsLayout.addWidget(self.saveRecipeButton, 0, 1)
-        self.recipeButtonsLayout.addWidget(self.recipeRoastButton, 0, 2)
+        self.recipeButtonsLayout.addWidget(self.beanLinkButton, 0, 1)
+        self.recipeButtonsLayout.addWidget(self.saveRecipeButton, 0, 2)
+        self.recipeButtonsLayout.addWidget(self.recipeRoastButton, 0, 3)
 
     def on_recipeBrowser_clicked(self, index):
         indexItem = self.model.index(index.row(), 0, index.parent())
@@ -138,9 +139,10 @@ class RecipesTab(QWidget):
         self.recipeRoastTypeLabel.setText("Roast Type: " + recipeObject["roastDescription"]["roastType"])
         self.beanRegionLabel.setText("Bean Region: " + recipeObject["bean"]["region"])
         self.beanCountryLabel.setText("Bean Country: " + recipeObject["bean"]["country"])
-        self.beanLinkLabel.setText("Purchase the Beans here: " + "<a href=\"" + \
-        recipeObject["bean"]["source"]["link"] + "\">" + recipeObject["bean"]["source"]["reseller"] + "</a>")
+
         self.recipeDescriptionBox.setText(recipeObject["roastDescription"]["description"])
+        self.currentBeanUrl = recipeObject["bean"]["source"]["link"]  
+        self.beanLinkButton.clicked.connect(self.open_link_in_browser)
 
         # Total Time
         t = time.strftime("%M:%S", time.gmtime(recipeObject["totalTime"]))
@@ -194,6 +196,9 @@ class RecipesTab(QWidget):
         self.recipe.load_recipe_json(self.currentlySelectedRecipe)
         self.roastTab.load_recipe_into_roast_tab()
         self.MainWindow.select_roast_tab()
+
+    def open_link_in_browser(self):
+        webbrowser.open(self.currentBeanUrl)
 
 class RecipeModel(QFileSystemModel):
     """A Subclass of QFileSystemModel to add a column"""

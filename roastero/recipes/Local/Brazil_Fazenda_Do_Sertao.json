@@ -1,0 +1,33 @@
+{
+  "recipeID" : "0002",
+  "roastName" : "Brazil Fazenda do Sertao",
+  "steps" : [
+    {"fanSpeed" : 9, "targetTemp" : 155, "sectionTime" : 1},
+    {"fanSpeed" : 9, "targetTemp" : 169, "sectionTime" : 1},
+    {"fanSpeed" : 9, "targetTemp" : 185, "sectionTime" : 1},
+    {"fanSpeed" : 9, "targetTemp" : 186, "sectionTime" : 1},
+    {"fanSpeed" : 9, "targetTemp" : 187, "sectionTime" : 1},
+    {"fanSpeed" : 9, "targetTemp" : 188, "sectionTime" : 1},
+    {"fanSpeed" : 9, "targetTemp" : 189, "sectionTime" : 1},
+    {"fanSpeed" : 9, "targetTemp" : 196, "sectionTime" : 1},
+    {"fanSpeed" : 9, "targetTemp" : 198, "sectionTime" : 1},
+    {"fanSpeed" : 9, "targetTemp" : 200, "sectionTime" : 100}
+  ],
+  "roastDescription" : {
+    "roastType" : "Full City",
+    "description" : "Approachable cup of Brazil, with a nice base bittersweetness. Expect developed sugar sweetness, hazelnut, and cacao/cocoa finish. This is a bodied cup, and will perform well as espresso or blend component. "
+  },
+  "creator" : "lodge93",
+  "totalTime" : 420,
+  "bean" : {
+    "region" : "South America",
+    "country" : "Brazil",
+    "source" : {
+      "reseller" : "Sweet Maria's",
+      "link" : "https://www.sweetmarias.com/store/coffee-list/south-america/brazil/brazil-fazenda-do-sertao.html"
+    }
+  },
+  "compatibleRoasters" : [
+    "Fresh Roast SR700"
+  ]
+}
