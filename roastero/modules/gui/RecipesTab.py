@@ -48,7 +48,7 @@ class RecipesTab(QWidget):
 
         self.recipeBrowser.setAnimated(True)
         self.recipeBrowser.setIndentation(0)
-        self.recipeBrowser.setSortingEnabled(True)
+        # self.recipeBrowser.setSortingEnabled(True)
         self.recipeBrowser.setColumnHidden(0, True)
         self.recipeBrowser.setColumnHidden(1, True)
         self.recipeBrowser.setColumnHidden(2, True)
