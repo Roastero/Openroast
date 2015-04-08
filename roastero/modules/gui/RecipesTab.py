@@ -2,6 +2,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 import os, json, time, webbrowser
+from ..gui.RecipeEditorWindow import RecipeEditor
 
 class RecipesTab(QWidget):
     def __init__(self, recipeObject, roastTabObject, MainWindowObject):
@@ -94,14 +95,14 @@ class RecipesTab(QWidget):
         self.recipeButtonsLayout = QGridLayout()
         self.recipeButtonsLayout.setSpacing(0)
         self.recipeRoastButton = QPushButton("ROAST NOW")
-        self.saveRecipeButton = QPushButton("EDIT")
+        self.editRecipeButton = QPushButton("EDIT")
         self.beanLinkButton = QPushButton("PURCHASE BEANS")
 
         self.beanLinkButton.clicked.connect(self.open_link_in_browser)
         # Assign object names for qss styling.
         self.recipeRoastButton.setObjectName("smallButton")
         self.beanLinkButton.setObjectName("smallButton")
-        self.saveRecipeButton.setObjectName("smallButton")
+        self.editRecipeButton.setObjectName("smallButton")
         self.createNewRecipeButton.setObjectName("smallButtonAlt")
 
         # Add spacer.
@@ -110,9 +111,10 @@ class RecipesTab(QWidget):
         self.recipeButtonsLayout.addWidget(self.spacer)
 
         self.recipeRoastButton.clicked.connect(self.load_recipe)
+        self.editRecipeButton.clicked.connect(self.open_recipe_editor)
 
         self.recipeButtonsLayout.addWidget(self.beanLinkButton, 0, 1)
-        self.recipeButtonsLayout.addWidget(self.saveRecipeButton, 0, 2)
+        self.recipeButtonsLayout.addWidget(self.editRecipeButton, 0, 2)
         self.recipeButtonsLayout.addWidget(self.recipeRoastButton, 0, 3)
 
     def on_recipeBrowser_clicked(self, index):
@@ -142,7 +144,7 @@ class RecipesTab(QWidget):
         self.beanCountryLabel.setText("Bean Country: " + recipeObject["bean"]["country"])
 
         self.recipeDescriptionBox.setText(recipeObject["roastDescription"]["description"])
-        self.currentBeanUrl = recipeObject["bean"]["source"]["link"]  
+        self.currentBeanUrl = recipeObject["bean"]["source"]["link"]
 
         # Total Time
         t = time.strftime("%M:%S", time.gmtime(recipeObject["totalTime"]))
@@ -199,6 +201,10 @@ class RecipesTab(QWidget):
 
     def open_link_in_browser(self):
         webbrowser.open(self.currentBeanUrl)
+
+    def open_recipe_editor(self):
+        self.editorWindow = RecipeEditor()
+        self.editorWindow.exec_()
 
 class RecipeModel(QFileSystemModel):
     """A Subclass of QFileSystemModel to add a column"""
