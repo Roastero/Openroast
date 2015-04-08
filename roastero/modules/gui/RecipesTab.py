@@ -132,11 +132,11 @@ class RecipesTab(QWidget):
         else:
             with open(filePath) as json_data:
                 recipeObject = json.load(json_data)
+            self.currentlySelectedRecipe = recipeObject
+            self.currentlySelectedRecipePath = filePath
             self.load_recipe_information(recipeObject)
 
     def load_recipe_information(self, recipeObject):
-        self.currentlySelectedRecipe = recipeObject
-
         self.recipeNameLabel.setText(recipeObject["roastName"])
         self.recipeCreatorLabel.setText("Created by " + recipeObject["creator"])
         self.recipeRoastTypeLabel.setText("Roast Type: " + recipeObject["roastDescription"]["roastType"])
@@ -154,45 +154,23 @@ class RecipesTab(QWidget):
         self.recipeStepsTable.setRowCount(len(recipeObject["steps"]))
         self.recipeStepsTable.setColumnCount(3)
         self.recipeStepsTable.setHorizontalHeaderLabels(["Temperature", "Fan Speed", "Section Time"])
-        fanSpeedChoices = [str(x) for x in range(1,10)]
-        targetTempChoices = ["Cooling"] + [str(x) for x in range(150, 501, 10)]
         for row in range(len(recipeObject["steps"])):
-            # Temperature Value
-            sectionTempWidget = ComboBoxNoWheel()
-            sectionTempWidget.addItems(targetTempChoices)
-            sectionTempWidget.insertSeparator(1)
+
+            sectionTempWidget = QTableWidgetItem()
+            sectionTimeWidget = QTableWidgetItem()
+            sectionFanSpeedWidget = QTableWidgetItem()
+
+            sectionTimeWidget.setText(time.strftime("%M:%S", time.gmtime(recipeObject["steps"][row]["sectionTime"])))
+            sectionFanSpeedWidget.setText(str(recipeObject["steps"][row]["fanSpeed"]))
             if 'targetTemp' in recipeObject["steps"][row]:
-                sectionTemp = recipeObject["steps"][row]["targetTemp"]
-                # Accommodate for temperature not fitting in 10 increment list
-                if str(recipeObject["steps"][row]["targetTemp"]) in targetTempChoices:
-                    sectionTempWidget.setCurrentIndex(targetTempChoices.index(str(recipeObject["steps"][row]["targetTemp"]))+1)
-                else:
-                    roundedNumber = recipeObject["steps"][row]["targetTemp"] - (recipeObject["steps"][row]["targetTemp"] % 10)
-                    sectionTempWidget.insertItem(targetTempChoices.index(str(roundedNumber))+2, str(recipeObject["steps"][row]["targetTemp"]))
-                    sectionTempWidget.setCurrentIndex(targetTempChoices.index(str(roundedNumber))+2)
-
-            elif 'cooling' in recipeObject["steps"][row]:
-                sectionTemp = "Cooling"
-                sectionTempWidget.setCurrentIndex(targetTempChoices.index("Cooling"))
-
-
-            # Time Value
-            sectionTimeWidget = TimeEditNoWheel()
-            sectionTimeWidget.setDisplayFormat("mm:ss")
-            # Set QTimeEdit to the right time from recipe
-            sectionTimeStr = time.strftime("%M:%S", time.gmtime(recipeObject["steps"][row]["sectionTime"]))
-            sectionTime = QTime().fromString(sectionTimeStr, "mm:ss")
-            sectionTimeWidget.setTime(sectionTime)
-
-            # Fan Speed Value
-            sectionFanSpeedWidget = ComboBoxNoWheel()
-            sectionFanSpeedWidget.addItems(fanSpeedChoices)
-            sectionFanSpeedWidget.setCurrentIndex(fanSpeedChoices.index(str(recipeObject["steps"][row]["fanSpeed"])))
+                sectionTempWidget.setText(str(recipeObject["steps"][row]["targetTemp"]))
+            else:
+                sectionTempWidget.setText("Cooling")
 
             # Add widgets
-            self.recipeStepsTable.setCellWidget(row, 0, sectionTempWidget)
-            self.recipeStepsTable.setCellWidget(row, 1, sectionFanSpeedWidget)
-            self.recipeStepsTable.setCellWidget(row, 2, sectionTimeWidget)
+            self.recipeStepsTable.setItem(row, 0, sectionTempWidget)
+            self.recipeStepsTable.setItem(row, 1, sectionFanSpeedWidget)
+            self.recipeStepsTable.setItem(row, 2, sectionTimeWidget)
 
     def load_recipe(self):
         self.recipe.load_recipe_json(self.currentlySelectedRecipe)
@@ -203,7 +181,7 @@ class RecipesTab(QWidget):
         webbrowser.open(self.currentBeanUrl)
 
     def open_recipe_editor(self):
-        self.editorWindow = RecipeEditor()
+        self.editorWindow = RecipeEditor(self.currentlySelectedRecipePath)
         self.editorWindow.exec_()
 
 class RecipeModel(QFileSystemModel):
@@ -225,11 +203,3 @@ class RecipeModel(QFileSystemModel):
                     return path[position+1:]
 
         return super(RecipeModel, self).data(index, role)
-
-class ComboBoxNoWheel(QComboBox):
-    def wheelEvent (self, event):
-        event.ignore()
-
-class TimeEditNoWheel(QTimeEdit):
-    def wheelEvent (self, event):
-        event.ignore()
