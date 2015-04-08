@@ -48,6 +48,10 @@ class Recipe:
     def get_current_section_time(self):
         return self.recipe["steps"][self.currentRecipeStep]["sectionTime"]
 
+    def restart_current_recipe(self):
+        self.currentRecipeStep = 0
+        self.load_current_section()
+
     def get_current_cooling_status(self):
         if(self.recipe["steps"][self.currentRecipeStep].get("cooling")):
             return self.recipe["steps"][self.currentRecipeStep]["cooling"]
@@ -62,6 +66,10 @@ class Recipe:
             return self.recipe["steps"][index]["targetTemp"]
         else:
             return 150
+
+    def reset_roaster_settings(self):
+        self.set_roaster_settings(targetTemp=150, fanSpeed=1, sectionTime=0, cooling=False)
+        self.roaster.cool()
 
     def set_roaster_settings(self, targetTemp, fanSpeed, sectionTime, cooling):
         if cooling:
@@ -80,7 +88,7 @@ class Recipe:
 
     def move_to_next_section(self):
         self.currentRecipeStep += 1
-        if self.currentRecipeStep > get_num_recipe_sections:
+        if self.currentRecipeStep > self.get_num_recipe_sections():
             self.roaster.sleep()
         else:
             self.load_current_section()

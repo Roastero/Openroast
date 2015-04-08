@@ -154,17 +154,17 @@ class RoastTab(QWidget):
             self.update_section_time()
             self.update_total_time()
 
-            # Update current section progress bar.
-            currentTime = (self.roaster.get_specific_section_time(self.roaster.get_current_section()) - self.roaster.get_section_time())
-            value = (currentTime / self.roaster.get_specific_section_time(self.roaster.get_current_section()))
-
-            value = round(value * 100)
-#                print(value)
-#
-#                if(value >= 0 or value < 100):
-#                    self.sectionBars[self.roaster.get_current_section()].setValue(value)
-#                else:
-#                    self.sectionBars[self.roaster.get_current_section()].setValue(100)
+            # Update current section progress bar. TODO: Still very buggy
+            if self.recipe.check_recipe_loaded():
+                value = self.recipe.get_current_section_time() - self.roaster.get_section_time()
+                if self.roaster.get_section_time() == 0:
+                    value = 0
+                elif value > 0:
+                    value = value / self.recipe.get_current_section_time()
+                    value = round(value * 100)
+                else:
+                    value = 100
+                self.sectionBars[self.recipe.get_current_step_number()].setValue(value)
 
         # Check connection status of the roaster.
         if (self.roaster.get_connection_status()):
@@ -412,16 +412,18 @@ class RoastTab(QWidget):
         self.graphYValueList = []
         self.counter = 0
         self.graphFigure.clear()
-        self.roaster.set_section_time(0)
-        self.update_section_time()
-        self.roaster.set_total_time(0)
-        self.update_total_time()
-        self.roaster.set_target_temp(150)
-        self.change_target_temp_slider(150)
-        self.change_target_temp()
-        self.roaster.set_fan_speed(1)
-        self.fanSpeedSpinBox.setValue(1)
+        self.recipe.reset_roaster_settings()
+        self.update_data()
         self.recipe.clear_recipe()
+        self.recreate_progress_bar()
+
+    def reset_current_roast(self):
+        self.graphXValueList = []
+        self.graphYValueList = []
+        self.counter = 0
+        self.graphFigure.clear()
+        self.update_data()
+        self.recipe.restart_current_recipe()
         self.recreate_progress_bar()
 
     def load_recipe_into_roast_tab(self):
