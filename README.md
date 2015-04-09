@@ -72,3 +72,27 @@ The same goes for pyqt5. You will have to download it from [here](http://www.riv
 
 ## License
 The code is being released under GPL v3.
+
+## Brand Colors
+White: #fff
+Blue: #2aa1d3
+Green: #8ab71b
+Red: #ee4e10
+Yellow: #f0b017
+Dark Gray: #23252b
+Medium Gray: #2e3138
+Light Gray: #444953
+
+### Darkened Colors
+All web based colors should be darkened at 15% via css. See example below:
+
+```
+background-color: darken($blue, 15%)
+```
+
+Qt does not allow the darken css tag, and therefore the actual color
+values need to be entered.
+
+Blue: #2691bd
+Green: #7ca418
+Yellow: #c08d12
