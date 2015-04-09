@@ -25,8 +25,28 @@ class RecipeEditor(QDialog):
             self.preload_recipe_information()
 
     def create_ui(self):
+        # Create main layout for window.
         self.layout = QGridLayout(self)
+        self.layout.setRowStretch(1, 3)
 
+        # Create input fields.        
+        self.create_input_fields()
+        self.layout.addLayout(self.inputFieldLayout, 0, 0, 1, 2)
+
+        # Create big edit boxes.
+        self.create_big_edit_boxes()
+        self.layout.addLayout(self.bigEditLayout, 1, 0, 1, 2)
+
+        # Create Bottom Buttons.
+        self.create_bottom_buttons()
+        self.layout.addLayout(self.bottomButtonLayout, 2, 0, 1, 2) 
+
+
+    def create_input_fields(self):
+        # Create layout for section.
+        self.inputFieldLayout = QGridLayout()
+
+        # Create labels for fields.
         recipeNameLabel = QLabel("Recipe Name: ")
         recipeCreatorLabel = QLabel("Created by: ")
         recipeRoastTypeLabel = QLabel("Roast Type: ")
@@ -34,9 +54,8 @@ class RecipeEditor(QDialog):
         beanCountryLabel = QLabel("Bean Country: ")
         beanLinkLabel = QLabel("Bean Link: ")
         beanStoreLabel = QLabel("Bean Store Name: ")
-        recipeDescriptionBoxLabel = QLabel("Description: ")
-        recipeStepsLabel = QLabel("Steps: ")
 
+        # Create input fields.
         self.recipeName = QLineEdit()
         self.recipeCreator = QLineEdit()
         self.recipeRoastType = QLineEdit()
@@ -44,33 +63,78 @@ class RecipeEditor(QDialog):
         self.beanCountry = QLineEdit()
         self.beanLink = QLineEdit()
         self.beanStore = QLineEdit()
-        self.recipeDescriptionBox = QTextEdit()
 
+        # Remove focus from input boxes.
+        self.recipeName.setAttribute(Qt.WA_MacShowFocusRect, 0)
+        self.recipeCreator.setAttribute(Qt.WA_MacShowFocusRect, 0)
+        self.recipeRoastType.setAttribute(Qt.WA_MacShowFocusRect, 0)
+        self.beanRegion.setAttribute(Qt.WA_MacShowFocusRect, 0)
+        self.beanCountry.setAttribute(Qt.WA_MacShowFocusRect, 0)
+        self.beanLink.setAttribute(Qt.WA_MacShowFocusRect, 0)
+        self.beanStore.setAttribute(Qt.WA_MacShowFocusRect, 0)
+
+        # Add objects to the inputFieldLayout
+        self.inputFieldLayout.addWidget(recipeNameLabel, 0, 0)
+        self.inputFieldLayout.addWidget(self.recipeName, 0, 1)
+        self.inputFieldLayout.addWidget(recipeCreatorLabel, 1, 0)
+        self.inputFieldLayout.addWidget(self.recipeCreator, 1, 1)
+        self.inputFieldLayout.addWidget(recipeRoastTypeLabel, 2, 0)
+        self.inputFieldLayout.addWidget(self.recipeRoastType, 2, 1)
+        self.inputFieldLayout.addWidget(beanRegionLabel, 3, 0)
+        self.inputFieldLayout.addWidget(self.beanRegion, 3, 1)
+        self.inputFieldLayout.addWidget(beanCountryLabel, 4, 0)
+        self.inputFieldLayout.addWidget(self.beanCountry, 4, 1)
+        self.inputFieldLayout.addWidget(beanLinkLabel, 5, 0)
+        self.inputFieldLayout.addWidget(self.beanLink, 5, 1)
+        self.inputFieldLayout.addWidget(beanStoreLabel, 6, 0)
+        self.inputFieldLayout.addWidget(self.beanStore, 6, 1)
+
+    def create_big_edit_boxes(self):
+        # Create big edit box layout.
+        self.bigEditLayout = QGridLayout()
+
+        # Create labels for the edit boxes.
+        recipeDescriptionBoxLabel = QLabel("Description: ")
+        recipeStepsLabel = QLabel("Steps: ")
+        
+        # Create widgets.
+        self.recipeDescriptionBox = QTextEdit()
         self.recipeSteps = self.create_steps_spreadsheet()
 
-        # Add objects to the layout
-        self.layout.addWidget(recipeNameLabel, 0, 0)
-        self.layout.addWidget(self.recipeName, 0, 1)
-        self.layout.addWidget(recipeCreatorLabel, 1, 0)
-        self.layout.addWidget(self.recipeCreator, 1, 1)
-        self.layout.addWidget(recipeRoastTypeLabel, 2, 0)
-        self.layout.addWidget(self.recipeRoastType, 2, 1)
-        self.layout.addWidget(beanRegionLabel, 3, 0)
-        self.layout.addWidget(self.beanRegion, 3, 1)
-        self.layout.addWidget(beanCountryLabel, 4, 0)
-        self.layout.addWidget(self.beanCountry, 4, 1)
-        self.layout.addWidget(beanLinkLabel, 5, 0)
-        self.layout.addWidget(self.beanLink, 5, 1)
-        self.layout.addWidget(beanStoreLabel, 6, 0)
-        self.layout.addWidget(self.beanStore, 6, 1)
-        self.layout.addWidget(recipeDescriptionBoxLabel, 7, 0)
-        self.layout.addWidget(self.recipeDescriptionBox, 8, 0)
-        self.layout.addWidget(recipeStepsLabel, 7, 1)
-        self.layout.addWidget(self.recipeSteps, 8, 1)
+        # Add widgets to layout.
+        self.bigEditLayout.addWidget(recipeDescriptionBoxLabel, 0, 0)
+        self.bigEditLayout.addWidget(self.recipeDescriptionBox, 1, 0)
+        self.bigEditLayout.addWidget(recipeStepsLabel, 0, 1)
+        self.bigEditLayout.addWidget(self.recipeSteps, 1, 1)
+       
+    def create_bottom_buttons(self):
+        # Set bottom button layout.
+        self.bottomButtonLayout = QHBoxLayout()
+        self.bottomButtonLayout.setSpacing(0)
+        
+        # Create buttons.
+        self.saveButton = QPushButton("SAVE")
+        self.closeButton = QPushButton("CLOSE")
+        
+        # Assign object names to the buttons.
+        self.saveButton.setObjectName("smallButton")
+        self.closeButton.setObjectName("smallButton")
 
+        # Create Spacer.
+        self.spacer = QWidget()
+        self.spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        
+        # Add widgets to the layout.
+        self.bottomButtonLayout.addWidget(self.spacer)
+        self.bottomButtonLayout.addWidget(self.closeButton)
+        self.bottomButtonLayout.addWidget(self.saveButton)
 
     def create_steps_spreadsheet(self):
         recipeStepsTable = TableWidgetDragRows()
+        recipeStepsTable.setShowGrid(False)
+        recipeStepsTable.setAlternatingRowColors(True)
+        recipeStepsTable.setCornerButtonEnabled(False)
+        recipeStepsTable.horizontalHeader().setSectionResizeMode(1)
         # print(dir(recipeStepsTable))
 
         # Steps spreadsheet

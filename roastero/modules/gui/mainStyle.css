@@ -336,6 +336,8 @@ QTextEdit {
     color: #fff;
     padding: 5px;
     font-family: "Asap";
+    selection-background-color: #2aa1d3;
+    selection-color: #fff;
 }
 
 QTimeEdit {
@@ -461,3 +463,18 @@ QTableView QTableCornerButton::section {
     background-color: #23252b;
 }
 
+QLineEdit {
+    background-color: #23252b;
+    border-radius: 5px;
+    border: none;
+    height: 30px;
+    padding-left: 8px;
+    color: #fff;
+    font-family: "Asap";
+    selection-background-color: #2aa1d3;
+    selection-color: #fff;
+}
+
+QLineEdit:focus {
+    border: 2px solid #2aa1d3;
+}
