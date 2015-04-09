@@ -72,6 +72,12 @@ class RecipesTab(QWidget):
         self.recipeDescriptionBox.setReadOnly(True)
         self.recipeStepsTable = QTableWidget()
 
+        # Set options for recipe table.
+        self.recipeStepsTable.setShowGrid(False)
+        self.recipeStepsTable.setAlternatingRowColors(True)
+        self.recipeStepsTable.setCornerButtonEnabled(False)
+        self.recipeStepsTable.horizontalHeader().setStretchLastSection(True)
+
         # Assign Object Names for qss
         self.recipeNameLabel.setObjectName("RecipeName")
         self.recipeCreatorLabel.setObjectName("RecipeCreator")
@@ -154,6 +160,7 @@ class RecipesTab(QWidget):
         self.recipeStepsTable.setRowCount(len(recipeObject["steps"]))
         self.recipeStepsTable.setColumnCount(3)
         self.recipeStepsTable.setHorizontalHeaderLabels(["Temperature", "Fan Speed", "Section Time"])
+
         for row in range(len(recipeObject["steps"])):
 
             sectionTempWidget = QTableWidgetItem()

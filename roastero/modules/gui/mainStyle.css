@@ -39,11 +39,11 @@ QPushButton#mainButton{
 }
 
 QPushButton#mainButton:disabled{
-    background- color: #444953;
+    background-color: #444953;
 }
 
 QPushButton#mainButton:pressed {
-    background-color: #227c9a;
+    background-color: #2691bd;
 }
 
 QPushButton#loginButton{
@@ -58,7 +58,7 @@ QPushButton#loginButton{
 }
 
 QPushButton#loginButton:pressed {
-    background-color: #63892d;
+    background-color: #7ca418;
 }
 
 QLabel#logo{
@@ -338,13 +338,6 @@ QTextEdit {
     font-family: "Asap";
 }
 
-QTableWidget {
-    border-radius: 5px;
-    background-color: #23252b;
-    color: #fff;
-    padding: 5px;
-}
-
 QTimeEdit {
     background-color: #2aa1d3;
     border: 0px;
@@ -413,7 +406,7 @@ QPushButton#smallButton{
 }
 
 QPushButton#smallButton:pressed {
-    background-color: #63892d;
+    background-color: #7ca418;
 }
 
 QPushButton#smallButtonAlt{
@@ -429,5 +422,38 @@ QPushButton#smallButtonAlt{
 }
 
 QPushButton#smallButtonAlt:pressed {
-    background-color: #63892d;
+    background-color: #c08d12;
 }
+
+QTableWidget {
+    border-radius: 5px;
+    background-color: #23252b;
+    alternate-background-color: #2e3138;
+    text-align: center;
+    selection-background-color: #f0b017;
+    color: #fff;
+    padding: 5px;
+    font-family: "Asap";
+    font: bold;
+}
+
+QTableView {
+    font-family: "Asap";
+    font: bold;
+}
+
+QHeaderView {
+    color: #f00;
+    background-color: #23252b;
+}
+
+QHeaderView::section {
+    background-color: #23252b;
+    border: none;
+    color: #fff;
+}
+
+QTableView QTableCornerButton::section {
+    background-color: #23252b;
+}
+
