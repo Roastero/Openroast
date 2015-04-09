@@ -443,7 +443,6 @@ QTableView {
 }
 
 QHeaderView {
-    color: #f00;
     background-color: #23252b;
 }
 
@@ -451,6 +450,11 @@ QHeaderView::section {
     background-color: #23252b;
     border: none;
     color: #fff;
+}
+
+QHeaderView::section:horizontal {
+    font-family: "Asap";
+    text-transform: uppercase;
 }
 
 QTableView QTableCornerButton::section {

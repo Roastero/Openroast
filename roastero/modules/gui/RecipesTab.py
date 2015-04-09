@@ -58,8 +58,9 @@ class RecipesTab(QWidget):
         self.recipeBrowser.setColumnHidden(3, True)
 
         self.recipeBrowser.clicked.connect(self.on_recipeBrowser_clicked)
-        self.createNewRecipeButton = QPushButton("NEW RECIPE")
 
+        # Add create new recipe button.
+        self.createNewRecipeButton = QPushButton("NEW RECIPE")
         self.createNewRecipeButton.clicked.connect(self.create_new_recipe)
 
     def create_recipe_window(self):
@@ -79,7 +80,7 @@ class RecipesTab(QWidget):
         self.recipeStepsTable.setShowGrid(False)
         self.recipeStepsTable.setAlternatingRowColors(True)
         self.recipeStepsTable.setCornerButtonEnabled(False)
-        self.recipeStepsTable.horizontalHeader().setStretchLastSection(True)
+        self.recipeStepsTable.horizontalHeader().setSectionResizeMode(1)
 
         # Assign Object Names for qss
         self.recipeNameLabel.setObjectName("RecipeName")
@@ -147,12 +148,16 @@ class RecipesTab(QWidget):
 
     def load_recipe_information(self, recipeObject):
         self.recipeNameLabel.setText(recipeObject["roastName"])
-        self.recipeCreatorLabel.setText("Created by " + recipeObject["creator"])
-        self.recipeRoastTypeLabel.setText("Roast Type: " + recipeObject["roastDescription"]["roastType"])
-        self.beanRegionLabel.setText("Bean Region: " + recipeObject["bean"]["region"])
-        self.beanCountryLabel.setText("Bean Country: " + recipeObject["bean"]["country"])
-
-        self.recipeDescriptionBox.setText(recipeObject["roastDescription"]["description"])
+        self.recipeCreatorLabel.setText("Created by " + 
+            recipeObject["creator"])
+        self.recipeRoastTypeLabel.setText("Roast Type: " + 
+            recipeObject["roastDescription"]["roastType"])
+        self.beanRegionLabel.setText("Bean Region: " + 
+            recipeObject["bean"]["region"])
+        self.beanCountryLabel.setText("Bean Country: " + 
+            recipeObject["bean"]["country"])
+        self.recipeDescriptionBox.setText(recipeObject["roastDescription"]
+            ["description"])
         self.currentBeanUrl = recipeObject["bean"]["source"]["link"]
 
         # Total Time
@@ -162,7 +167,8 @@ class RecipesTab(QWidget):
         # Steps spreadsheet
         self.recipeStepsTable.setRowCount(len(recipeObject["steps"]))
         self.recipeStepsTable.setColumnCount(3)
-        self.recipeStepsTable.setHorizontalHeaderLabels(["Temperature", "Fan Speed", "Section Time"])
+        self.recipeStepsTable.setHorizontalHeaderLabels(["Temperature", 
+            "Fan Speed", "Section Time"])
 
         for row in range(len(recipeObject["steps"])):
 
@@ -170,12 +176,19 @@ class RecipesTab(QWidget):
             sectionTempWidget = QTableWidgetItem()
             sectionFanSpeedWidget = QTableWidgetItem()
 
-            sectionTimeWidget.setText(time.strftime("%M:%S", time.gmtime(recipeObject["steps"][row]["sectionTime"])))
+            sectionTimeWidget.setText(time.strftime("%M:%S", 
+                time.gmtime(recipeObject["steps"][row]["sectionTime"])))
             sectionFanSpeedWidget.setText(str(recipeObject["steps"][row]["fanSpeed"]))
+
             if 'targetTemp' in recipeObject["steps"][row]:
                 sectionTempWidget.setText(str(recipeObject["steps"][row]["targetTemp"]))
             else:
                 sectionTempWidget.setText("Cooling")
+
+            # Set widget cell alignment.
+            sectionTempWidget.setTextAlignment(Qt.AlignCenter)
+            sectionFanSpeedWidget.setTextAlignment(Qt.AlignCenter)
+            sectionTimeWidget.setTextAlignment(Qt.AlignCenter)
 
             # Add widgets
             self.recipeStepsTable.setItem(row, 0, sectionTempWidget)
