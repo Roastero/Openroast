@@ -124,7 +124,7 @@ class RoastTab(QWidget):
 
         self.graphAxes = self.graphFigure.add_subplot(111)
         self.graphAxes.plot_date(self.graphXValueList, self.graphYValueList,
-            '#85b63f')
+            '#8ab71b')
 
         # Add formatting to the graphs.
         self.graphAxes.set_ylabel('TEMPERATURE (°F)')
@@ -144,27 +144,26 @@ class RoastTab(QWidget):
         self.graphYValueList.append(self.roaster.get_current_temp())
 
     def update_data(self):
+        # Update temperature widgets.
+        self.currentTempLabel.setText(str(self.roaster.get_current_temp()))
         self.targetTempLabel.setText(str(self.roaster.get_target_temp()))
         self.change_target_temp_slider(self.roaster.get_target_temp())
+
+        # Update fax widget.
         self.update_fan_box()
 
-        self.currentTempLabel.setText(str(self.roaster.get_current_temp()))
-        if (self.roaster.get_current_status() == 1 or
-                self.roaster.get_current_status() == 2):
-            self.update_section_time()
-            self.update_total_time()
+        # Update timers.
+        self.update_section_time()
+        self.update_total_time()
 
-            # Update current section progress bar. TODO: Still very buggy
-            if self.recipe.check_recipe_loaded():
-                value = self.recipe.get_current_section_time() - self.roaster.get_section_time()
-                if self.roaster.get_section_time() == 0:
-                    value = 0
-                elif value > 0:
-                    value = value / self.recipe.get_current_section_time()
-                    value = round(value * 100)
-                else:
-                    value = 100
-                self.sectionBars[self.recipe.get_current_step_number()].setValue(value)
+        # Update current section progress bar.
+        if self.recipe.check_recipe_loaded():
+            value = self.recipe.get_current_section_time() - self.roaster.get_section_time()
+
+            value = value / self.recipe.get_current_section_time()
+            value = round(value * 100)
+
+            self.sectionBars[self.recipe.get_current_step_number()].setValue(value)
 
         # Check connection status of the roaster.
         if (self.roaster.get_connection_status()):

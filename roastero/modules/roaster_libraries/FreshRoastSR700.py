@@ -163,8 +163,7 @@ class FreshRoastSR700(Roaster):
             self.roast()
             time.sleep(.25)
 
-        # Begin roast phase.
-        self.roast()
+        # Begin cooling phase.
         self.cool()
         self.set_heat_setting(0)
         self.set_target_temp(150)

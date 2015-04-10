@@ -2,11 +2,10 @@
   "recipeID" : "0004",
   "roastName" : "Mexico Chiapas SHG",
   "steps" : [
-    {"fanSpeed" : 9, "targetTemp" : 370, "sectionTime" : 120},
-    {"fanSpeed" : 9, "targetTemp" : 420, "sectionTime" : 60},
-    {"fanSpeed" : 5, "targetTemp" : 470, "sectionTime" : 90},
-    {"fanSpeed" : 3, "targetTemp" : 470, "sectionTime" : 150},
-    {"fanSpeed" : 9, "sectionTime" : 60, "cooling" : true}
+    {"fanSpeed" : 9, "targetTemp" : 370, "sectionTime" : 30},
+    {"fanSpeed" : 9, "targetTemp" : 420, "sectionTime" : 20},
+    {"fanSpeed" : 5, "targetTemp" : 470, "sectionTime" : 10},
+    {"fanSpeed" : 9, "sectionTime" : 10, "cooling" : true}
   ],
   "roastDescription" : {
     "roastType" : "Light",
