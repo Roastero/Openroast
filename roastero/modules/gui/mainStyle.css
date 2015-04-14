@@ -1,18 +1,19 @@
-QMainWindow{
+/* Application window definitions. */
+QMainWindow {
     background-color: #2e3138;
-}
-
-QToolBar{
-    background-color: #444953;
-    border-radius: 5px;
-    margin: 12% 12% 0px 12%;
 }
 
 QDialog{
     background-color: #2e3138;
 }
 
-QPushButton#toolbar{
+QToolBar {
+    background-color: #444953;
+    border-radius: 5px;
+    margin: 12% 12% 0px 12%;
+}
+
+QPushButton#toolbar {
     border-radius: 5px;
     width: 100px;
     height: 30px;
@@ -20,6 +21,8 @@ QPushButton#toolbar{
     font-family: "Asap";
     font: bold;
     margin: 15px 5px 3px 5px;
+    font-size: 12pt;
+    background-color: none;
 }
 
 QPushButton#toolbar:disabled {
@@ -27,26 +30,7 @@ QPushButton#toolbar:disabled {
       color: #444953;
 }
 
-QPushButton#mainButton{
-    border-radius: 5px;
-    width: 140px;
-    height: 36px;
-    background-color: #2aa1d3;
-    color: #fff;
-    margin: 5px;
-    font-family: "Asap";
-    font: bold;
-}
-
-QPushButton#mainButton:disabled{
-    background-color: #444953;
-}
-
-QPushButton#mainButton:pressed {
-    background-color: #2691bd;
-}
-
-QPushButton#loginButton{
+QPushButton#loginButton {
     border-radius: 5px;
     width: 100px;
     height: 36px;
@@ -55,6 +39,7 @@ QPushButton#loginButton{
     margin: 8px;
     font-family: "Asap";
     font: bold;
+    font-size: 12pt;
 }
 
 QPushButton#loginButton:pressed {
@@ -69,46 +54,25 @@ QLabel#logo{
     font: bold;
 }
 
-QLabel#label{
+/* Element definitions. */
+QPushButton {
     border-radius: 5px;
-    border-bottom-left-radius: 0px;
-    border-bottom-right-radius: 0px;
-    background-color: #444953;
+    width: 140px;
+    height: 36px;
+    background-color: #2aa1d3;
     color: #fff;
-    font-family: "Asap";
-    font-size: 14pt;
-    font: bold;
-    padding: 12px;
-}
-
-QLabel#tempGuage{
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    background-color: #23252b;
-    color: #2aa1d3;
-    font-size: 40pt;
+    margin: 5px;
     font-family: "Asap";
     font: bold;
-    padding: 10px;
+    font-size: 12pt;
 }
 
-QLabel#timeWindow{
-    border-bottom-right-radius: 5px;
-    border-bottom-left-radius: 5px;
-    background-color: #23252b;
-    color: #8ab71b;
-    font-size: 40pt;
-    font-family: "Asap";
-    font: bold;
-    padding: 10px;
-}
-
-QWidget#graph{
-    color: #f00;
+QPushButton:disabled {
     background-color: #444953;
-    border-radius: 5px;
-    margin: 0px;
-    padding: 0px;
+}
+
+QPushButton:pressed {
+    background-color: #2691bd;
 }
 
 QListWidget{
@@ -118,13 +82,14 @@ QListWidget{
     border-radius: 5px;
     background-color: #444953;
     outline: none;
+    font-size: 12pt;
 }
 
 QListView {
     outline: none;
 }
 
-QListWidget::item{
+QListWidget::item {
     background-color: #444953;
     height: 30px;
     padding: 5px;
@@ -133,7 +98,7 @@ QListWidget::item{
     border-style: solid;
 }
 
-QListWidget::item:selected{
+QListWidget::item:selected {
     background-color: #23252b;
     color: #fff;
     border-top-color: #8ab71b;
@@ -141,10 +106,11 @@ QListWidget::item:selected{
     border-top-width: 2px;
 }
 
-QLabel{
+QLabel {
     color: #fff;
     font-family: "Asap";
     font: bold;
+    font-size: 12pt;
 }
 
 QComboBox {
@@ -157,6 +123,7 @@ QComboBox {
     font-family: "Asap";
     font: bold;
     padding-left: 5px;
+    font-size: 12pt;
 }
 
 QComboBox:on { /* shift the text when the popup opens */
@@ -247,11 +214,6 @@ QSlider::sub-page:horizontal {
     height: 10px;
 }
 
-QLabel#connectionStatus{
-    border-radius: 5px;
-    background-color: rgba(68,73,83);
-}
-
 QTreeView {
     background-color: #23252b;
     border-radius: 5px;
@@ -260,21 +222,21 @@ QTreeView {
     font: bold;
 }
 
-QTreeView::item:has-children{
+QTreeView::item:has-children {
     background-color: #444953;
     border-top-style: solid;
     border-top-width: 1px;
     border-top-color: #333841;
 }
 
-QTreeView::item::open:has-children{
+QTreeView::item::open:has-children {
     border-bottom-style: solid;
     border-bottom-width: 2px;
     border-bottom-color: #8ab71b;
     color: #fff;
 }
 
-QTreeView::item::has-children:selected{
+QTreeView::item::has-children:selected {
     color: #fff;
 }
 
@@ -291,43 +253,6 @@ QTreeView::item:!has-children:selected {
     border-left-width: 2px;
     border-left-color: #2aa1d3;
     color: #fff;
-}
-
-QProgressBar {
-    background-color: #23252b;
-    height: 30px;
-}
-
-QProgressBar::chunk{
-    background-color: #8ab71b;
-}
-
-QProgressBar#firstProgressBar{
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-    border-right: 2px solid #171a1e;
-}
-
-QProgressBar#firstProgressBar::chunk{
-    border-top-left-radius: 5px;
-    border-bottom-left-radius: 5px;
-}
-
-QProgressBar#middleProgressBar{
-    border-right: 2px solid #171a1e;
-}
-
-QProgressBar#lastProgressBar{
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
-
-QProgressBar#lastProgressBar::chunk{
-    border-top-right-radius: 5px;
-    border-bottom-right-radius: 5px;
-}
-
-QLabel#progressLabel{
 }
 
 QTextEdit {
@@ -390,12 +315,7 @@ QTimeEdit::down-button:pressed {
     background-color: #148eb5;
 }
 
-QLabel#RecipeName {
-    font-size: 25pt;
-    text-transform: uppercase;
-}
-
-QPushButton#smallButton{
+QPushButton#smallButton {
     border-radius: 5px;
     width: 120px;
     height: 28px;
@@ -411,7 +331,7 @@ QPushButton#smallButton:pressed {
     background-color: #7ca418;
 }
 
-QPushButton#smallButtonAlt{
+QPushButton#smallButtonAlt {
     border-radius: 5px;
     width: 120px;
     height: 28px;
@@ -477,4 +397,92 @@ QLineEdit {
 
 QLineEdit:focus {
     border: 2px solid #2aa1d3;
+}
+
+/* Roast tab definitions. */
+QLabel#label {
+    border-radius: 5px;
+    border-bottom-left-radius: 0px;
+    border-bottom-right-radius: 0px;
+    background-color: #444953;
+    color: #fff;
+    font-family: "Asap";
+    font-size: 14pt;
+    font: bold;
+    padding: 12px;
+}
+
+QLabel#tempGuage {
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-color: #23252b;
+    color: #2aa1d3;
+    font-size: 40pt;
+    font-family: "Asap";
+    font: bold;
+    padding: 10px;
+}
+
+QLabel#timeWindow {
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+    background-color: #23252b;
+    color: #8ab71b;
+    font-size: 40pt;
+    font-family: "Asap";
+    font: bold;
+    padding: 10px;
+}
+
+QWidget#graph {
+    color: #f00;
+    background-color: #444953;
+    border-radius: 5px;
+    margin: 0px;
+    padding: 0px;
+}
+
+QLabel#connectionStatus {
+    border-radius: 5px;
+    background-color: rgba(68,73,83);
+}
+
+QProgressBar {
+    background-color: #23252b;
+    height: 30px;
+}
+
+QProgressBar::chunk {
+    background-color: #8ab71b;
+}
+
+QProgressBar#firstProgressBar {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+    border-right: 2px solid #171a1e;
+}
+
+QProgressBar#firstProgressBar::chunk {
+    border-top-left-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+QProgressBar#middleProgressBar {
+    border-right: 2px solid #171a1e;
+}
+
+QProgressBar#lastProgressBar {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+QProgressBar#lastProgressBar::chunk {
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+/* Recipe tab definitions. */
+QLabel#RecipeName {
+    font-size: 25pt;
+    text-transform: uppercase;
 }

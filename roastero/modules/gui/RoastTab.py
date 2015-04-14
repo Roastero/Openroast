@@ -286,13 +286,11 @@ class RoastTab(QWidget):
 
         # Create start roast button.
         self.startButton = QPushButton("START")
-        self.startButton.setObjectName("mainButton")
         self.startButton.clicked.connect(self.roaster.roast)
         buttonPanel.addWidget(self.startButton, 0, 0)
 
         # Create stop roast button.
         self.stopButton = QPushButton("STOP")
-        self.stopButton.setObjectName("mainButton")
         self.stopButton.clicked.connect(self.roaster.idle)
         buttonPanel.addWidget(self.stopButton, 0, 1)
 
@@ -303,13 +301,11 @@ class RoastTab(QWidget):
 
         # Create cool button.
         self.coolButton = QPushButton("COOL")
-        self.coolButton.setObjectName("mainButton")
         self.coolButton.clicked.connect(self.cooling_phase)
         buttonPanel.addWidget(self.coolButton, 1, 0)
 
         # Create next button.
         self.nextButton = QPushButton("NEXT")
-        self.nextButton.setObjectName("mainButton")
         self.nextButton.clicked.connect(self.next_section)
         buttonPanel.addWidget(self.nextButton, 1, 1)
 
