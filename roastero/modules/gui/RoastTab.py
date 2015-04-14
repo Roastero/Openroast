@@ -63,34 +63,8 @@ class RoastTab(QWidget):
         self.connectionStatusLabel.setAlignment(Qt.AlignCenter)
         self.layout.addWidget(self.connectionStatusLabel, 0, 0)
 
-#        self.p = QDoubleSpinBox()
-#        self.p.setRange(0.000, 0.900)
-#        self.p.valueChanged.connect(self.change_p)
-#        self.layout.addWidget(self.p, 1, 0)
-#
-#        self.i = QDoubleSpinBox()
-#        self.i.setRange(0.000, 0.900)
-#        self.i.valueChanged.connect(self.change_p)
-#        self.layout.addWidget(self.i, 1, 1)
-#
-#        self.d = QDoubleSpinBox()
-#        self.d.setRange(0.000, 0.900)
-#        self.d.valueChanged.connect(self.change_p)
-#        self.layout.addWidget(self.d, 1, 2)
-
-
-
         # Set main layout for widget.
         self.setLayout(self.layout)
-
-#    def change_p(self):
-#        self.roaster.set_p(self.p.value())
-#
-#    def change_i(self):
-#        self.roaster.set_i(self.d.value())
-#
-#    def change_d(self):
-#        self.roaster.set_d(self.d.value())
 
     def create_graph(self):
         # Create the graph widget.

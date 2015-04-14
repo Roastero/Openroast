@@ -161,6 +161,10 @@ QSpinBox {
     width: 105px;
 }
 
+QSpinBox:disabled {
+    background-color: #444953;
+}
+
 QSpinBox::up-button {
     width: 35px;
     background-color: #2aa1d3;
@@ -175,6 +179,11 @@ QSpinBox::up-button:pressed {
     background-color: #148eb5;
 }
 
+QSpinBox::up-button:disabled {
+    background-color: #444953;
+    border-left-color: #23252b;
+}
+
 QSpinBox::down-button {
     width: 35px;
     background-color: #2aa1d3;
@@ -187,6 +196,11 @@ QSpinBox::down-button {
 
 QSpinBox::down-button:pressed {
     background-color: #148eb5;
+}
+
+QSpinBox::down-button:disabled {
+    background-color: #444953;
+    border-left-color: #23252b;
 }
 
 QSlider::groove {
@@ -212,6 +226,10 @@ QSlider::sub-page:horizontal {
     background: #f0b017;
     border-radius: 4px;
     height: 10px;
+}
+
+QSlider::sub-page:horizontal:disabled {
+    background: #444953;
 }
 
 QTreeView {
@@ -423,6 +441,10 @@ QLabel#tempGuage {
     padding: 10px;
 }
 
+QLabel#tempGuage:disabled {
+    color: #444953;
+}
+
 QLabel#timeWindow {
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -432,6 +454,10 @@ QLabel#timeWindow {
     font-family: "Asap";
     font: bold;
     padding: 10px;
+}
+
+QLabel#timeWindow:disabled {
+    color: #444953;
 }
 
 QWidget#graph {
