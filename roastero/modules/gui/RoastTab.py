@@ -40,6 +40,9 @@ class RoastTab(QWidget):
         self.timer.timeout.connect(self.update_data)
         self.timer.start()
 
+        # Set the roast tab diabled when starting.
+        self.setEnabled(False)
+
     def create_ui(self):
         # Create the main layout for the roast tab.
         self.layout = QGridLayout()
@@ -233,7 +236,7 @@ class RoastTab(QWidget):
         guageWindow = QGridLayout()
 
         # Create current temp gauge.
-        self.currentTempLabel = QLabel()
+        self.currentTempLabel = QLabel("150")
         currentTemp = self.create_info_box("CURRENT TEMP", "tempGuage",
             self.currentTempLabel)
         guageWindow.addLayout(currentTemp, 0, 0)
