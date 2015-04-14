@@ -21,7 +21,7 @@ QPushButton#toolbar {
     font-family: "Asap";
     font: bold;
     margin: 15px 5px 3px 5px;
-    font-size: 12pt;
+    font-size: 12px;
     background-color: none;
 }
 
@@ -39,7 +39,7 @@ QPushButton#loginButton {
     margin: 8px;
     font-family: "Asap";
     font: bold;
-    font-size: 12pt;
+    font-size: 12px;
 }
 
 QPushButton#loginButton:pressed {
@@ -50,7 +50,7 @@ QLabel#logo{
     color: #fff;
     padding: 15px 15px 3px 15px;
     font-family: "Asap";
-    font-size: 20pt;
+    font-size: 20px;
     font: bold;
 }
 
@@ -64,7 +64,7 @@ QPushButton {
     margin: 5px;
     font-family: "Asap";
     font: bold;
-    font-size: 12pt;
+    font-size: 12px;
 }
 
 QPushButton:disabled {
@@ -82,7 +82,7 @@ QListWidget{
     border-radius: 5px;
     background-color: #444953;
     outline: none;
-    font-size: 12pt;
+    font-size: 12px;
 }
 
 QListView {
@@ -110,7 +110,7 @@ QLabel {
     color: #fff;
     font-family: "Asap";
     font: bold;
-    font-size: 12pt;
+    font-size: 12px;
 }
 
 QComboBox {
@@ -123,7 +123,7 @@ QComboBox {
     font-family: "Asap";
     font: bold;
     padding-left: 5px;
-    font-size: 12pt;
+    font-size: 12px;
 }
 
 QComboBox:on { /* shift the text when the popup opens */
@@ -322,7 +322,7 @@ QPushButton#smallButton {
     background-color: #8ab71b;
     color: #fff;
     margin: 5px;
-    font-size: 12pt;
+    font-size: 12px;
     font-family: "Asap";
     font: bold;
 }
@@ -338,7 +338,7 @@ QPushButton#smallButtonAlt {
     background-color: #f0b017;
     color: #fff;
     margin: 5px;
-    font-size: 12pt;
+    font-size: 12px;
     font-family: "Asap";
     font: bold;
 }
@@ -407,7 +407,7 @@ QLabel#label {
     background-color: #444953;
     color: #fff;
     font-family: "Asap";
-    font-size: 14pt;
+    font-size: 14px;
     font: bold;
     padding: 12px;
 }
@@ -417,7 +417,7 @@ QLabel#tempGuage {
     border-bottom-left-radius: 5px;
     background-color: #23252b;
     color: #2aa1d3;
-    font-size: 40pt;
+    font-size: 40px;
     font-family: "Asap";
     font: bold;
     padding: 10px;
@@ -428,7 +428,7 @@ QLabel#timeWindow {
     border-bottom-left-radius: 5px;
     background-color: #23252b;
     color: #8ab71b;
-    font-size: 40pt;
+    font-size: 40px;
     font-family: "Asap";
     font: bold;
     padding: 10px;
@@ -483,6 +483,6 @@ QProgressBar#lastProgressBar::chunk {
 
 /* Recipe tab definitions. */
 QLabel#RecipeName {
-    font-size: 25pt;
+    font-size: 25px;
     text-transform: uppercase;
 }
