@@ -349,6 +349,10 @@ QPushButton#smallButton:pressed {
     background-color: #7ca418;
 }
 
+QPushButton#smallButton:disabled {
+    background-color: #444953;
+}
+
 QPushButton#smallButtonAlt {
     border-radius: 5px;
     width: 120px;
@@ -470,7 +474,7 @@ QWidget#graph {
 
 QLabel#connectionStatus {
     border-radius: 5px;
-    background-color: rgba(68,73,83);
+    background-color: #444953;
 }
 
 QProgressBar {
@@ -511,4 +515,9 @@ QProgressBar#lastProgressBar::chunk {
 QLabel#RecipeName {
     font-size: 25px;
     text-transform: uppercase;
+}
+
+QLabel#recipeSelectionLabel {
+    border-radius: 5px;
+    background-color: #2e3138; 
 }

@@ -36,6 +36,12 @@ class RecipesTab(QWidget):
         self.layout.setColumnStretch(1, 2)
         self.layout.setRowStretch(0, 3)
 
+        # Create label to cover recipe info.
+        self.recipeSelectionLabel = QLabel()
+        self.recipeSelectionLabel.setObjectName("recipeSelectionLabel")
+        self.recipeSelectionLabel.setAlignment(Qt.AlignCenter)
+        self.layout.addWidget(self.recipeSelectionLabel, 0, 1)
+
         # Set main layout for widget.
         self.setLayout(self.layout)
 
@@ -126,6 +132,11 @@ class RecipesTab(QWidget):
         self.recipeButtonsLayout.addWidget(self.beanLinkButton, 0, 1)
         self.recipeButtonsLayout.addWidget(self.editRecipeButton, 0, 2)
         self.recipeButtonsLayout.addWidget(self.recipeRoastButton, 0, 3)
+       
+        # Disable buttons until recipe is selected. 
+        self.beanLinkButton.setEnabled(False)
+        self.editRecipeButton.setEnabled(False)
+        self.recipeRoastButton.setEnabled(False)
 
     def on_recipeBrowser_clicked(self, index):
         indexItem = self.model.index(index.row(), 0, index.parent())
@@ -145,6 +156,14 @@ class RecipesTab(QWidget):
             self.currentlySelectedRecipe = recipeObject
             self.currentlySelectedRecipePath = filePath
             self.load_recipe_information(recipeObject)
+
+            # Set lower buttons enabled once recipe is selected.
+            self.beanLinkButton.setEnabled(True)
+            self.editRecipeButton.setEnabled(True)
+            self.recipeRoastButton.setEnabled(True)
+            
+            # Hide recipe selection label once a recipe is selected.
+            self.recipeSelectionLabel.setHidden(True)
 
     def load_recipe_information(self, recipeObject):
         self.recipeNameLabel.setText(recipeObject["roastName"])
