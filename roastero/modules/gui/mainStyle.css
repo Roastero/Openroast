@@ -374,7 +374,8 @@ QTableWidget {
     background-color: #23252b;
     alternate-background-color: #2e3138;
     text-align: center;
-    selection-background-color: #f0b017;
+    selection-background-color: #2aa1d3;
+    selection-color: #fff;
     color: #fff;
     padding: 5px;
     font-family: "Asap";
@@ -509,6 +510,17 @@ QProgressBar#lastProgressBar {
 QProgressBar#lastProgressBar::chunk {
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+}
+
+QScrollBar:vertical {
+    background-color: #2e3138;
+    width: 6px;
+    border-radius: 3px;
+}
+
+QScrollBar::handle:vertical {
+    background-color: #444953;
+    border-radius: 3px;
 }
 
 /* Recipe tab definitions. */

@@ -119,6 +119,7 @@ class RecipeEditor(QDialog):
         # Assign object names to the buttons.
         self.saveButton.setObjectName("smallButton")
         self.closeButton.setObjectName("smallButton")
+        self.closeButton.clicked.connect(self.close_edit_window)
 
         # Create Spacer.
         self.spacer = QWidget()
@@ -142,6 +143,9 @@ class RecipeEditor(QDialog):
         recipeStepsTable.setHorizontalHeaderLabels(["Temperature", "Fan Speed", "Section Time", "Reorder"])
 
         return recipeStepsTable
+
+    def close_edit_window(self):
+        self.close()
 
     def preload_recipe_steps(self, recipeStepsTable):
         # Create spreadsheet choices

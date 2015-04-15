@@ -87,6 +87,8 @@ class RecipesTab(QWidget):
         self.recipeStepsTable.setAlternatingRowColors(True)
         self.recipeStepsTable.setCornerButtonEnabled(False)
         self.recipeStepsTable.horizontalHeader().setSectionResizeMode(1)
+        self.recipeStepsTable.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        self.recipeStepsTable.setSelectionMode(QAbstractItemView.NoSelection)
 
         # Assign Object Names for qss
         self.recipeNameLabel.setObjectName("RecipeName")

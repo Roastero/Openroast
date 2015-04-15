@@ -2,11 +2,11 @@
   "recipeID" : "0001",
   "roastName" : "Nicaragua Don Roger - Natural",
   "steps" : [
-    {"fanSpeed" : 9, "targetTemp" : 370, "sectionTime" : 120},
+    {"fanSpeed" : 9, "targetTemp" : 350, "sectionTime" : 180},
     {"fanSpeed" : 9, "targetTemp" : 420, "sectionTime" : 60},
     {"fanSpeed" : 5, "targetTemp" : 470, "sectionTime" : 90},
     {"fanSpeed" : 3, "targetTemp" : 470, "sectionTime" : 150},
-    {"fanSpeed" : 9, "sectionTime" : 60, "cooling" : true}
+    {"fanSpeed" : 9, "sectionTime" : 120, "cooling" : true}
   ],
   "roastDescription" : {
     "roastType" : "Medium",
