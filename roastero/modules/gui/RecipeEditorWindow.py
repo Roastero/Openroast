@@ -15,7 +15,7 @@ class RecipeEditor(QDialog):
         #self.setWindowIcon(QIcon("icon.png"))
 
         # Open qss file.
-        self.style = open('modules/gui/mainStyle.css').read()
+        self.style = open('static/mainStyle.css').read()
         self.setStyleSheet(self.style)
 
         self.create_ui()

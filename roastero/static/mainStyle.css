@@ -147,7 +147,7 @@ QComboBox::drop-down {
 }
 
 QComboBox::down-arrow {
-    image: url(modules/gui/images/downArrow.png);
+    image: url(static/images/downArrow.png);
 }
 
 QSpinBox {
@@ -172,7 +172,7 @@ QSpinBox::up-button {
     border-left-color: #1d86aa;
     border-left-style: solid;
     border-top-right-radius: 5px;
-    image: url(modules/gui/images/upArrow.png);
+    image: url(static/images/upArrow.png);
 }
 
 QSpinBox::up-button:pressed {
@@ -191,7 +191,7 @@ QSpinBox::down-button {
     border-left-color: #1d86aa;
     border-left-style: solid;
     border-bottom-right-radius: 5px;
-    image: url(modules/gui/images/downArrow.png);
+    image: url(static/images/downArrow.png);
 }
 
 QSpinBox::down-button:pressed {
@@ -312,7 +312,7 @@ QTimeEdit::up-button {
     border-left-color: #1d86aa;
     border-left-style: solid;
     border-top-right-radius: 5px;
-    image: url(modules/gui/images/upArrow.png);
+    image: url(static/images/upArrow.png);
 }
 
 QTimeEdit::up-button:pressed {
@@ -326,7 +326,7 @@ QTimeEdit::down-button {
     border-left-color: #1d86aa;
     border-left-style: solid;
     border-bottom-right-radius: 5px;
-    image: url(modules/gui/images/downArrow.png);
+    image: url(static/images/downArrow.png);
 }
 
 QTimeEdit::down-button:pressed {
