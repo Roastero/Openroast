@@ -37,10 +37,10 @@ class MainWindow(QMainWindow):
         self.create_menu()
 
     def create_menu(self):
-        self.menuBar = QMenuBar(None)
+        menubar = self.menuBar()
 
         # Create file menu.
-        self.fileMenu = self.menuBar.addMenu("File")
+        self.fileMenu = menubar.addMenu("File")
         # self.fileMenu.addAction("Connect Roaster", self.roast.connect_roaster)
         self.fileMenu.addAction("New Roast", self.roast.start_new_roast)
         # self.fileMenu.addAction("Use Recipe", self.roast.current_section)
