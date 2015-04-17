@@ -1,27 +1,39 @@
 {
-  "recipeID" : "0004",
-  "roastName" : "Mexico Chiapas SHG",
-  "steps" : [
-    {"fanSpeed" : 9, "targetTemp" : 370, "sectionTime" : 30},
-    {"fanSpeed" : 9, "targetTemp" : 420, "sectionTime" : 20},
-    {"fanSpeed" : 5, "targetTemp" : 470, "sectionTime" : 10},
-    {"fanSpeed" : 9, "sectionTime" : 10, "cooling" : true}
-  ],
-  "roastDescription" : {
-    "roastType" : "Light",
-    "description" : "Grown on the Guillen Ranch. Shade grown, wet processed"
-  },
-  "creator" : "lodge93",
-  "totalTime" : 420,
-  "bean" : {
-    "region" : "North America",
-    "country" : "Mexico",
-    "source" : {
-      "reseller" : "Home Roasting Supplies",
-      "link" : "http://homeroastingsupplies.com/product/mexico-chiapas-shg/"
-    }
-  },
-  "compatibleRoasters" : [
-    "Fresh Roast SR700"
-  ]
+    "roastName": "Mexico Chiapas SHG",
+    "roastDescription": {
+        "description": "Grown on the Guillen Ranch. Shade grown, wet processed",
+        "roastType": "Light City"
+    },
+    "totalTime": 70,
+    "bean": {
+        "region": "North America",
+        "source": {
+            "reseller": "Home Roasting Supplies",
+            "link": "http://homeroastingsupplies.com/product/mexico-chiapas-shg/"
+        },
+        "country": "Mexico"
+    },
+    "steps": [
+        {
+            "targetTemp": 370,
+            "sectionTime": 30,
+            "fanSpeed": 9
+        },
+        {
+            "targetTemp": 420,
+            "sectionTime": 20,
+            "fanSpeed": 9
+        },
+        {
+            "targetTemp": 470,
+            "sectionTime": 10,
+            "fanSpeed": 5
+        },
+        {
+            "cooling": true,
+            "sectionTime": 10,
+            "fanSpeed": 9
+        }
+    ],
+    "creator": "lodge93"
 }
