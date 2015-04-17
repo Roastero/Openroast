@@ -32,6 +32,7 @@ class RecipeEditor(QDialog):
             self.preload_recipe_steps(self.recipeSteps)
 
     def create_ui(self):
+        """A method used to create the basic ui for the Recipe Editor Window"""
         # Create main layout for window.
         self.layout = QGridLayout(self)
         self.layout.setRowStretch(1, 3)
@@ -50,6 +51,8 @@ class RecipeEditor(QDialog):
 
 
     def create_input_fields(self):
+        """Creates all of the UI components for the top of the Recipe Editor
+        Window."""
         # Create layout for section.
         self.inputFieldLayout = QGridLayout()
 
@@ -97,6 +100,9 @@ class RecipeEditor(QDialog):
         self.inputFieldLayout.addWidget(self.beanStore, 6, 1)
 
     def create_big_edit_boxes(self):
+        """Creates the Bottom section of the Recipe Editor Window. This method
+        creates the Description box and calls another method to make the
+        recipe steps table."""
         # Create big edit box layout.
         self.bigEditLayout = QGridLayout()
 
@@ -115,6 +121,8 @@ class RecipeEditor(QDialog):
         self.bigEditLayout.addWidget(self.recipeSteps, 1, 1)
 
     def create_bottom_buttons(self):
+        """Creates the button panel on the bottom of the Recipe Editor
+        Window."""
         # Set bottom button layout.
         self.bottomButtonLayout = QHBoxLayout()
         self.bottomButtonLayout.setSpacing(0)
@@ -139,6 +147,8 @@ class RecipeEditor(QDialog):
         self.bottomButtonLayout.addWidget(self.saveButton)
 
     def create_steps_spreadsheet(self):
+        """Creates Recipe Steps table. It does not populate the table in this
+        method."""
         recipeStepsTable = QTableWidget()
         recipeStepsTable.setShowGrid(False)
         recipeStepsTable.setAlternatingRowColors(True)
@@ -152,13 +162,19 @@ class RecipeEditor(QDialog):
         return recipeStepsTable
 
     def close_edit_window(self):
+        """Method used to close the Recipe Editor Window."""
         self.close()
 
     def preload_recipe_steps(self, recipeStepsTable):
+        """Method that just calls load_recipe_steps() with a table specified and
+        uses the pre-existing loaded recipe steps in the object."""
         steps = self.recipe["steps"]
         self.load_recipe_steps(recipeStepsTable, steps)
 
     def load_recipe_steps(self, recipeStepsTable, steps):
+        """Takes two arguments. One being the table and the second being the
+        rows you'd like to add. It does not clear the table and simply adds the
+        rows on the bottom if there are exiting rows."""
         # Create spreadsheet choices
         fanSpeedChoices = [str(x) for x in range(1,10)]
         targetTempChoices = ["Cooling"] + [str(x) for x in range(150, 501, 10)]
@@ -229,6 +245,9 @@ class RecipeEditor(QDialog):
             recipeStepsTable.setCellWidget(row, 3, modifyRowWidget)
 
     def load_recipe_file(self, recipeFile):
+        """Takes a file location and opens that file. It then loads the contents
+        which should be JSON and makes a python dictionary from the contents.
+        The python dictionary is created as self.recipe."""
         # Load recipe file
         recipeFileHandler = open(recipeFile)
         self.recipe = json.load(recipeFileHandler)
@@ -236,6 +255,8 @@ class RecipeEditor(QDialog):
         recipeFileHandler.close()
 
     def preload_recipe_information(self):
+        """Loads information from self.recipe and prefills all the fields in the
+        form."""
         self.recipeName.setText(self.recipe["roastName"])
         self.recipeCreator.setText(self.recipe["creator"])
         self.recipeRoastType.setText(self.recipe["roastDescription"]["roastType"])
@@ -248,6 +269,7 @@ class RecipeEditor(QDialog):
         self.preload_recipe_steps(self.recipeSteps)
 
     def move_recipe_step_up(self, row):
+        """This method will take a row and swap it the row above it."""
         if row != 0:
             steps = self.get_current_table_values()
             newSteps = steps
@@ -259,6 +281,7 @@ class RecipeEditor(QDialog):
             self.rebuild_recipe_steps_table(newSteps)
 
     def move_recipe_step_down(self, row):
+        """This method will take a row and swap it the row below it."""
         if row != self.recipeSteps.rowCount()-1:
             steps = self.get_current_table_values()
             newSteps = steps
@@ -270,6 +293,7 @@ class RecipeEditor(QDialog):
             self.rebuild_recipe_steps_table(newSteps)
 
     def delete_recipe_step(self, row):
+        """This method will take a row delete it."""
         steps = self.get_current_table_values()
         newSteps = steps
 
@@ -280,6 +304,7 @@ class RecipeEditor(QDialog):
         self.rebuild_recipe_steps_table(newSteps)
 
     def insert_recipe_step(self, row):
+        """Inserts a row below the specified row wit generic values."""
         steps = self.get_current_table_values()
         newSteps = steps
 
@@ -290,6 +315,8 @@ class RecipeEditor(QDialog):
         self.rebuild_recipe_steps_table(newSteps)
 
     def get_current_table_values(self):
+        """Used to read all the current table values from the recipeSteps table
+        and build a dictionary of all the values."""
         recipeSteps = []
         for row in range(0, self.recipeSteps.rowCount()):
             currentRow = {}
@@ -308,6 +335,8 @@ class RecipeEditor(QDialog):
         return recipeSteps
 
     def rebuild_recipe_steps_table(self, newSteps):
+        """Used to reload all the rows in the recipe steps table with new steps.
+        """
         # Alert user if they try to delete all the steps
         if len(newSteps) < 1:
             alert = QMessageBox()
@@ -324,6 +353,8 @@ class RecipeEditor(QDialog):
             self.load_recipe_steps(self.recipeSteps, newSteps)
 
     def save_recipe(self):
+        """Pulls in all of the information in the window and creates a new
+        recipe file with the specified contents."""
         # Determine Recipe File Name
         if "file" in self.recipe:
             filePath = self.recipe["file"]
