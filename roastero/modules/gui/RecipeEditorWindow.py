@@ -144,7 +144,6 @@ class RecipeEditor(QDialog):
         recipeStepsTable.setAlternatingRowColors(True)
         recipeStepsTable.setCornerButtonEnabled(False)
         recipeStepsTable.horizontalHeader().setSectionResizeMode(1)
-        # print(dir(recipeStepsTable))
 
         # Steps spreadsheet
         recipeStepsTable.setColumnCount(4)
@@ -199,20 +198,19 @@ class RecipeEditor(QDialog):
             sectionFanSpeedWidget.addItems(fanSpeedChoices)
             sectionFanSpeedWidget.setCurrentIndex(fanSpeedChoices.index(str(steps[row]["fanSpeed"])))
 
-            # Move field
+            # Modify Row field
             upArrow = QPushButton()
             upArrow.setIcon(QIcon('modules/gui/images/upArrow.png'))
             upArrow.clicked.connect(partial(self.move_recipe_step_up, row))
             downArrow = QPushButton()
             downArrow.setIcon(QIcon('modules/gui/images/downArrow.png'))
             downArrow.clicked.connect(partial(self.move_recipe_step_down, row))
-
             deleteRow = QPushButton("X")
             deleteRow.clicked.connect(partial(self.delete_recipe_step, row))
-
             insertRow = QPushButton("+")
             insertRow.clicked.connect(partial(self.insert_recipe_step, row))
 
+            # Create a grid layout to add all the widgets to
             modifyRowWidgetLayout = QGridLayout()
             modifyRowWidgetLayout.setSpacing(0)
             modifyRowWidgetLayout.addWidget(upArrow, 0, 0)
@@ -220,12 +218,9 @@ class RecipeEditor(QDialog):
             modifyRowWidgetLayout.addWidget(deleteRow, 0, 1)
             modifyRowWidgetLayout.addWidget(insertRow, 1, 1)
 
+            # Assign Layout to a QWidget to add to a single column
             modifyRowWidget = QWidget()
             modifyRowWidget.setLayout(modifyRowWidgetLayout)
-
-            # print(modifyRowWidget.layout())
-            # moveIconItem = QTableWidgetItem()
-            # moveIconItem.setIcon(QIcon('modules/gui/images/downArrow.png'))
 
             # Add widgets
             recipeStepsTable.setCellWidget(row, 0, sectionTempWidget)
@@ -313,6 +308,7 @@ class RecipeEditor(QDialog):
         return recipeSteps
 
     def rebuild_recipe_steps_table(self, newSteps):
+        # Alert user if they try to delete all the steps
         if len(newSteps) < 1:
             alert = QMessageBox()
             alert.setWindowTitle('Roastero')
