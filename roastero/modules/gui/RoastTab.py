@@ -1,5 +1,5 @@
 # Standard Library Imports
-import datetime, time, math
+import datetime, time, math, os
 
 # PyQt imports
 from PyQt5.QtWidgets import *
@@ -122,6 +122,15 @@ class RoastTab(QWidget):
         currentTime = datetime.datetime.fromtimestamp(self.counter)
         self.graphXValueList.append(matplotlib.dates.date2num(currentTime))
         self.graphYValueList.append(self.roaster.get_current_temp())
+
+    def save_roast_graph(self):
+        userDesktop =  os.path.expanduser('~/Desktop')
+        fileName = os.path.join(userDesktop + "/Roast_Graph")
+
+        i = 0
+        while os.path.exists('{}{:d}.png'.format(fileName, i)):
+            i += 1
+        self.graphFigure.savefig('{}{:d}.png'.format(fileName, i))
 
     def update_data(self):
         # Update temperature widgets.
@@ -382,7 +391,7 @@ class RoastTab(QWidget):
     # def connect_roaster(self):
     #     self.roaster.run()
 
-    def start_new_roast(self):
+    def clear_roast(self):
         self.graphXValueList = []
         self.graphYValueList = []
         self.counter = 0
@@ -398,8 +407,11 @@ class RoastTab(QWidget):
         self.counter = 0
         self.graphFigure.clear()
         self.update_data()
-        self.recipe.restart_current_recipe()
-        self.recreate_progress_bar()
+
+        # Verify that the recipe is loaded.
+        if(self.recipe.check_recipe_loaded()):
+            self.recipe.restart_current_recipe()
+            self.recreate_progress_bar()
 
     def load_recipe_into_roast_tab(self):
         self.recipe.load_current_section()

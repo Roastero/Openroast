@@ -37,15 +37,102 @@ class MainWindow(QMainWindow):
         self.create_tabs()
 
         # Create menu.
-        self.create_menu()
+        self.createActions()
+        self.create_menus()
 
-    def create_menu(self):
+    def createActions(self):
+        # File menu actions.
+        self.clearRoastAct = QAction("&Clear", self, shortcut=QKeySequence(
+            Qt.CTRL + Qt.SHIFT + Qt.Key_C), 
+            statusTip="Clear the roast window", 
+            triggered=self.roast.clear_roast)
+
+        self.newRoastAct = QAction("&New Roast", self, 
+            shortcut=QKeySequence.New, statusTip="Roast recipe again", 
+            triggered=self.roast.reset_current_roast)
+
+        self.importRecipeAct = QAction("&Import Recipe", self,
+            shortcut=QKeySequence(Qt.CTRL + Qt.Key_I),
+            statusTip="Import a recipe file", 
+            triggered=self.import_recipe_file)
+
+        self.exportRecipeAct = QAction("&Export Recipe", self,
+            shortcut=QKeySequence(Qt.CTRL + Qt.Key_E),
+            statusTip="Export a recipe file",
+            triggered=self.export_recipe_file)
+        
+        self.saveRoastGraphAct = QAction("&Save Roast Graph", self,
+            shortcut=QKeySequence(Qt.CTRL + Qt.Key_K),
+            statusTip="Save an image of the roast graph",
+            triggered=self.roast.save_roast_graph)
+        
+        # Edit menu actions.
+        self.saveAct = QAction("&Save", self, shortcut=QKeySequence.Save,
+            statusTip="Save the document to disk", triggered=self.save)
+
+        self.exitAct = QAction("E&xit", self, shortcut="Ctrl+Q",
+            statusTip="Exit the application", triggered=self.close)
+
+        self.undoAct = QAction("&Undo", self, shortcut=QKeySequence.Undo,
+            statusTip="Undo the last operation", triggered=self.undo)
+
+        self.redoAct = QAction("&Redo", self, shortcut=QKeySequence.Redo,
+            statusTip="Redo the last operation", triggered=self.redo)
+
+        self.cutAct = QAction("Cu&t", self, shortcut=QKeySequence.Cut,
+            statusTip="Cut the current selection's contents to the clipboard",
+            triggered=self.cut)
+
+        self.copyAct = QAction("&Copy", self, shortcut=QKeySequence.Copy,
+            statusTip="Copy the current selection's contents to the clipboard",
+            triggered=self.copy)
+
+        self.pasteAct = QAction("&Paste", self, shortcut=QKeySequence.Paste,
+            statusTip="Paste the clipboard's contents into the current selection",
+            triggered=self.paste)
+
+    def create_menus(self):
         menubar = self.menuBar()
 
         # Create file menu.
-        self.fileMenu = menubar.addMenu("File")
-        self.fileMenu.addAction("New Roast", self.roast.start_new_roast)
-        self.fileMenu.addAction("Import Recipe", self.import_recipe_file)
+        self.fileMenu = menubar.addMenu("&File")
+        self.fileMenu.addAction(self.clearRoastAct)
+        self.fileMenu.addAction(self.newRoastAct)
+        self.fileMenu.addSeparator()
+        self.fileMenu.addAction(self.importRecipeAct)
+        self.fileMenu.addAction(self.exportRecipeAct)
+        self.fileMenu.addSeparator()
+        self.fileMenu.addAction(self.saveRoastGraphAct)
+
+        self.editMenu = self.menuBar().addMenu("&Edit")
+        self.editMenu.addAction(self.undoAct)
+        self.editMenu.addAction(self.redoAct)
+        self.editMenu.addSeparator()
+        self.editMenu.addAction(self.cutAct)
+        self.editMenu.addAction(self.copyAct)
+        self.editMenu.addAction(self.pasteAct)
+
+        # Create help menu.
+        helpMenu = menubar.addMenu("&Help")
+        helpMenu.addAction("About", self.roast.clear_roast)
+
+    def save(self):
+        self.infoLabel.setText("Invoked <b>File|Save</b>")
+
+    def undo(self):
+        self.infoLabel.setText("Invoked <b>Edit|Undo</b>")
+
+    def redo(self):
+        self.infoLabel.setText("Invoked <b>Edit|Redo</b>")
+
+    def cut(self):
+        self.infoLabel.setText("Invoked <b>Edit|Cut</b>")
+
+    def copy(self):
+        self.infoLabel.setText("Invoked <b>Edit|Copy</b>")
+
+    def paste(self):
+        self.infoLabel.setText("Invoked <b>Edit|Paste</b>")
 
     def create_toolbar(self):
         # Create toolbar.
@@ -122,3 +209,6 @@ class MainWindow(QMainWindow):
             pass
         else:
             pass
+
+    def export_recipe_file(self):
+        pass
