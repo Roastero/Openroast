@@ -39,7 +39,8 @@ class About(QDialog):
         self.licenseLabel.setAlignment(Qt.AlignCenter)
         with open('../LICENSE', 'r') as file:
              licenseText = file.read()
-        self.licenseTextBox = QTextEdit(licenseText)
+        self.licenseTextBox = QTextEdit()
+        self.licenseTextBox.setText(licenseText)
         self.licenseTextBox.setReadOnly(True)
 
         # Version
