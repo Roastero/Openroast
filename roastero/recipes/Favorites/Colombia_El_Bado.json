@@ -1,29 +1,49 @@
 {
-  "recipeID" : "0006",
-  "roastName" : "Colombia El Bado",
-  "steps" : [
-    {"fanSpeed" : 9, "targetTemp" : 350, "sectionTime" : 180},
-    {"fanSpeed" : 9, "targetTemp" : 390, "sectionTime" : 120},
-    {"fanSpeed" : 5, "targetTemp" : 420, "sectionTime" : 150},
-    {"fanSpeed" : 5, "targetTemp" : 440, "sectionTime" : 150},
-    {"fanSpeed" : 3, "targetTemp" : 460, "sectionTime" : 120},
-    {"fanSpeed" : 9, "sectionTime" : 120, "cooling" : true}
-  ],
-  "roastDescription" : {
-    "roastType" : "City",
-    "description" : "New roast from Joe Beans"
-  },
-  "creator" : "lodge93",
-  "totalTime" : 840,
-  "bean" : {
-    "region" : "South America",
-    "country" : "Colombia",
-    "source" : {
-      "reseller" : "Joe Beans",
-      "link" : "http://www.joebeanroasters.com/"
-    }
-  },
-  "compatibleRoasters" : [
-    "Fresh Roast SR700"
-  ]
+    "roastName": "Colombia El Bado",
+    "roastDescription": {
+        "description": "New roast from Joe Beans",
+        "roastType": "Full City"
+    },
+    "totalTime": 840,
+    "bean": {
+        "region": "South America",
+        "source": {
+            "reseller": "Joe Beans",
+            "link": "http://www.joebeanroasters.com/"
+        },
+        "country": "Colombia"
+    },
+    "steps": [
+        {
+            "targetTemp": 350,
+            "sectionTime": 180,
+            "fanSpeed": 9
+        },
+        {
+            "targetTemp": 390,
+            "sectionTime": 120,
+            "fanSpeed": 9
+        },
+        {
+            "targetTemp": 420,
+            "sectionTime": 150,
+            "fanSpeed": 5
+        },
+        {
+            "targetTemp": 440,
+            "sectionTime": 150,
+            "fanSpeed": 5
+        },
+        {
+            "targetTemp": 460,
+            "sectionTime": 120,
+            "fanSpeed": 3
+        },
+        {
+            "cooling": true,
+            "sectionTime": 120,
+            "fanSpeed": 9
+        }
+    ],
+    "creator": "lodge93"
 }
