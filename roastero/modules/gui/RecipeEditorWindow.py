@@ -3,7 +3,7 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
-# Matplotlib imports
+# Standard Library Imports
 import json, time, os
 from functools import partial
 

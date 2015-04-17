@@ -6,10 +6,12 @@ from PyQt5.QtGui import *
 # Local project imports
 from .RoastTab import RoastTab
 from .RecipesTab import RecipesTab
+from .AboutWindow import About
 from ..roaster_libraries.FreshRoastSR700 import FreshRoastSR700
 from ..roaster_libraries.Recipe import Recipe
 
 # Standard Library Imports
+import json
 from shutil import copy2
 
 class MainWindow(QMainWindow):
@@ -66,6 +68,10 @@ class MainWindow(QMainWindow):
             statusTip="Save an image of the roast graph",
             triggered=self.roast.save_roast_graph)
 
+        self.openAboutWindow = QAction("&About", self,
+            statusTip="About Roastero",
+            triggered=self.open_about_window)
+
     def create_menus(self):
         menubar = self.menuBar()
 
@@ -80,8 +86,8 @@ class MainWindow(QMainWindow):
         self.fileMenu.addAction(self.saveRoastGraphAct)
 
         # Create help menu.
-        helpMenu = menubar.addMenu("&Help")
-        helpMenu.addAction("About", self.roast.clear_roast)
+        self.helpMenu = menubar.addMenu("&Help")
+        self.helpMenu.addAction(self.openAboutWindow)
 
     def create_toolbar(self):
         # Create toolbar.
@@ -160,4 +166,20 @@ class MainWindow(QMainWindow):
             pass
 
     def export_recipe_file(self):
-        pass
+        try:
+            recipeFile = QFileDialog.getSaveFileName(self, 'Export Recipe','',
+                'Recipes (*.json);;All Files (*)')
+            jsonObject = json.dumps(self.roast.get_recipe_object().get_current_recipe(), indent=4)
+
+            file = open(recipeFile[0], 'w')
+            file.write(jsonObject)
+            file.close()
+        except FileNotFoundError:
+            # Occurs if file browser is canceled
+            pass
+        else:
+            pass
+
+    def open_about_window(self):
+        self.aboutWindow = About()
+        self.aboutWindow.exec_()

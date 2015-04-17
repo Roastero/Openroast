@@ -6,6 +6,9 @@ class Recipe:
         self.roaster = roaster
         self.currentRecipeStep = 0
 
+        # Stores recipe
+        self.recipe = {}
+
         # Tells if a recipe has been loaded
         self.recipeLoaded = False
 
@@ -98,3 +101,6 @@ class Recipe:
             self.roaster.sleep()
         else:
             self.load_current_section()
+
+    def get_current_recipe(self):
+        return self.recipe

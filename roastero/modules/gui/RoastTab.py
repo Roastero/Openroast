@@ -427,3 +427,6 @@ class RoastTab(QWidget):
         self.targetTempLabel.setText(str(self.roaster.get_target_temp()))
         self.change_target_temp_slider(self.roaster.get_target_temp())
         self.update_fan_box()
+
+    def get_recipe_object(self):
+        return self.recipe
