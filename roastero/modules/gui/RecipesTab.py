@@ -1,7 +1,12 @@
+# PyQt imports
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+
+# Standard Library Imports
 import os, json, time, webbrowser
+
+# Local project imports
 from ..gui.RecipeEditorWindow import RecipeEditor
 from ..gui.CustomQtWidgets import RecipeModel
 

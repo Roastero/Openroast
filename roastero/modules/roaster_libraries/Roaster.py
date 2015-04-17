@@ -1,5 +1,7 @@
-import time
-import threading
+# Standard Library Imports
+import time, threading
+
+# Local project imports
 from ..tools.pid import *
 from ..roaster_libraries.Recipe import Recipe
 

@@ -1,8 +1,13 @@
+# PyQt imports
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
+
+# Matplotlib imports
 import json, time, os
 from functools import partial
+
+# Local project imports
 from ..gui.CustomQtWidgets import TimeEditNoWheel, ComboBoxNoWheel
 from ..tools.fileNameFormatter import format_filename
 

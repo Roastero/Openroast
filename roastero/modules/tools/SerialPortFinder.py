@@ -3,8 +3,11 @@
 # Authors: Mark Spicer, Caleb Coffie
 # Purpose: Return the serial port url when given a VID:PID
 
-from serial.tools import list_ports
+# Standard Library Imports
 import re
+
+# Local project imports
+from serial.tools import list_ports
 
 def vid_pid_to_serial_url(vidpid):
     #Get all com ports currently connected to the system

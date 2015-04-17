@@ -1,8 +1,11 @@
+# PyQt imports
 from PyQt5.QtWidgets import *
+from PyQt5.QtCore import *
 from PyQt5.QtGui import QIcon
+
+# Local project imports
 from .RoastTab import RoastTab
 from .RecipesTab import RecipesTab
-from PyQt5.QtCore import *
 from ..roaster_libraries.FreshRoastSR700 import FreshRoastSR700
 from ..roaster_libraries.Recipe import Recipe
 

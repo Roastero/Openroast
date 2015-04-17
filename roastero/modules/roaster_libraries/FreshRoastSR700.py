@@ -3,17 +3,13 @@
 # Authors: Mark Spicer, Caleb Coffie
 # Purpose: A class to interface with the Fresh Roast SR700 coffee roaster.
 
-# Import necessary modules.
-import threading
-import sys
-import serial                       # Used for serial communications.
-import struct                       # Used to convert ints to two hex bytes.
-import time                         # Used for the count down timer.
-from ..tools.SerialPortFinder import *    # Import Serial port finder
-from ..tools.pid import *
-import binascii
-from .Roaster import Roaster
+# Standard Library Imports
+import threading, sys, serial, struct, time, binascii
 
+# Local project imports
+from ..tools.SerialPortFinder import *
+from ..tools.pid import *
+from .Roaster import Roaster
 
 # Define FreshRoastSR700 class.
 class FreshRoastSR700(Roaster):

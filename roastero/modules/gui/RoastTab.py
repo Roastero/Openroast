@@ -1,11 +1,13 @@
-import datetime
-import matplotlib
-import threading
-import time
-import math
-matplotlib.use('Qt5Agg')
+# Standard Library Imports
+import datetime, time, math
+
+# PyQt imports
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
+
+# Matplotlib imports
+import matplotlib
+matplotlib.use('Qt5Agg')
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 from matplotlib.dates import MinuteLocator, DateFormatter
@@ -13,6 +15,7 @@ from matplotlib.backend_bases import key_press_handler
 from matplotlib.backends.backend_qt5agg import (
     FigureCanvasQTAgg as FigureCanvas,
     NavigationToolbar2QT as NavigationToolbar)
+
 
 class RoastTab(QWidget):
     def __init__(self, roasterObject, recipeObject):
