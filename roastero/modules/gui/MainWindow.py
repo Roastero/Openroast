@@ -1,13 +1,16 @@
 # PyQt imports
 from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
-from PyQt5.QtGui import QIcon
+from PyQt5.QtGui import *
 
 # Local project imports
 from .RoastTab import RoastTab
 from .RecipesTab import RecipesTab
 from ..roaster_libraries.FreshRoastSR700 import FreshRoastSR700
 from ..roaster_libraries.Recipe import Recipe
+
+# Standard Library Imports
+from shutil import copy2
 
 class MainWindow(QMainWindow):
     def __init__(self):
@@ -41,9 +44,8 @@ class MainWindow(QMainWindow):
 
         # Create file menu.
         self.fileMenu = menubar.addMenu("File")
-        # self.fileMenu.addAction("Connect Roaster", self.roast.connect_roaster)
         self.fileMenu.addAction("New Roast", self.roast.start_new_roast)
-        # self.fileMenu.addAction("Use Recipe", self.roast.current_section)
+        self.fileMenu.addAction("Import Recipe", self.import_recipe_file)
 
     def create_toolbar(self):
         # Create toolbar.
@@ -109,3 +111,14 @@ class MainWindow(QMainWindow):
 
         # Set selected button disabled.
         self.tabButtons[index].setEnabled(False)
+
+    def import_recipe_file(self):
+        try:
+            recipeFile = QFileDialog.getOpenFileName(self, 'Select Recipe','',
+                '/', 'Recipes (*.json);;All Files (*)')
+            copy2(recipeFile[0], "./recipes/Local/")
+        except FileNotFoundError:
+            # Occurs if file browser is canceled
+            pass
+        else:
+            pass
