@@ -161,21 +161,18 @@ class RecipesTab(QWidget):
         been selected."""
         indexItem = self.model.index(index.row(), 0, index.parent())
 
-        filePath = self.model.filePath(indexItem)
+        self.selectedFilePath = self.model.filePath(indexItem)
 
         # Allow single click expanding of folders
-        if os.path.isdir(filePath):
+        if os.path.isdir(self.selectedFilePath):
             if self.recipeBrowser.isExpanded(indexItem):
                 self.recipeBrowser.collapse(indexItem)
             else:
                 self.recipeBrowser.expand(indexItem)
         # Handles when a file is clicked
         else:
-            with open(filePath) as json_data:
-                recipeObject = json.load(json_data)
-            self.currentlySelectedRecipe = recipeObject
-            self.currentlySelectedRecipePath = filePath
-            self.load_recipe_information(recipeObject)
+            # Load recipe information from file
+            self.load_recipe_file(self.selectedFilePath)
 
             # Set lower buttons enabled once recipe is selected.
             self.beanLinkButton.setEnabled(True)
@@ -184,6 +181,14 @@ class RecipesTab(QWidget):
 
             # Hide recipe selection label once a recipe is selected.
             self.recipeSelectionLabel.setHidden(True)
+
+    def load_recipe_file(self, filePath):
+        """Used to load file from a path into selected recipe object."""
+        with open(filePath) as json_data:
+            recipeObject = json.load(json_data)
+        self.currentlySelectedRecipe = recipeObject
+        self.currentlySelectedRecipePath = filePath
+        self.load_recipe_information(self.currentlySelectedRecipe)
 
     def load_recipe_information(self, recipeObject):
         """Loads recipe information the into the right hand column fields.
@@ -249,10 +254,17 @@ class RecipesTab(QWidget):
 
     def open_recipe_editor(self):
         """Method used to open Recipe Editor Window with an existing recipe."""
-        self.editorWindow = RecipeEditor(self.currentlySelectedRecipePath)
+        self.editorWindow = RecipeEditor(recipeLocation = self.currentlySelectedRecipePath)
         self.editorWindow.exec_()
+        self.load_recipe_file(self.selectedFilePath)
+
 
     def create_new_recipe(self):
         """Method used to open Recipe Editor Window for a new recipe."""
         self.editorWindow = RecipeEditor()
         self.editorWindow.exec_()
+        self.load_recipe_file(self.selectedFilePath)
+
+    def get_currently_selected_recipe(self):
+        """returns currently selected recipe for use in Recipe Editor Window."""
+        return self.currentlySelectedRecipe
