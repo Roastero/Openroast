@@ -35,7 +35,6 @@ class About(QDialog):
 
         # License
         self.licenseLabel = QLabel("License")
-        self.licenseLabel.setObjectName("licenseLabel")
         self.licenseLabel.setAlignment(Qt.AlignCenter)
         with open('../LICENSE', 'r') as file:
              licenseText = file.read()
@@ -44,6 +43,7 @@ class About(QDialog):
 
         # Version
         self.versionLabel = QLabel("Version - 0.1")
+        self.versionLabel.setObjectName("versionLabel")
         self.versionLabel.setAlignment(Qt.AlignCenter)
 
         # Created by

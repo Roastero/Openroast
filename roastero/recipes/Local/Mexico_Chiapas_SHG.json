@@ -1,39 +1,39 @@
 {
-    "roastName": "Mexico Chiapas SHG",
     "roastDescription": {
-        "description": "Grown on the Guillen Ranch. Shade grown, wet processed",
-        "roastType": "Light City"
+        "roastType": "Light City",
+        "description": "Grown on the Guillen Ranch. Shade grown, wet processed"
     },
-    "totalTime": 70,
-    "bean": {
-        "region": "North America",
-        "source": {
-            "reseller": "Home Roasting Supplies",
-            "link": "http://homeroastingsupplies.com/product/mexico-chiapas-shg/"
-        },
-        "country": "Mexico"
-    },
+    "creator": "lodge93",
     "steps": [
         {
-            "targetTemp": 370,
-            "sectionTime": 30,
-            "fanSpeed": 9
-        },
-        {
+            "fanSpeed": 9,
             "targetTemp": 420,
-            "sectionTime": 20,
-            "fanSpeed": 9
+            "sectionTime": 20
         },
         {
+            "fanSpeed": 9,
+            "targetTemp": 290,
+            "sectionTime": 130
+        },
+        {
+            "fanSpeed": 5,
             "targetTemp": 470,
-            "sectionTime": 10,
-            "fanSpeed": 5
+            "sectionTime": 10
         },
         {
+            "fanSpeed": 9,
             "cooling": true,
-            "sectionTime": 10,
-            "fanSpeed": 9
+            "sectionTime": 10
         }
     ],
-    "creator": "lodge93"
+    "totalTime": 170,
+    "bean": {
+        "country": "Mexico",
+        "region": "North America",
+        "source": {
+            "link": "http://homeroastingsupplies.com/product/mexico-chiapas-shg/",
+            "reseller": "Home Roasting Supplies"
+        }
+    },
+    "roastName": "Mexico Chiapas SHG"
 }

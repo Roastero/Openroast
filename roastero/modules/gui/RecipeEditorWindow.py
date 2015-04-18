@@ -28,7 +28,8 @@ class RecipeEditor(QDialog):
         self.create_ui()
 
         self.recipe = {}
-        self.recipe["steps"] = [{'fanSpeed': 5, 'targetTemp': 150, 'sectionTime': 0}]
+        self.recipe["steps"] = [{'fanSpeed': 5, 'targetTemp': 150, 
+            'sectionTime': 0}]
 
         if recipeLocation:
             self.load_recipe_file(recipeLocation)
@@ -159,10 +160,12 @@ class RecipeEditor(QDialog):
         recipeStepsTable.setAlternatingRowColors(True)
         recipeStepsTable.setCornerButtonEnabled(False)
         recipeStepsTable.horizontalHeader().setSectionResizeMode(1)
+        recipeStepsTable.setSelectionMode(QAbstractItemView.NoSelection)
 
         # Steps spreadsheet
         recipeStepsTable.setColumnCount(4)
-        recipeStepsTable.setHorizontalHeaderLabels(["Temperature", "Fan Speed", "Section Time", "Modify"])
+        recipeStepsTable.setHorizontalHeaderLabels(["Temperature", 
+            "Fan Speed", "Section Time", "Modify"])
 
         return recipeStepsTable
 
@@ -189,13 +192,17 @@ class RecipeEditor(QDialog):
             recipeStepsTable.insertRow(recipeStepsTable.rowCount())
             # Temperature Value
             sectionTempWidget = ComboBoxNoWheel()
+            sectionTempWidget.setObjectName("recipeEditCombo")
             sectionTempWidget.addItems(targetTempChoices)
             sectionTempWidget.insertSeparator(1)
+
             if 'targetTemp' in steps[row]:
                 sectionTemp = steps[row]["targetTemp"]
                 # Accommodate for temperature not fitting in 10 increment list
                 if str(steps[row]["targetTemp"]) in targetTempChoices:
-                    sectionTempWidget.setCurrentIndex(targetTempChoices.index(str(steps[row]["targetTemp"]))+1)
+                    sectionTempWidget.setCurrentIndex(
+                        targetTempChoices.index(
+                        str(steps[row]["targetTemp"]))+1)
                 else:
                     roundedNumber = steps[row]["targetTemp"] - (steps[row]["targetTemp"] % 10)
                     sectionTempWidget.insertItem(targetTempChoices.index(str(roundedNumber))+2, str(steps[row]["targetTemp"]))
@@ -208,6 +215,8 @@ class RecipeEditor(QDialog):
 
             # Time Value
             sectionTimeWidget = TimeEditNoWheel()
+            sectionTimeWidget.setObjectName("recipeEditTime")
+            sectionTimeWidget.setAttribute(Qt.WA_MacShowFocusRect, 0)
             sectionTimeWidget.setDisplayFormat("mm:ss")
             # Set QTimeEdit to the right time from recipe
             sectionTimeStr = time.strftime("%M:%S", time.gmtime(steps[row]["sectionTime"]))
@@ -216,31 +225,41 @@ class RecipeEditor(QDialog):
 
             # Fan Speed Value
             sectionFanSpeedWidget = ComboBoxNoWheel()
+            sectionFanSpeedWidget.setObjectName("recipeEditCombo")
+
             sectionFanSpeedWidget.addItems(fanSpeedChoices)
             sectionFanSpeedWidget.setCurrentIndex(fanSpeedChoices.index(str(steps[row]["fanSpeed"])))
 
             # Modify Row field
             upArrow = QPushButton()
-            upArrow.setIcon(QIcon('modules/gui/images/upArrow.png'))
+            upArrow.setObjectName("upArrow")
+            upArrow.setIcon(QIcon('static/images/upSmall.png'))
             upArrow.clicked.connect(partial(self.move_recipe_step_up, row))
             downArrow = QPushButton()
-            downArrow.setIcon(QIcon('modules/gui/images/downArrow.png'))
+            downArrow.setObjectName("downArrow")
+            downArrow.setIcon(QIcon('static/images/downSmall.png'))
             downArrow.clicked.connect(partial(self.move_recipe_step_down, row))
-            deleteRow = QPushButton("X")
+            deleteRow = QPushButton()
+            deleteRow.setIcon(QIcon('static/images/delete.png'))
+            deleteRow.setObjectName("deleteRow")
             deleteRow.clicked.connect(partial(self.delete_recipe_step, row))
-            insertRow = QPushButton("+")
+            insertRow = QPushButton()
+            insertRow.setIcon(QIcon('static/images/plus.png'))
+            insertRow.setObjectName("insertRow")
             insertRow.clicked.connect(partial(self.insert_recipe_step, row))
 
             # Create a grid layout to add all the widgets to
-            modifyRowWidgetLayout = QGridLayout()
+            modifyRowWidgetLayout = QHBoxLayout()
             modifyRowWidgetLayout.setSpacing(0)
-            modifyRowWidgetLayout.addWidget(upArrow, 0, 0)
-            modifyRowWidgetLayout.addWidget(downArrow, 1, 0)
-            modifyRowWidgetLayout.addWidget(deleteRow, 0, 1)
-            modifyRowWidgetLayout.addWidget(insertRow, 1, 1)
+            modifyRowWidgetLayout.setContentsMargins(0,0,0,0)
+            modifyRowWidgetLayout.addWidget(upArrow)
+            modifyRowWidgetLayout.addWidget(downArrow)
+            modifyRowWidgetLayout.addWidget(deleteRow)
+            modifyRowWidgetLayout.addWidget(insertRow)
 
             # Assign Layout to a QWidget to add to a single column
             modifyRowWidget = QWidget()
+            modifyRowWidget.setObjectName("buttonTable")
             modifyRowWidget.setLayout(modifyRowWidgetLayout)
 
             # Add widgets

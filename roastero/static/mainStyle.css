@@ -52,6 +52,7 @@ QLabel#logo{
     font-family: "Asap";
     font-size: 20px;
     font: bold;
+    text-transform: uppercase;
 }
 
 /* Element definitions. */
@@ -87,6 +88,7 @@ QListWidget{
 
 QListView {
     outline: none;
+    text-align: center;
 }
 
 QListWidget::item {
@@ -133,12 +135,12 @@ QComboBox:on { /* shift the text when the popup opens */
 QComboBox QAbstractItemView {
     border-radius: 5px;
     border: 1px;
-    background-color: #148eb5;
+    background-color: #2691bd;
 }
 
 QComboBox::drop-down {
     width: 35px;
-    background-color: #148eb5;
+    background-color: #2691bd;
     border-left-width: 1px;
     border-left-color: #1d86aa;
     border-left-style: solid;
@@ -176,7 +178,7 @@ QSpinBox::up-button {
 }
 
 QSpinBox::up-button:pressed {
-    background-color: #148eb5;
+    background-color: #2691bd;
 }
 
 QSpinBox::up-button:disabled {
@@ -195,7 +197,7 @@ QSpinBox::down-button {
 }
 
 QSpinBox::down-button:pressed {
-    background-color: #148eb5;
+    background-color: #2691bd;
 }
 
 QSpinBox::down-button:disabled {
@@ -316,7 +318,7 @@ QTimeEdit::up-button {
 }
 
 QTimeEdit::up-button:pressed {
-    background-color: #148eb5;
+    background-color: #2691bd;
 }
 
 QTimeEdit::down-button {
@@ -330,7 +332,7 @@ QTimeEdit::down-button {
 }
 
 QTimeEdit::down-button:pressed {
-    background-color: #148eb5;
+    background-color: #2691bd;
 }
 
 QPushButton#smallButton {
@@ -532,4 +534,116 @@ QLabel#RecipeName {
 QLabel#recipeSelectionLabel {
     border-radius: 5px;
     background-color: #2e3138; 
+}
+
+/* Recipe editor definitions. */
+QComboBox#recipeEditCombo {
+    background-color: transparent;
+    selection-background-color: #2aa1d3;
+    color: #fff;
+    font-family: "Asap";
+    font: bold;
+    font-size: 12px;
+}
+
+QComboBox#recipeEditCombo:on { /* shift the text when the popup opens */
+    padding: 5px;
+}
+
+QComboBox#recipeEditCombo QAbstractItemView {
+    border-radius: 5px;
+    border: 1px;
+    background-color: #2691bd;
+}
+
+QComboBox#recipeEditCombo::drop-down {
+    background-color: transparent;
+    border: none;
+}
+
+QComboBox#recipeEditCombo::down-arrow {
+    image: none;
+}
+
+QTimeEdit#recipeEditTime {
+    background-color: transparent;
+    selection-background-color: #2aa1d3;
+    selection-color: #fff;
+    color: #fff;
+    font-family: "Asap";
+    font: bold;
+}
+
+QTimeEdit#recipeEditTime QSpinBox {
+    background-color: transparent;
+    color: #fff;
+    font-family: "Asap";
+    font: bold;
+}
+
+QTimeEdit#recipeEditTime::up-button {
+    background-color: transparent;
+    border: none;
+    image: url(static/images/upArrow.png);
+}
+
+QTimeEdit#recipeEditTime::down-button {
+    background-color: transparent;
+    border: none;
+    image: url(static/images/downArrow.png);
+}
+
+QPushButton#upArrow {
+    background-color: #2aa1d3;
+    padding: 0px;
+    margin: 2px;
+    border-radius: 5px;    
+}
+
+QPushButton#upArrow:pressed {
+    background-color: #2691bd;
+}
+
+QPushButton#downArrow {
+    background-color: #2aa1d3;
+    padding: 0px;
+    margin: 2px;
+    border-radius: 5px;    
+}
+
+QPushButton#downArrow:pressed {
+    background-color: #2691bd;
+}
+
+QPushButton#deleteRow {
+    background-color: #f0b017;
+    padding: 0px;
+    margin: 2px;
+    border-radius: 5px;    
+}
+
+QPushButton#deleteRow:pressed {
+    background-color: #c08d12;
+}
+
+QPushButton#insertRow {
+    background-color: #8ab71b;
+    padding: 0px;
+    margin: 2px;
+    border-radius: 5px;    
+}
+
+QPushButton#insertRow:pressed {
+    background-color: #7ca418;
+}
+
+QWidget#buttonTable {
+    padding: 0px;
+    margin: 0px;
+    height: 8px;
+}
+
+/* About window definitions */
+QLabel#versionLabel {
+    font-size: 16px;
 }
