@@ -28,7 +28,7 @@ class RecipeEditor(QDialog):
         self.create_ui()
 
         self.recipe = {}
-        self.recipe["steps"] = [{'fanSpeed': 5, 'targetTemp': 150, 
+        self.recipe["steps"] = [{'fanSpeed': 5, 'targetTemp': 150,
             'sectionTime': 0}]
 
         if recipeLocation:
@@ -164,7 +164,7 @@ class RecipeEditor(QDialog):
 
         # Steps spreadsheet
         recipeStepsTable.setColumnCount(4)
-        recipeStepsTable.setHorizontalHeaderLabels(["Temperature", 
+        recipeStepsTable.setHorizontalHeaderLabels(["Temperature",
             "Fan Speed", "Section Time", "Modify"])
 
         return recipeStepsTable
@@ -383,7 +383,7 @@ class RecipeEditor(QDialog):
         if "file" in self.recipe:
             filePath = self.recipe["file"]
         else:
-            filePath = os.path.abspath("./recipes/local") + "/" + format_filename(self.recipeName.text()) + ".json"
+            filePath = os.path.expanduser('~/Documents/Roastero/recipes/local/') + format_filename(self.recipeName.text()) + ".json"
             # TODO: Account for existing file with same name
 
         # Create Dictionary with all the new recipe information

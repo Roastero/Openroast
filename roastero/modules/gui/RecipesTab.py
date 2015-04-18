@@ -61,7 +61,7 @@ class RecipesTab(QWidget):
         # Create a TreeView to view the information from the model
         self.recipeBrowser = QTreeView()
         self.recipeBrowser.setModel(self.model)
-        self.recipeBrowser.setRootIndex(self.model.index("./recipes"))
+        self.recipeBrowser.setRootIndex(self.model.index(os.path.expanduser('~/Documents/Roastero/recipes/')))
         self.recipeBrowser.setFocusPolicy(Qt.NoFocus)
         self.recipeBrowser.header().close()
 
