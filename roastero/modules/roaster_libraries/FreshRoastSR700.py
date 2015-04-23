@@ -122,8 +122,10 @@ class FreshRoastSR700(Roaster):
     def comm(self, threadNum):
         while(self.cont == True):
             s = self.gen_packet()
+            print(' '.join(map('{:02X}'.format, s))) # Print Statement to debug comm
             self.send_packet(s)
             r = self.recv_packet()
+            print(' '.join(map('{:02X}'.format, r))) # Print Statement to debug comm
             self.open_packet(r)
 
             # Control rate at which packets are sent.
