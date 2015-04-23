@@ -5,7 +5,6 @@ A coffee roasting application to control the Fresh Roast SR700.
 
 - Python3
 - PyQt5
-- Qt5
 - Matplotlib 1.4.0+
 
 ## Usage
@@ -67,7 +66,7 @@ The same goes for pyqt5. You will have to download it from [here](http://www.riv
     python3 roastero.py
 
 ## Fedora 21 Linux
-    
+
     sudo yum install python3-devel freetype-devel gcc gcc-c++
     sudo pip3 install pyserial matplotlib python-qt5
     git clone https://github.com/Roastero/Roastero.git
