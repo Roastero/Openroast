@@ -162,7 +162,7 @@ class MainWindow(QMainWindow):
         try:
             recipeFile = QFileDialog.getOpenFileName(self, 'Select Recipe','',
                 '/', 'Recipes (*.json);;All Files (*)')
-            copy2(recipeFile[0], "./recipes/Local/")
+            copy2(recipeFile[0], os.path.expanduser('~/Documents/Roastero/recipes/'))
         except FileNotFoundError:
             # Occurs if file browser is canceled
             pass
