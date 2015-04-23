@@ -319,7 +319,7 @@ class RoastTab(QWidget):
 
         # Create temperature slider.
         self.tempSlider = QSlider(Qt.Horizontal)
-        self.tempSlider.setRange(150, 500)
+        self.tempSlider.setRange(150, 550)
         self.tempSlider.sliderMoved.connect(self.change_target_temp)
         self.tempSlider.sliderPressed.connect(self.toggle_temp_slider_status)
         self.tempSlider.sliderReleased.connect(self.toggle_temp_slider_status)
