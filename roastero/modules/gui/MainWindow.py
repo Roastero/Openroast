@@ -11,7 +11,7 @@ from ..roaster_libraries.FreshRoastSR700 import FreshRoastSR700
 from ..roaster_libraries.Recipe import Recipe
 
 # Standard Library Imports
-import json
+import json, os
 from shutil import copy2
 
 class MainWindow(QMainWindow):

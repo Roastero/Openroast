@@ -185,7 +185,7 @@ class RecipeEditor(QDialog):
         rows on the bottom if there are exiting rows."""
         # Create spreadsheet choices
         fanSpeedChoices = [str(x) for x in range(1,10)]
-        targetTempChoices = ["Cooling"] + [str(x) for x in range(150, 501, 10)]
+        targetTempChoices = ["Cooling"] + [str(x) for x in range(150, 551, 10)]
 
         # loop through recipe and load each step
         for row in range(len(steps)):
