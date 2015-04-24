@@ -244,6 +244,9 @@ class RecipesTab(QWidget):
     def load_recipe(self):
         """Loads a JSON recipe file. This information is later used to populate
         the right-hand column."""
+        if (self.recipe.check_recipe_loaded()):
+            self.roastTab.clear_roast()
+
         self.recipe.load_recipe_json(self.currentlySelectedRecipe)
         self.roastTab.load_recipe_into_roast_tab()
         self.MainWindow.select_roast_tab()
