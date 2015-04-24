@@ -96,6 +96,6 @@ background-color: darken($blue, 15%)
 Qt does not allow the darken css tag, and therefore the actual color
 values need to be entered.
 
-- Blue: #2691bd
-- Green: #7ca418
-- Yellow: #c08d12
+- Blue: #047bad
+- Green: #649100
+- Yellow: #ca8a00

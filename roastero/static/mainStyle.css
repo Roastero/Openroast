@@ -43,7 +43,7 @@ QPushButton#loginButton {
 }
 
 QPushButton#loginButton:pressed {
-    background-color: #7ca418;
+    background-color: #649100;
 }
 
 QLabel#logo{
@@ -73,7 +73,7 @@ QPushButton:disabled {
 }
 
 QPushButton:pressed {
-    background-color: #2691bd;
+    background-color: #047bad;
 }
 
 QListWidget{
@@ -135,12 +135,12 @@ QComboBox:on { /* shift the text when the popup opens */
 QComboBox QAbstractItemView {
     border-radius: 5px;
     border: 1px;
-    background-color: #2691bd;
+    background-color: #047bad;
 }
 
 QComboBox::drop-down {
     width: 35px;
-    background-color: #2691bd;
+    background-color: #047bad;
     border-left-width: 1px;
     border-left-color: #1d86aa;
     border-left-style: solid;
@@ -178,7 +178,7 @@ QSpinBox::up-button {
 }
 
 QSpinBox::up-button:pressed {
-    background-color: #2691bd;
+    background-color: #047bad;
 }
 
 QSpinBox::up-button:disabled {
@@ -197,7 +197,7 @@ QSpinBox::down-button {
 }
 
 QSpinBox::down-button:pressed {
-    background-color: #2691bd;
+    background-color: #047bad;
 }
 
 QSpinBox::down-button:disabled {
@@ -318,7 +318,7 @@ QTimeEdit::up-button {
 }
 
 QTimeEdit::up-button:pressed {
-    background-color: #2691bd;
+    background-color: #047bad;
 }
 
 QTimeEdit::down-button {
@@ -332,7 +332,7 @@ QTimeEdit::down-button {
 }
 
 QTimeEdit::down-button:pressed {
-    background-color: #2691bd;
+    background-color: #047bad;
 }
 
 QPushButton#smallButton {
@@ -348,7 +348,7 @@ QPushButton#smallButton {
 }
 
 QPushButton#smallButton:pressed {
-    background-color: #7ca418;
+    background-color: #649100;
 }
 
 QPushButton#smallButton:disabled {
@@ -368,7 +368,7 @@ QPushButton#smallButtonAlt {
 }
 
 QPushButton#smallButtonAlt:pressed {
-    background-color: #c08d12;
+    background-color: #ca8a00;
 }
 
 QTableWidget {
@@ -553,7 +553,7 @@ QComboBox#recipeEditCombo:on { /* shift the text when the popup opens */
 QComboBox#recipeEditCombo QAbstractItemView {
     border-radius: 5px;
     border: 1px;
-    background-color: #2691bd;
+    background-color: #047bad;
 }
 
 QComboBox#recipeEditCombo::drop-down {
@@ -601,7 +601,7 @@ QPushButton#upArrow {
 }
 
 QPushButton#upArrow:pressed {
-    background-color: #2691bd;
+    background-color: #047bad;
 }
 
 QPushButton#downArrow {
@@ -612,7 +612,7 @@ QPushButton#downArrow {
 }
 
 QPushButton#downArrow:pressed {
-    background-color: #2691bd;
+    background-color: #047bad;
 }
 
 QPushButton#deleteRow {
@@ -623,7 +623,7 @@ QPushButton#deleteRow {
 }
 
 QPushButton#deleteRow:pressed {
-    background-color: #c08d12;
+    background-color: #ca8a00;
 }
 
 QPushButton#insertRow {
@@ -634,7 +634,7 @@ QPushButton#insertRow {
 }
 
 QPushButton#insertRow:pressed {
-    background-color: #7ca418;
+    background-color: #649100;
 }
 
 QWidget#buttonTable {
