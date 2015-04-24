@@ -160,9 +160,9 @@ class MainWindow(QMainWindow):
 
     def import_recipe_file(self):
         try:
-            recipeFile = QFileDialog.getOpenFileName(self, 'Select Recipe','',
-                '/', 'Recipes (*.json);;All Files (*)')
-            copy2(recipeFile[0], os.path.expanduser('~/Documents/Roastero/recipes/'))
+            recipeFile = QFileDialog.getOpenFileName(self, 'Select Recipe', 
+                os.path.expanduser('~/'), 'Recipes (*.json);;All Files (*)')
+            copy2(recipeFile[0], os.path.expanduser('~/Documents/Roastero/recipes/local'))
         except FileNotFoundError:
             # Occurs if file browser is canceled
             pass
