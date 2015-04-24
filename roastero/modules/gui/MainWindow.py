@@ -171,8 +171,8 @@ class MainWindow(QMainWindow):
 
     def export_recipe_file(self):
         try:
-            recipeFile = QFileDialog.getSaveFileName(self, 'Export Recipe','',
-                'Recipes (*.json);;All Files (*)')
+            recipeFile = QFileDialog.getSaveFileName(self, 'Export Recipe',
+                os.path.expanduser('~/'), 'Recipes (*.json);;All Files (*)')
             jsonObject = json.dumps(self.roast.get_recipe_object().get_current_recipe(), indent=4)
 
             file = open(recipeFile[0], 'w')
