@@ -53,8 +53,8 @@ class MainWindow(QMainWindow):
             statusTip="Clear the roast window",
             triggered=self.roast.clear_roast)
 
-        self.newRoastAct = QAction("&New Roast", self,
-            shortcut=QKeySequence.New, statusTip="Roast recipe again",
+        self.newRoastAct = QAction("&Roast Again", self,
+            shortcut=QKeySequence(Qt.CTRL + Qt.Key_R), statusTip="Roast recipe again",
             triggered=self.roast.reset_current_roast)
 
         self.importRecipeAct = QAction("&Import Recipe", self,
