@@ -43,7 +43,7 @@ class About(QDialog):
         self.licenseTextBox.setReadOnly(True)
 
         # Version
-        self.versionLabel = QLabel("Version - 0.1.2")
+        self.versionLabel = QLabel("Version - 0.2.0")
         self.versionLabel.setObjectName("versionLabel")
         self.versionLabel.setAlignment(Qt.AlignCenter)
 
