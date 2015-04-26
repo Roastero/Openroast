@@ -17,14 +17,15 @@ class FreshRoastSR700(Roaster):
         super().__init__()
 
         # Define variables for roaster settings.
-        self.header = ''            # 2 byte hex value
+        self.header = b'\xAA\xAA'   # 2 byte hex value
         self.id = b'\x61\x74'       # 2 byte hex value, does not change
-        self.flags = ''             # 1 byte hex value
-        self.currentState = ''      # 2 byte hex value
+        self.flags = b'\x63'        # 1 byte hex value
+        self.currentState = b''     # 2 byte hex value
         self.fanSpeed = 0           # Int from 0 to 9
         self.heatSetting = 0        # Int from 0 to 3
         self.footer = b'\xAA\xFA'   # 2 byte hex value, does not change
         self.time = 0.0             # Decimal of minutes to be sent to roaster
+        self.currentTemp = 150      # Set base temp
 
         # Additional variables
         self.program = []           # A list used to hold the roast program
@@ -34,13 +35,25 @@ class FreshRoastSR700(Roaster):
         autoConnectThread.daemon = True
         autoConnectThread.start()
 
-    def gen_packet(self):
+    def gen_packet(self, header=None, id=None, flags=None, currentState=None,
+        fanSpeed=None, time=None, heatSetting=None, footer=None):
+
+        header = header or self.header
+        id = id or self.id
+        flags = flags or self.flags
+        currentState = currentState or self.currentState
+        fanSpeed = fanSpeed or self.fanSpeed
+        time = time or self.time
+        heatSetting = heatSetting or self.heatSetting
+        footer = footer or self.footer
+
         # Return packet in byte format.
-        return (self.header + self.id + self.flags + self.currentState +
-        self.fanSpeed.to_bytes(1, byteorder='big') +
-        int(float(self.time * 10)).to_bytes(1, byteorder='big') +
-        self.heatSetting.to_bytes(1, byteorder='big') +
-        b'\x00\x00' + self.footer)
+        # print(type(footer))
+        return (header + id + flags + currentState +
+            fanSpeed.to_bytes(1, byteorder='big') +
+            int(float(time * 10)).to_bytes(1, byteorder='big') +
+            heatSetting.to_bytes(1, byteorder='big') +
+            b'\x00\x00' + footer)
 
     def open_packet(self, message):
         # Check if the temperature is lower than 150 and set accordingly.
@@ -48,31 +61,44 @@ class FreshRoastSR700(Roaster):
             self.currentTemp = 150
         else:
             self.currentTemp = int.from_bytes(bytes(message[10:-2]), byteorder='big')
+            # print(int.from_bytes(bytes(message[10:-2]), byteorder='big'))
 
     def send_packet(self, message):
+        # try:
         self.ser.write(message)
+        # except:
+        #     autoConnectThread = threading.Thread(target=self.auto_connect_thread, args=(5,))
+        #     self.threads.append(autoConnectThread)
+        #     autoConnectThread.daemon = True
+        #     autoConnectThread.start()
 
     def recv_packet(self):
+        # try:
         return self.ser.read(14)
+        # except:
+        #     autoConnectThread = threading.Thread(target=self.auto_connect_thread, args=(5,))
+        #     self.threads.append(autoConnectThread)
+        #     autoConnectThread.daemon = True
+        #     autoConnectThread.start()
 
     def initialize(self):
         # Set initial values of the roaster.
-        self.header = b'\xAA\x55'
-        self.flags = b'\x63'
-        self.currentState = b'\x00\x00'
-        self.fanSpeed = 0
-        self.time = 0.0
-        self.heatSetting = 0
-        self.currentTemp = 150
+        header = b'\xAA\x55'
+        flags = b'\x63'
+        currentState = b'\x00\x00'
+        fanSpeed = 0
+        time = 0.0
+        heatSetting = 0
 
         # Generate the initial message and send it
-        message = self.gen_packet()
+        message = self.gen_packet(header=header, flags=flags,
+            currentState=currentState, fanSpeed=fanSpeed, time=time,
+            heatSetting=heatSetting)
+        # print(' '.join(map('{:02X}'.format, message))) # Print Statement to debug comm
         self.send_packet(message)
 
-        # Set the header back to the regular header for comm
-        self.header = b'\xAA\xAA'
-
     def get_program(self):
+        self.program = []
         r = self.recv_packet()
         while(str(r)[14:-35] != "af"):
             r = self.recv_packet()
@@ -122,14 +148,23 @@ class FreshRoastSR700(Roaster):
     def comm(self, threadNum):
         while(self.cont == True):
             s = self.gen_packet()
-            print(' '.join(map('{:02X}'.format, s))) # Print Statement to debug comm
+            # print(' '.join(map('{:02X}'.format, s))) # Print Statement to debug comm
             self.send_packet(s)
             r = self.recv_packet()
-            print(' '.join(map('{:02X}'.format, r))) # Print Statement to debug comm
-            self.open_packet(r)
 
-            # Control rate at which packets are sent.
-            time.sleep(.25)
+            # Check if valid packet
+            if len(r) == 14:
+                # The packet is good
+                self.open_packet(r)
+
+                # Control rate at which packets are sent.
+                time.sleep(.25)
+            else:
+                # Bad packet reintialize
+                print("Yo Hardware bad.")
+                self.initialize()
+                self.get_program()
+
 
     def run(self):
         # Attempt to make a serial connection several times.
@@ -214,7 +249,7 @@ class FreshRoastSR700(Roaster):
                                 bytesize=8,
                                 parity='N',
                                 stopbits=1.5,
-                                timeout=None,
+                                timeout=.25,
                                 xonxoff=False,
                                 rtscts=False,
                                 writeTimeout=None,
