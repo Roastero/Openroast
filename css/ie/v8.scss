@@ -1,0 +1,118 @@
+---
+#Necessary line for Jekyll
+---
+@import 'vars';
+@import 'functions';
+@import 'mixins';
+@import 'skel-layout';
+
+/*
+	Spectral by Pixelarity
+	pixelarity.com @pixelarity
+	License: pixelarity.com/license
+*/
+
+/* Icon */
+
+	.icon {
+		&.major {
+			border: none;
+
+			&:before {
+				font-size: 3em;
+			}
+		}
+	}
+
+/* Form */
+
+	label {
+		color: _palette(accent7, fg-bold);
+	}
+
+	input[type="text"],
+	input[type="password"],
+	input[type="email"],
+	select,
+	textarea {
+		border: solid 1px _palette(accent7, border);
+	}
+
+/* Button */
+
+	input[type="submit"],
+	input[type="reset"],
+	input[type="button"],
+	button,
+	.button {
+		border: solid 2px _palette(accent7, border);
+
+		&.special {
+			border: 0 !important;
+		}
+	}
+
+/* Page Wrapper + Menu */
+
+	#menu {
+		display: none;
+	}
+
+	body.is-menu-visible {
+		#menu {
+			display: block;
+		}
+	}
+
+/* Header */
+
+	#header {
+		nav {
+			> ul {
+				> li {
+					> a {
+						&.menuToggle {
+							&:after {
+								display: none;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+/* Banner + Wrapper (style4) */
+
+	#banner,
+	.wrapper.style4 {
+		-ms-behavior: url('css/ie/backgroundsize.min.htc');
+
+		&:before {
+			display: none;
+		}
+	}
+
+/* Banner */
+
+	#banner {
+		.more {
+			height: 4em;
+
+			&:after {
+				display: none;
+			}
+		}
+	}
+
+/* Main */
+
+	#main {
+		> header {
+			-ms-behavior: url('css/ie/backgroundsize.min.htc');
+
+			&:before {
+				display: none;
+			}
+		}
+	}

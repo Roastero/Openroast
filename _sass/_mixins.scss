@@ -1,0 +1,143 @@
+/// Vendor prefixes.
+/// @var {list}
+$vendor-prefixes: (
+	'-moz-',
+	'-webkit-',
+	'-ms-',
+	''
+);
+
+/// Properties that should be vendorized.
+/// @var {list}
+$vendor-properties: (
+	'align-content',
+	'align-items',
+	'align-self',
+	'animation',
+	'appearance',
+	'box-sizing',
+	'filter',
+	'flex',
+	'flex-basis',
+	'flex-direction',
+	'flex-flow',
+	'flex-grow',
+	'flex-shrink',
+	'flex-wrap',
+	'justify-content',
+	'order',
+	'pointer-events',
+	'transform',
+	'transition',
+	'transition-delay'
+);
+
+/// Values that should be vendorized.
+/// @var {list}
+$vendor-values: (
+	'flex',
+	'linear-gradient',
+	'radial-gradient',
+	'transform'
+);
+
+/// Wraps @content in a @media block using a given breakpoint.
+/// @param {string} $breakpoint Breakpoint.
+@mixin breakpoint($breakpoint) {
+
+    @if map-has-key($breakpoints, $breakpoint) {
+
+        $value: map-get($breakpoints, $breakpoint);
+
+        @media screen and #{$value} {
+            @content;
+        }
+
+    }
+
+}
+
+/// Makes an element's :before pseudoelement a FontAwesome icon.
+/// @param {string} $content Optional content value to use.
+@mixin icon($content: false) {
+
+	text-decoration: none;
+
+	&:before {
+
+		@if $content {
+			content: $content;
+		}
+
+		-moz-osx-font-smoothing: grayscale;
+		-webkit-font-smoothing: antialiased;
+		font-family: FontAwesome;
+		font-style: normal;
+		font-weight: normal;
+		text-transform: none !important;
+
+	}
+
+}
+
+/// Wraps @content in vendorized keyframe blocks.
+/// @param {string} $name Name.
+@mixin keyframes($name) {
+
+	@-moz-keyframes #{$name} { @content; }
+	@-webkit-keyframes #{$name} { @content; }
+	@-ms-keyframes #{$name} { @content; }
+	@keyframes #{$name} { @content; }
+
+}
+
+/// Applies padding to an element, taking the current element-margin value into account.
+/// @param {mixed} $tb Top/bottom padding.
+/// @param {mixed} $lr Left/right padding.
+/// @param {list} $pad Optional extra padding (in the following order top, right, bottom, left)
+@mixin padding($tb, $lr, $pad: (0,0,0,0)) {
+	padding: ($tb + nth($pad,1)) ($lr + nth($pad,2)) max(0.1em, $tb - _size(element-margin) + nth($pad,3)) ($lr + nth($pad,4));
+}
+
+/// Vendorizes a declaration's property and/or value(s).
+/// @param {string} $property Property.
+/// @param {mixed} $value String/list of value(s).
+@mixin vendor($property, $value) {
+
+	// Determine if property should expand.
+		$expandProperty: index($vendor-properties, $property);
+
+	// Determine if value should expand (and if so, add '-prefix-' placeholder).
+		$expandValue: false;
+
+		@each $x in $value {
+			@each $y in $vendor-values {
+				@if $y == str-slice($x, 1, str-length($y)) {
+
+					$value: set-nth($value, index($value, $x), '-prefix-' + $x);
+					$expandValue: true;
+
+				}
+			}
+		}
+
+	// Expand property?
+		@if $expandProperty {
+		    @each $vendor in $vendor-prefixes {
+		        #{$vendor}#{$property}: #{str-replace-all($value, '-prefix-', $vendor)};
+		    }
+		}
+
+	// Expand just the value?
+		@elseif $expandValue {
+		    @each $vendor in $vendor-prefixes {
+		        #{$property}: #{str-replace-all($value, '-prefix-', $vendor)};
+		    }
+		}
+
+	// Neither? Treat them as a normal declaration.
+		@else {
+	        #{$property}: #{$value};
+		}
+
+}
