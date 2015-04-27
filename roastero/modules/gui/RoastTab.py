@@ -380,7 +380,10 @@ class RoastTab(QWidget):
             time.gmtime(self.roaster.get_total_time()))))
 
     def cooling_phase(self):
-        self.roaster.cooling_phase()
+        if(self.recipe.check_recipe_loaded()):
+            self.recipe.cool_beans()
+        else:
+            self.roaster.cooling_phase()
 
     def toggle_temp_slider_status(self):
         self.tempSliderPressed = not self.tempSliderPressed
