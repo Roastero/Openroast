@@ -16,7 +16,7 @@ Roastero is an open source, cross-platform application for home coffee roasting.
 ![Recipe Tab Screenshot](screenshots/screen02.png)
 
 ## Setting Up A Development Environment
-In order to setup a development environemnet on your desired platform, please refer to our wiki page: [Setting Up A Development Environment](https://github.com/Roastero/Roastero/wiki/Setting-Up-A-Development-Environment)
+In order to setup a development environment on your desired platform, please refer to our wiki page: [Setting Up A Development Environment](https://github.com/Roastero/Roastero/wiki/Setting-Up-A-Development-Environment)
 
 ## License
 The code is being released under GPL v3.
