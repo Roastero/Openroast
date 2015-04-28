@@ -964,6 +964,7 @@
 			img {
 				border-radius: 0;
 				width: 100%;
+				padding-top: .7em;
 			}
 		}
 
@@ -979,10 +980,10 @@
 		}
 
 		@for $i from 1 through _misc(max-spotlights) {
-			$j: 0.075 * $i;
+			//$j: 0.075 * $i;
 
 			&:nth-child(#{$i}) {
-				background-color: rgba(0,0,0, $j);
+				background-color: nth($color-array, $i);
 			}
 		}
 
@@ -1617,7 +1618,7 @@
 
 /* CTA */
 
-	#cta {
+	#contribute {
 		.inner {
 			@include vendor('display', 'flex');
 			max-width: 45em;

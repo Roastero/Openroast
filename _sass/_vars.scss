@@ -6,7 +6,7 @@
 
 // Misc.
 	$misc: (
-		max-spotlights:		10,
+		max-spotlights:		3,
 		max-features:		10,
 		z-index-base:		10000
 	);
@@ -132,3 +132,5 @@
 			border2-bg:		rgba(0,0,0,0.1)
 		)
 	);
+
+$color-array: #2aa1d3, #8ab71b, #f0b017;

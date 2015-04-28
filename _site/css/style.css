@@ -1858,7 +1858,8 @@ button,
     width: 40%; }
     .spotlight .image img {
       border-radius: 0;
-      width: 100%; }
+      width: 100%;
+      padding-top: .7em; }
   .spotlight .content {
     padding: 2em 4em 0.1em 4em;
     -moz-order: 2;
@@ -1873,25 +1874,11 @@ button,
     -ms-flex-direction: row-reverse;
     flex-direction: row-reverse; }
   .spotlight:nth-child(1) {
-    background-color: rgba(0, 0, 0, 0.075); }
+    background-color: #2aa1d3; }
   .spotlight:nth-child(2) {
-    background-color: rgba(0, 0, 0, 0.15); }
+    background-color: #8ab71b; }
   .spotlight:nth-child(3) {
-    background-color: rgba(0, 0, 0, 0.225); }
-  .spotlight:nth-child(4) {
-    background-color: rgba(0, 0, 0, 0.3); }
-  .spotlight:nth-child(5) {
-    background-color: rgba(0, 0, 0, 0.375); }
-  .spotlight:nth-child(6) {
-    background-color: rgba(0, 0, 0, 0.45); }
-  .spotlight:nth-child(7) {
-    background-color: rgba(0, 0, 0, 0.525); }
-  .spotlight:nth-child(8) {
-    background-color: rgba(0, 0, 0, 0.6); }
-  .spotlight:nth-child(9) {
-    background-color: rgba(0, 0, 0, 0.675); }
-  .spotlight:nth-child(10) {
-    background-color: rgba(0, 0, 0, 0.75); }
+    background-color: #f0b017; }
   @media screen and (max-width: 1280px) {
     .spotlight .image {
       width: 45%; }
@@ -2530,41 +2517,41 @@ body.is-loading #banner:after {
   opacity: 1; }
 
 /* CTA */
-#cta .inner {
+#contribute .inner {
   display: -moz-flex;
   display: -webkit-flex;
   display: -ms-flex;
   display: flex;
   max-width: 45em; }
-  #cta .inner header {
+  #contribute .inner header {
     -moz-order: 1;
     -webkit-order: 1;
     -ms-order: 1;
     order: 1;
     padding-right: 3em;
     width: 70%; }
-    #cta .inner header p {
+    #contribute .inner header p {
       color: inherit; }
-  #cta .inner .actions {
+  #contribute .inner .actions {
     -moz-order: 2;
     -webkit-order: 2;
     -ms-order: 2;
     order: 2;
     width: 30%; }
   @media screen and (max-width: 980px) {
-    #cta .inner {
+    #contribute .inner {
       display: block;
       text-align: center; }
-      #cta .inner header {
+      #contribute .inner header {
         padding-right: 0;
         width: 100%; }
-      #cta .inner .actions {
+      #contribute .inner .actions {
         margin-left: auto;
         margin-right: auto;
         max-width: 20em;
         width: 100%; } }
   @media screen and (max-width: 736px) {
-    #cta .inner .actions {
+    #contribute .inner .actions {
       max-width: none; } }
 
 /* Main */
