@@ -1859,7 +1859,7 @@ button,
     .spotlight .image img {
       border-radius: 0;
       width: 100%;
-      padding-top: .7em; }
+      padding: 1em; }
   .spotlight .content {
     padding: 2em 4em 0.1em 4em;
     -moz-order: 2;
