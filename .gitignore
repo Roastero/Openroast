@@ -1,6 +1,10 @@
 # Ignore recipe files if project is stored in the documents directory.
 recipes/
 
+# Jekyll Files
+_site
+.sass-cache
+
 # Mac Files
 .DS_Store
 
