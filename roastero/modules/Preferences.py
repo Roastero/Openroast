@@ -1,8 +1,3 @@
-# PyQt imports
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
-
 # Standard Library Imports
 import json
 
@@ -37,5 +32,3 @@ class Preferences:
 
     # PID Controller Values
     PIDVALUES: {"p": 0.06, "i": 0.90, "d": 0.90}
-
-class PreferencesWindow(QDialog):
