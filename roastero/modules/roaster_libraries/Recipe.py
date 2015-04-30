@@ -84,6 +84,7 @@ class Recipe:
         if cooling:
             self.roaster.cooling_phase()
         else:
+            # self.roaster.roast()
             self.roaster.set_target_temp(targetTemp)
 
         self.roaster.set_fan_speed(fanSpeed)
@@ -97,7 +98,7 @@ class Recipe:
 
     def move_to_next_section(self):
         if (self.currentRecipeStep + 1) >= self.get_num_recipe_sections():
-            self.roaster.sleep()
+            self.roaster.idle()
         else:
             self.currentRecipeStep += 1
             self.load_current_section()
