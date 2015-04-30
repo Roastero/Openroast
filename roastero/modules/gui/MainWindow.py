@@ -55,7 +55,8 @@ class MainWindow(QMainWindow):
             triggered=self.roast.clear_roast)
 
         self.newRoastAct = QAction("&Roast Again", self,
-            shortcut=QKeySequence(Qt.CTRL + Qt.Key_R), statusTip="Roast recipe again",
+            shortcut=QKeySequence(Qt.CTRL + Qt.Key_R), 
+            statusTip="Roast recipe again",
             triggered=self.roast.reset_current_roast)
 
         self.importRecipeAct = QAction("&Import Recipe", self,
@@ -94,7 +95,10 @@ class MainWindow(QMainWindow):
         self.fileMenu.addSeparator()
         self.fileMenu.addAction(self.saveRoastGraphAct)
         self.fileMenu.addSeparator()
-        self.fileMenu.addAction(self.openPreferencesWindow)
+
+        # Create edit menu.
+        self.editMenu = menubar.addMenu("&Edit")
+        self.editMenu.addAction(self.openPreferencesWindow)
 
         # Create help menu.
         self.helpMenu = menubar.addMenu("&Help")
