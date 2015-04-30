@@ -23,7 +23,6 @@ QPushButton#toolbar {
     margin: 15px 5px 3px 5px;
     font-size: 12px;
     background-color: none;
-    outline: none;
 }
 
 QPushButton#toolbar:disabled {
@@ -67,6 +66,7 @@ QPushButton {
     font-family: "Asap";
     font: bold;
     font-size: 12px;
+    outline: none;
 }
 
 QPushButton:disabled {
