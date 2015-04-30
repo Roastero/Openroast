@@ -7,6 +7,7 @@ from PyQt5.QtGui import *
 from .RoastTab import RoastTab
 from .RecipesTab import RecipesTab
 from .AboutWindow import About
+from .PreferencesWindow import PreferencesWindow
 from ..roaster_libraries.FreshRoastSR700 import FreshRoastSR700
 from ..roaster_libraries.Recipe import Recipe
 
@@ -76,6 +77,10 @@ class MainWindow(QMainWindow):
             statusTip="About Roastero",
             triggered=self.open_about_window)
 
+        self.openPreferencesWindow = QAction("&Preferences", self,
+            statusTip="Change Roastero settings",
+            triggered=self.open_preferences_window)
+
     def create_menus(self):
         menubar = self.menuBar()
 
@@ -88,6 +93,8 @@ class MainWindow(QMainWindow):
         self.fileMenu.addAction(self.exportRecipeAct)
         self.fileMenu.addSeparator()
         self.fileMenu.addAction(self.saveRoastGraphAct)
+        self.fileMenu.addSeparator()
+        self.fileMenu.addAction(self.openPreferencesWindow)
 
         # Create help menu.
         self.helpMenu = menubar.addMenu("&Help")
@@ -160,7 +167,7 @@ class MainWindow(QMainWindow):
 
     def import_recipe_file(self):
         try:
-            recipeFile = QFileDialog.getOpenFileName(self, 'Select Recipe', 
+            recipeFile = QFileDialog.getOpenFileName(self, 'Select Recipe',
                 os.path.expanduser('~/'), 'Recipes (*.json);;All Files (*)')
             copy2(recipeFile[0], os.path.expanduser('~/Documents/Roastero/recipes/local'))
         except FileNotFoundError:
@@ -187,3 +194,7 @@ class MainWindow(QMainWindow):
     def open_about_window(self):
         self.aboutWindow = About()
         self.aboutWindow.exec_()
+
+    def open_preferences_window(self):
+        self.preferencesWindow = PreferencesWindow()
+        self.preferencesWindow.exec_()
