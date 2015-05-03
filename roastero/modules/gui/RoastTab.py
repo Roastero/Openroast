@@ -298,6 +298,9 @@ class RoastTab(QWidget):
         self.nextButton.clicked.connect(self.next_section)
         buttonPanel.addWidget(self.nextButton, 1, 1)
 
+        # Disable next button until recipe is loaded.
+        self.nextButton.setEnabled(False)
+
         # Create fan speed spin box.
         self.fanSpeedSpinBox = QSpinBox()
         self.fanSpeedSpinBox.setRange(1, 9)
@@ -404,6 +407,9 @@ class RoastTab(QWidget):
         self.recipe.clear_recipe()
         self.recreate_progress_bar()
 
+        # Disable next button
+        self.nextButton.setEnabled(False)
+
     def reset_current_roast(self):
         self.graphXValueList = []
         self.graphYValueList = []
@@ -423,6 +429,9 @@ class RoastTab(QWidget):
         self.targetTempLabel.setText(str(self.roaster.get_target_temp()))
         self.change_target_temp_slider(self.roaster.get_target_temp())
         self.update_fan_box()
+
+        # Enable next button.
+        self.nextButton.setEnabled(True)
 
     def next_section(self):
         self.recipe.move_to_next_section()
