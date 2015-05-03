@@ -2,7 +2,7 @@
 
 [![Join the chat at https://gitter.im/Roastero/Roastero](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Roastero/Roastero?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Roastero is an open source, cross-platform application for home coffee roasting. Roastero is currently designed to interface with the FreshRoast SR700 USB controlled coffee roaster, with the capability of extending to any computer assisted home roasting device. Roastero makes it simple to dial-in recipes in a repeatable, consistant manner allowing a user to achieve the same results every time.
+Roastero is an open source, cross-platform application for home coffee roasting. Roastero is currently designed to interface with the FreshRoast SR700 USB controlled coffee roaster, with the capability of extending to any computer assisted home roasting device. Roastero makes it simple to dial-in recipes in a repeatable, consistent manner allowing a user to achieve the same results every time.
 
 ## Features
 - Roast Graph
