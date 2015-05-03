@@ -53,8 +53,7 @@ class Roaster:
                 if self.recipe.check_recipe_loaded():
                     self.recipe.move_to_next_section()
                 else:
-                    # When the roast is finished cooling, set roaster to idle.
-                    #if(self.get_current_status() == 2):
+                    # Set roaster to idle when section time is zero.
                     self.idle()
 
     def set_section_time(self,time):

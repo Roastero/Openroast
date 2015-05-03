@@ -407,12 +407,20 @@ class RoastTab(QWidget):
         # Disable next button
         self.nextButton.setEnabled(False)
 
+        # Set totalTime to zero.
+        self.roaster.totalTime = 0
+        self.update_total_time()
+
     def reset_current_roast(self):
         self.graphXValueList = []
         self.graphYValueList = []
         self.counter = 0
         self.graphFigure.clear()
         self.update_data()
+
+        # Set totalTime to zero.
+        self.roaster.totalTime = 0
+        self.update_total_time()
 
         # Verify that the recipe is loaded.
         if(self.recipe.check_recipe_loaded()):
