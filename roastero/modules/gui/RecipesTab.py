@@ -242,8 +242,7 @@ class RecipesTab(QWidget):
             self.recipeStepsTable.setItem(row, 2, sectionTimeWidget)
 
     def load_recipe(self):
-        """Loads a JSON recipe file. This information is later used to populate
-        the right-hand column."""
+        """Loads recipe into Roast tab."""
         if (self.recipe.check_recipe_loaded()):
             self.roastTab.clear_roast()
 
@@ -259,6 +258,8 @@ class RecipesTab(QWidget):
         """Method used to open Recipe Editor Window with an existing recipe."""
         self.editorWindow = RecipeEditor(recipeLocation = self.currentlySelectedRecipePath)
         self.editorWindow.exec_()
+
+        # Used to update the recipe in the recipes tab after editing
         self.load_recipe_file(self.selectedFilePath)
 
 
@@ -266,6 +267,8 @@ class RecipesTab(QWidget):
         """Method used to open Recipe Editor Window for a new recipe."""
         self.editorWindow = RecipeEditor()
         self.editorWindow.exec_()
+
+        # Used to update the recipe in the recipes tab after creation
         self.load_recipe_file(self.selectedFilePath)
 
     def get_currently_selected_recipe(self):
