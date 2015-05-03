@@ -50,12 +50,12 @@ class Roaster:
             if(self.sectionTime > 0):
                 self.sectionTime -= 1
             else:
-                if self.recipe:
+                if self.recipe.check_recipe_loaded():
                     self.recipe.move_to_next_section()
                 else:
                     # When the roast is finished cooling, set roaster to idle.
-                    if(self.get_current_status() == 2):
-                        self.idle()
+                    #if(self.get_current_status() == 2):
+                    self.idle()
 
     def set_section_time(self,time):
         self.sectionTime = time

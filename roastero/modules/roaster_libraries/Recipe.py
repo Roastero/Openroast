@@ -103,12 +103,5 @@ class Recipe:
             self.currentRecipeStep += 1
             self.load_current_section()
 
-    def cool_beans(self):
-        # set step to last step
-        self.currentRecipeStep = self.get_num_recipe_sections()
-
-        # Have the roaster cool
-        self.roaster.cooling_phase()
-
     def get_current_recipe(self):
         return self.recipe
