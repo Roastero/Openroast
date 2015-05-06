@@ -12,9 +12,9 @@ class Roaster:
         self.sectionTime = 0        # Int in seconds
         self.totalTime = 0          # Int in seconds
         self.connected = False      # Determines if roaster is connected.
-        self.p = 0.06
-        self.i = 0.90
-        self.d = 0.90
+        self.pro = 4.000
+        self.i = 0.045
+        self.d = 2.200
 
         # Thread control variables
         self.cont = True            # True or False, used to exit program
@@ -73,18 +73,21 @@ class Roaster:
             self.timer()
 
     def thermostat_thread(self, threadNum):
-        self.p=PID(self.p, self.i, self.d)
+        self.p=PID(self.pro, self.i, self.d)
         #p.setPoint(5.0)
         while(True):
             self.thermostat(self.p)
 
-    def set_p(self, p):
-        self.p.update_p(p)
+    def set_p(self, pro):
+        self.pro = pro
+        self.p.update_p(pro)
 
     def set_i(self, i):
+        self.i = i
         self.p.update_i(i)
 
     def set_d(self, d):
+        self.d = d
         self.p.update_p(d)
 
     def set_total_time(self, time):
