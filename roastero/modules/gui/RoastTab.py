@@ -169,13 +169,13 @@ class RoastTab(QWidget):
         guageWindow = self.create_gauge_window()
         rightPane.addLayout(guageWindow)
 
-        # Create button panel.
-        buttonPanel = self.create_button_panel()
-        rightPane.addLayout(buttonPanel)
-
         # Create sliders.
         sliderPanel = self.create_slider_panel()
         rightPane.addLayout(sliderPanel)
+
+        # Create button panel.
+        buttonPanel = self.create_button_panel()
+        rightPane.addLayout(buttonPanel)
 
         # Add a bottom spacer to keep sizing.
         spacer = QWidget()
@@ -186,12 +186,14 @@ class RoastTab(QWidget):
 
     def create_progress_bar(self):
         progressBar = QGridLayout()
-        progressBar.setHorizontalSpacing(0)
+        progressBar.setSpacing(0)
 
         # An array to hold all progress bars.
         self.sectionBars = []
 
         if self.recipe.check_recipe_loaded():
+            counter = 0
+
             for i in range(0, self.recipe.get_num_recipe_sections()):
                 # Calculate display time and generate label text.
                 time = self.recipe.get_section_time(i)
@@ -223,6 +225,15 @@ class RoastTab(QWidget):
 
                 # Add stretch factor to column based upon minutes.
                 progressBar.setColumnStretch(i, time)
+
+                # Make the counter equal to i.
+                counter = i
+
+            # Create next button.
+            nextButton = QPushButton("NEXT")
+            nextButton.setObjectName("nextButton")
+            nextButton.clicked.connect(self.next_section)
+            progressBar.addWidget(nextButton, 0, (counter + 1))
 
         return progressBar
 
@@ -274,42 +285,29 @@ class RoastTab(QWidget):
         buttonPanel = QGridLayout()
 
         # Create start roast button.
-        self.startButton = QPushButton("START")
+        self.startButton = QPushButton("ROAST")
         self.startButton.clicked.connect(self.roaster.roast)
         buttonPanel.addWidget(self.startButton, 0, 0)
-
-        # Create stop roast button.
-        self.stopButton = QPushButton("STOP")
-        self.stopButton.clicked.connect(self.roaster.idle)
-        buttonPanel.addWidget(self.stopButton, 0, 1)
-
-        # Create fan label.
-        fanLabel = QLabel("FAN SPEED")
-        fanLabel.setAlignment(Qt.AlignCenter)
-        buttonPanel.addWidget(fanLabel, 0, 2)
 
         # Create cool button.
         self.coolButton = QPushButton("COOL")
         self.coolButton.clicked.connect(self.cooling_phase)
-        buttonPanel.addWidget(self.coolButton, 1, 0)
+        buttonPanel.addWidget(self.coolButton, 0, 1)
 
-        # Create next button.
-        self.nextButton = QPushButton("NEXT")
-        self.nextButton.clicked.connect(self.next_section)
-        buttonPanel.addWidget(self.nextButton, 1, 1)
-
-        # Disable next button until recipe is loaded.
-        self.nextButton.setEnabled(False)
+        # Create stop roast button.
+        self.stopButton = QPushButton("STOP")
+        self.stopButton.clicked.connect(self.roaster.idle)
+        buttonPanel.addWidget(self.stopButton, 0, 2)
 
         # Create fan speed spin box.
-        self.fanSpeedSpinBox = QSpinBox()
-        self.fanSpeedSpinBox.setRange(1, 9)
-        self.fanSpeedSpinBox.setFocusPolicy(Qt.NoFocus)
-        self.fanSpeedSpinBox.setAlignment(Qt.AlignCenter)
-        self.fanSpeedSpinBox.lineEdit().setReadOnly(True)
-        self.fanSpeedSpinBox.lineEdit().deselect()
-        self.fanSpeedSpinBox.valueChanged.connect(self.change_fan_speed)
-        buttonPanel.addWidget(self.fanSpeedSpinBox, 1, 2)
+        # self.fanSpeedSpinBox = QSpinBox()
+        # self.fanSpeedSpinBox.setRange(1, 9)
+        # self.fanSpeedSpinBox.setFocusPolicy(Qt.NoFocus)
+        # self.fanSpeedSpinBox.setAlignment(Qt.AlignCenter)
+        # self.fanSpeedSpinBox.lineEdit().setReadOnly(True)
+        # self.fanSpeedSpinBox.lineEdit().deselect()
+        # self.fanSpeedSpinBox.valueChanged.connect(self.change_fan_speed)
+        # buttonPanel.addWidget(self.fanSpeedSpinBox, 1, 2)
 
         return buttonPanel
 
@@ -317,29 +315,35 @@ class RoastTab(QWidget):
         sliderPanel = QGridLayout()
 
         # Create temperature slider label.
-        tempSliderLabel = QLabel("ADJUST TARGET TEMP")
+        tempSliderLabel = QLabel("TARGET TEMP")
         sliderPanel.addWidget(tempSliderLabel, 0, 0)
 
         # Create temperature slider.
         self.tempSlider = QSlider(Qt.Horizontal)
         self.tempSlider.setRange(150, 550)
-        self.tempSlider.sliderMoved.connect(self.change_target_temp)
-        self.tempSlider.sliderPressed.connect(self.toggle_temp_slider_status)
-        self.tempSlider.sliderReleased.connect(self.toggle_temp_slider_status)
+        self.tempSlider.valueChanged.connect(self.change_target_temp)
         self.change_target_temp()
         sliderPanel.addWidget(self.tempSlider, 1, 0)
 
-        # Create timer slider.
-        timeSliderLabel = QLabel("ADJUST SECTION TIME")
+        # Create timer slider label.
+        timeSliderLabel = QLabel("SECTION TIME")
         sliderPanel.addWidget(timeSliderLabel, 2, 0)
 
         # Create timer slider.
         self.timeSlider = QSlider(Qt.Horizontal)
-        self.timeSlider.setRange(0, 720)
-        self.timeSlider.sliderMoved.connect(self.set_section_time)
-        self.timeSlider.sliderPressed.connect(self.toggle_time_slider_status)
-        self.timeSlider.sliderReleased.connect(self.toggle_time_slider_status)
+        self.timeSlider.setRange(0, 900)
+        self.timeSlider.valueChanged.connect(self.set_section_time)
         sliderPanel.addWidget(self.timeSlider, 3, 0)
+
+        # Create fan speed slider.
+        fanSliderLabel = QLabel("FAN SPEED")
+        sliderPanel.addWidget(fanSliderLabel, 4, 0)
+
+        # Create fan speed slider.
+        self.fanSlider = QSlider(Qt.Horizontal)
+        self.fanSlider.setRange(1, 9)
+        self.fanSlider.valueChanged.connect(self.change_fan_speed)
+        sliderPanel.addWidget(self.fanSlider, 5, 0)
 
         return sliderPanel
 
@@ -363,10 +367,10 @@ class RoastTab(QWidget):
         self.tempSlider.setValue(temp)
 
     def change_fan_speed(self):
-        self.roaster.set_fan_speed(self.fanSpeedSpinBox.value())
+        self.roaster.set_fan_speed(self.fanSlider.value())
 
     def update_fan_box(self):
-        self.fanSpeedSpinBox.setValue(self.roaster.get_fan_speed())
+        self.fanSlider.setValue(self.roaster.get_fan_speed())
 
     def set_section_time(self):
         self.sectionTimeLabel.setText(time.strftime("%M:%S",
@@ -385,12 +389,6 @@ class RoastTab(QWidget):
     def cooling_phase(self):
         self.roaster.cooling_phase()
 
-    def toggle_temp_slider_status(self):
-        self.tempSliderPressed = not self.tempSliderPressed
-
-    def toggle_time_slider_status(self):
-        self.timeSliderPressed = not self.timeSliderPressed
-
     # def connect_roaster(self):
     #     self.roaster.run()
 
@@ -403,9 +401,6 @@ class RoastTab(QWidget):
         self.update_data()
         self.recipe.clear_recipe()
         self.recreate_progress_bar()
-
-        # Disable next button
-        self.nextButton.setEnabled(False)
 
         # Set totalTime to zero.
         self.roaster.totalTime = 0
@@ -434,9 +429,6 @@ class RoastTab(QWidget):
         self.targetTempLabel.setText(str(self.roaster.get_target_temp()))
         self.change_target_temp_slider(self.roaster.get_target_temp())
         self.update_fan_box()
-
-        # Enable next button.
-        self.nextButton.setEnabled(True)
 
     def next_section(self):
         self.recipe.move_to_next_section()

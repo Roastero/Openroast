@@ -453,6 +453,26 @@ QLabel#tempGuage:disabled {
     color: #444953;
 }
 
+QPushButton#nextButton {
+    border-radius: 5px;
+    width: 120px;
+    height: 30px;
+    margin-left: 5px;
+    background-color: #2aa1d3;
+    color: #fff;
+    font-size: 12px;
+    font-family: "Asap";
+    font: bold;
+}
+
+QPushButton#nextButton:pressed {
+    background-color: #047bad;
+}
+
+QPushButton#nextButton:disabled {
+    background-color: #444953;
+}
+
 QLabel#timeWindow {
     border-bottom-right-radius: 5px;
     border-bottom-left-radius: 5px;
@@ -534,7 +554,7 @@ QLabel#RecipeName {
 
 QLabel#recipeSelectionLabel {
     border-radius: 5px;
-    background-color: #2e3138; 
+    background-color: #2e3138;
 }
 
 /* Recipe editor definitions. */
@@ -598,7 +618,7 @@ QPushButton#upArrow {
     background-color: #2aa1d3;
     padding: 0px;
     margin: 2px;
-    border-radius: 5px;    
+    border-radius: 5px;
 }
 
 QPushButton#upArrow:pressed {
@@ -609,7 +629,7 @@ QPushButton#downArrow {
     background-color: #2aa1d3;
     padding: 0px;
     margin: 2px;
-    border-radius: 5px;    
+    border-radius: 5px;
 }
 
 QPushButton#downArrow:pressed {
@@ -620,7 +640,7 @@ QPushButton#deleteRow {
     background-color: #f0b017;
     padding: 0px;
     margin: 2px;
-    border-radius: 5px;    
+    border-radius: 5px;
 }
 
 QPushButton#deleteRow:pressed {
@@ -631,7 +651,7 @@ QPushButton#insertRow {
     background-color: #8ab71b;
     padding: 0px;
     margin: 2px;
-    border-radius: 5px;    
+    border-radius: 5px;
 }
 
 QPushButton#insertRow:pressed {
