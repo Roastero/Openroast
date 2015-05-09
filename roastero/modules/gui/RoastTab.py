@@ -30,7 +30,7 @@ class RoastTab(QWidget):
         self.counter = 0
         self.roaster = roasterObject
         self.recipe = recipeObject
-        self.timeSliderPressed = False
+        self.sectTimeSliderPressed = False
         self.tempSliderPressed = False
 
         # Create the tab ui.
@@ -138,8 +138,6 @@ class RoastTab(QWidget):
     def update_data(self):
         # Update temperature widgets.
         self.currentTempLabel.setText(str(self.roaster.get_current_temp()))
-        self.targetTempLabel.setText(str(self.roaster.get_target_temp()))
-        self.change_target_temp_slider(self.roaster.get_target_temp())
 
         # Update timers.
         self.update_section_time()
@@ -303,6 +301,7 @@ class RoastTab(QWidget):
 
     def create_slider_panel(self):
         sliderPanel = QGridLayout()
+        sliderPanel.setColumnStretch(0, 3)
 
         # Create temperature slider label.
         tempSliderLabel = QLabel("TARGET TEMP")
@@ -311,25 +310,41 @@ class RoastTab(QWidget):
         # Create temperature slider.
         self.tempSlider = QSlider(Qt.Horizontal)
         self.tempSlider.setRange(150, 550)
-        self.tempSlider.valueChanged.connect(self.change_target_temp)
-        self.change_target_temp()
+        self.tempSlider.valueChanged.connect(self.update_target_temp_slider)
         sliderPanel.addWidget(self.tempSlider, 1, 0)
+
+        # Create temperature spin box.
+        self.tempSpinBox = QSpinBox()
+        self.tempSpinBox.setObjectName("miniSpinBox")
+        self.tempSpinBox.setButtonSymbols(2)      # Remove arrows.
+        self.tempSpinBox.setAlignment(Qt.AlignCenter)
+        self.tempSpinBox.setRange(150, 550)
+        self.tempSpinBox.valueChanged.connect(self.update_target_temp_spin_box)
+        self.tempSpinBox.setAttribute(Qt.WA_MacShowFocusRect, 0)
+        sliderPanel.addWidget(self.tempSpinBox, 1, 1)
+
+        # Update temperature data.
+        self.update_target_temp()
 
         # Create timer slider label.
         timeSliderLabel = QLabel("SECTION TIME")
         sliderPanel.addWidget(timeSliderLabel, 2, 0)
 
         # Create timer slider.
-        self.timeSlider = QSlider(Qt.Horizontal)
-        self.timeSlider.setRange(0, 900)
-        self.timeSlider.valueChanged.connect(self.set_section_time)
-        sliderPanel.addWidget(self.timeSlider, 3, 0)
+        self.sectTimeSlider = QSlider(Qt.Horizontal)
+        self.sectTimeSlider.setRange(0, 900)
+        self.sectTimeSlider.valueChanged.connect(self.update_sect_time_slider)
+        sliderPanel.addWidget(self.sectTimeSlider, 3, 0)
 
         # Create mini timer spin box.
-        self.timeSpinBox = TimeEditNoWheel()
-        self.timeSpinBox.setAttribute(Qt.WA_MacShowFocusRect, 0)
-        self.timeSpinBox.setDisplayFormat("mm:ss")
-        sliderPanel.addWidget(self.timeSpinBox, 3, 1)
+        self.sectTimeSpinBox = TimeEditNoWheel()
+        self.sectTimeSpinBox.setObjectName("miniSpinBox")
+        self.sectTimeSpinBox.setButtonSymbols(2)      # Remove arrows.
+        self.sectTimeSpinBox.setAlignment(Qt.AlignCenter)
+        self.sectTimeSpinBox.setAttribute(Qt.WA_MacShowFocusRect, 0)
+        self.sectTimeSpinBox.setDisplayFormat("mm:ss")
+        self.sectTimeSpinBox.timeChanged.connect(self.update_sect_time_spin_box)
+        sliderPanel.addWidget(self.sectTimeSpinBox, 3, 1)
 
         # Create fan speed slider.
         fanSliderLabel = QLabel("FAN SPEED")
@@ -343,11 +358,11 @@ class RoastTab(QWidget):
 
         # Create mini fan spin box
         self.fanSpeedSpinBox = QSpinBox()
+        self.fanSpeedSpinBox.setObjectName("miniSpinBox")
+        self.fanSpeedSpinBox.setButtonSymbols(2)      # Remove arrows.
         self.fanSpeedSpinBox.setRange(1, 9)
-        self.fanSpeedSpinBox.setFocusPolicy(Qt.NoFocus)
+        self.fanSpeedSpinBox.setAttribute(Qt.WA_MacShowFocusRect, 0)
         self.fanSpeedSpinBox.setAlignment(Qt.AlignCenter)
-        self.fanSpeedSpinBox.lineEdit().setReadOnly(True)
-        self.fanSpeedSpinBox.lineEdit().deselect()
         self.fanSpeedSpinBox.valueChanged.connect(self.update_fan_spin_box)
         sliderPanel.addWidget(self.fanSpeedSpinBox, 5, 1)
 
@@ -365,12 +380,20 @@ class RoastTab(QWidget):
         infoBox.addWidget(valueLabel)
         return infoBox
 
-    def change_target_temp(self):
-        self.targetTempLabel.setText(str(self.tempSlider.value()))
-        self.roaster.set_target_temp(self.tempSlider.value())
+    def update_target_temp(self):
+        self.targetTempLabel.setText(str(self.roaster.get_target_temp()))
+        self.tempSlider.setValue(self.roaster.get_target_temp())
+        self.tempSpinBox.setValue(self.roaster.get_target_temp())
 
-    def change_target_temp_slider(self, temp):
-        self.tempSlider.setValue(temp)
+    def update_target_temp_spin_box(self):
+        self.targetTempLabel.setText(str(self.tempSpinBox.value()))
+        self.tempSlider.setValue(self.tempSpinBox.value())
+        self.roaster.set_target_temp(self.tempSpinBox.value())
+
+    def update_target_temp_slider(self):
+        self.targetTempLabel.setText(str(self.tempSlider.value()))
+        self.tempSpinBox.setValue(self.tempSlider.value())
+        self.roaster.set_target_temp(self.tempSlider.value())
 
     def update_fan_info(self):
         self.fanSlider.setValue(self.roaster.get_fan_speed())
@@ -386,20 +409,34 @@ class RoastTab(QWidget):
 
     def set_section_time(self):
         self.sectionTimeLabel.setText(time.strftime("%M:%S",
-            time.gmtime(self.timeSlider.value())))
-        self.roaster.set_section_time(self.timeSlider.value())
+            time.gmtime(self.sectTimeSlider.value())))
+        self.roaster.set_section_time(self.sectTimeSlider.value())
 
     def update_section_time(self):
-        self.timeSlider.setValue(self.roaster.get_section_time())
+        self.sectTimeSlider.setValue(self.roaster.get_section_time())
 
-        self.timeSpinBox.setTime(QTime.fromString(str(time.strftime("%H:%M:%S",
+        self.sectTimeSpinBox.setTime(QTime.fromString(str(time.strftime("%H:%M:%S",
             time.gmtime(self.roaster.get_section_time())))))
 
         self.sectionTimeLabel.setText(str(time.strftime("%M:%S",
             time.gmtime(self.roaster.get_section_time()))))
 
-    def update_section_time_spin_box(self):
-        self.timeSlider.setValue(self.roaster.get_section_time())
+    def update_sect_time_spin_box(self):
+        self.sectionTimeLabel.setText(str(time.strftime("%M:%S",
+            time.gmtime(QTime(0, 0, 0).secsTo(self.sectTimeSpinBox.time())))))
+
+        self.sectTimeSlider.setValue(QTime(0, 0, 0).secsTo(self.sectTimeSpinBox.time()))
+
+        self.roaster.set_section_time(QTime(0, 0, 0).secsTo(self.sectTimeSpinBox.time()))
+
+    def update_sect_time_slider(self):
+        self.sectionTimeLabel.setText(str(time.strftime("%M:%S",
+            time.gmtime(self.sectTimeSlider.value()))))
+
+        self.sectTimeSpinBox.setTime(QTime.fromString(str(time.strftime("%H:%M:%S",
+            time.gmtime(self.sectTimeSlider.value())))))
+
+        self.roaster.set_section_time(self.sectTimeSlider.value())
 
     def update_total_time(self):
         self.totalTimeLabel.setText(str(time.strftime("%M:%S",
@@ -412,48 +449,63 @@ class RoastTab(QWidget):
     #     self.roaster.run()
 
     def clear_roast(self):
-        self.graphXValueList = []
-        self.graphYValueList = []
-        self.counter = 0
-        self.graphFigure.clear()
-        self.recipe.reset_roaster_settings()
-        self.update_data()
-        self.recipe.clear_recipe()
-        self.recreate_progress_bar()
+        """ This method will clear the roaster, recipe, and reset the gui back
+        to their original state. """
 
-        # Set totalTime to zero.
-        self.roaster.totalTime = 0
-        self.update_total_time()
+        # Reset roaster.
+        self.recipe.reset_roaster_settings()
+
+        # Clear the recipe.
+        self.recipe.clear_recipe()
+
+        # Clear roast tab gui.
+        self.clear_roast_tab_gui()
 
     def reset_current_roast(self):
-        self.graphXValueList = []
-        self.graphYValueList = []
-        self.counter = 0
-        self.graphFigure.clear()
-        self.update_data()
+        """ Used to reset the current loaded recipe """
 
-        # Set totalTime to zero.
-        self.roaster.totalTime = 0
-        self.update_total_time()
-
-        # Verify that the recipe is loaded.
+        # Verify that the recipe is loaded and reset it.
         if(self.recipe.check_recipe_loaded()):
             self.recipe.restart_current_recipe()
             self.recreate_progress_bar()
+
+        # Clear roast tab gui.
+        self.clear_roast_tab_gui()
+
+    def clear_roast_tab_gui(self):
+        """ Clears all of the graphical elements on the roast tab """
+
+        # Recreate the progress bar or remove it.
+        self.recreate_progress_bar()
+
+        # Clear sliders.
+        self.update_section_time()
+        self.update_fan_info()
+        self.update_target_temp()
+
+        # Set totalTime to zero.
+        self.roaster.totalTime = 0
+        self.update_total_time()
+
+        # Clear roast graph.
+        self.graphXValueList = []
+        self.graphYValueList = []
+        self.counter = 0
+        self.graphFigure.clear()
 
     def load_recipe_into_roast_tab(self):
         self.recipe.load_current_section()
         self.recreate_progress_bar()
         self.update_section_time()
         self.targetTempLabel.setText(str(self.roaster.get_target_temp()))
-        self.change_target_temp_slider(self.roaster.get_target_temp())
+        self.update_target_temp()
         self.update_fan_info()
 
     def next_section(self):
         self.recipe.move_to_next_section()
         self.update_section_time()
         self.targetTempLabel.setText(str(self.roaster.get_target_temp()))
-        self.change_target_temp_slider(self.roaster.get_target_temp())
+        self.update_target_temp()
         self.update_fan_info()
 
     def get_recipe_object(self):

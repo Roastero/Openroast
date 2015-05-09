@@ -453,6 +453,79 @@ QLabel#tempGuage:disabled {
     color: #444953;
 }
 
+QSpinBox#miniSpinBox {
+    background-color: #23252b;
+    selection-background-color: #2aa1d3;
+    selection-color: #fff;
+    border: 0px;
+    border-radius: 5px;
+    color: #fff;
+    font-family: "Asap";
+    font: bold;
+    width: 50px;
+    height: 25px;
+}
+
+QSpinBox#miniSpinBox:disabled {
+    background-color: #23252b;
+}
+
+QSpinBox#miniSpinBox::up-button {
+    width: 0px;
+    border: none;
+    height: 0px;
+}
+
+/*QSpinBox#miniSpinBox::up-button:pressed {
+    background-color: #047bad;
+}
+
+QSpinBox#miniSpinBox::up-button:disabled {
+    background-color: #444953;
+    border-left-color: #23252b;
+}*/
+
+QSpinBox#miniSpinBox::down-button {
+    width: 0px;
+    height: 0px;
+    border: none;
+}
+
+/*QSpinBox#miniSpinBox::down-button:pressed {
+    background-color: #047bad;
+}
+
+QSpinBox#miniSpinBox::down-button:disabled {
+    background-color: #444953;
+    border-left-color: #23252b;
+}*/
+
+QTimeEdit#miniSpinBox {
+    background-color: #23252b;
+    selection-background-color: #2aa1d3;
+    selection-color: #fff;
+    color: #fff;
+    font-family: "Asap";
+    font: bold;
+    width: 50px;
+    height: 25px;
+}
+
+QTimeEdit#miniSpinBox QSpinBox {
+    background-color: #23252b;
+    color: #fff;
+    font-family: "Asap";
+    font: bold;
+}
+
+QTimeEdit#miniSpinBox::up-button {
+    width: 0px;
+}
+
+QTimeEdit#miniSpinBox::down-button {
+    width: 0px;
+}
+
 QPushButton#nextButton {
     border-radius: 5px;
     width: 120px;

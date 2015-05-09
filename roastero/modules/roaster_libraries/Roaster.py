@@ -8,7 +8,7 @@ from ..roaster_libraries.Recipe import Recipe
 class Roaster:
     def __init__(self):
         self.currentTemp = 150      # Int in degrees Fahrenheit
-        self.targetTemp = 0         # Int in degrees Fahrenheit
+        self.targetTemp = 150       # Int in degrees Fahrenheit
         self.sectionTime = 0        # Int in seconds
         self.totalTime = 0          # Int in seconds
         self.connected = False      # Determines if roaster is connected.
