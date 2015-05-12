@@ -1,4 +1,4 @@
-import sys
+import sys, matplotlib
 from cx_Freeze import setup, Executable
 
 # MSI shortcut folder to create the start in directory.
@@ -25,10 +25,10 @@ msi_data = {"Shortcut": shortcut_table}
 bdist_msi_options = {'data': msi_data}
 
 # Dependencies are automatically detected, but it might need fine tuning.
-build_exe_options = {"packages": ["os"],
+build_exe_options = {"packages": ["os", "json", "matplotlib", "serial"],
                      "excludes": ["tkinter"],
-                     "include_files": ["static", "recipes", "LICENSE"],
-                     "icon": "static/icons/roastero-windows.ico",
+                     "include_files": ["roastero/static", "roastero/recipes", "roastero/modules", "LICENSE"],
+                     "icon": "roastero/static/icons/roastero-windows.ico",
                      "include_msvcr": True
 }
 
@@ -39,10 +39,16 @@ if sys.platform == "win32":
     base = "Win32GUI"
 
 setup(  name = "Roastero",
-        version = "0.2.0",
-        description = "My GUI application!",
+        version = "0.2.1",
+        description = "An open source cross-platform application for home coffee roasting",
         options = {"build_exe": build_exe_options, "bdist_msi": bdist_msi_options,
-        "bdist_mac": {"iconfile": "static/icons/roastero-mac.icns"}},
-        executables = [Executable("roastero.py",
+        "bdist_mac": {"iconfile": "roastero/static/icons/roastero-mac.icns"}},
+        executables = [Executable("roastero/roastero.py",
             base=base
-        )])
+        )],
+        data_files=matplotlib.get_py2exe_datafiles(),
+	url = "http://roastero.com",
+	author = "Roastero",
+	author_email = "admin@roastero.com",
+	packages = ["roastero"]
+)

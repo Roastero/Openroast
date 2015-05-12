@@ -1,6 +1,12 @@
 # Ignore recipe files if project is stored in the documents directory.
 recipes/
 
+# Ignore build remnants
+MANIFEST
+*.tar.gz
+deb_dist
+dist
+
 # Jekyll Files
 _site
 .sass-cache
