@@ -208,24 +208,53 @@ class FreshRoastSR700(Roaster):
             # Get updated output from PID function.
             output = p.update(self.currentTemp, self.targetTemp)
 
-            print("P:", self.pro, "I:", self.i, "D:", self.d, " - ", output)
+            #print("P:", self.pro, "I:", self.i, "D:", self.d, " - ", output)
 
-            # Determine which control set to use for each target temp.
-
-
-            # Add additional settings so that there are seven isntead of four.
-            if(output >= 30):
-                self.set_heat_setting(3)
-            elif(output >= 20):
-                self.set_heat_setting(2)
-            elif(output >= 10):
-                self.set_heat_setting(1)
+            """ This is the core roasting logic. Handle with care! The top
+            level if case checks to see what the target temperature is, and
+            then determines what the lowest heatsetting the roaster should be
+            set at to handle that temperature. The next level will then handle
+            the PID values to determine a heat setting. """
+            if(self.targetTemp >= 460):
+                if(output >= 30):
+                    self.set_heat_setting(3)
+                else:
+                    if(self.heatSetting == 2):
+                        self.set_heat_setting(3)
+                    else:
+                        self.set_heat_setting(2)
+            elif(self.targetTemp >= 430):
+                if(output >= 30):
+                    self.set_heat_setting(3)
+                elif(output >= 20):
+                    self.set_heat_setting(2)
+                else:
+                    if(self.heatSetting == 1):
+                        self.set_heat_setting(2)
+                    else:
+                        self.set_heat_setting(1)
+            elif(self.targetTemp >= 350):
+                if(output >= 30):
+                    self.set_heat_setting(3)
+                elif(output >= 20):
+                    self.set_heat_setting(2)
+                elif(output >= 10):
+                    self.set_heat_setting(1)
+                else:
+                    if(self.heatSetting == 0):
+                        self.set_heat_setting(1)
+                    else:
+                        self.set_heat_setting(0)
             else:
-                if(self.heatSetting == 0 and self.targetTemp > 350):
+                if(output >= 30):
+                    self.set_heat_setting(3)
+                elif(output >= 20):
+                    self.set_heat_setting(2)
+                elif(output >= 10):
                     self.set_heat_setting(1)
                 else:
                     self.set_heat_setting(0)
-            
+
             time.sleep(.25)
 
     def auto_connect_thread(self, threadNum):
