@@ -208,28 +208,24 @@ class FreshRoastSR700(Roaster):
             # Get updated output from PID function.
             output = p.update(self.currentTemp, self.targetTemp)
 
-            # Add additional settings so that there are seven isntead of four.
-            if(output >= 3.0):
-                self.set_heat_setting(3)
-            elif(output >= 2.5):
-                self.set_heat_setting(3)
-                time.sleep(.25)
-                self.set_heat_setting(2)
-            elif(output >= 2.0):
-                self.set_heat_setting(2)
-            elif(output >= 1.5):
-                self.set_heat_setting(2)
-                time.sleep(.25)
-                self.set_heat_setting(1)
-            elif(output >= 1.0):
-                self.set_heat_setting(1)
-            elif(output >= 0.5):
-                self.set_heat_setting(1)
-                time.sleep(.25)
-                self.set_heat_setting(0)
-            else:
-                self.set_heat_setting(0)
+            print("P:", self.pro, "I:", self.i, "D:", self.d, " - ", output)
 
+            # Determine which control set to use for each target temp.
+
+
+            # Add additional settings so that there are seven isntead of four.
+            if(output >= 30):
+                self.set_heat_setting(3)
+            elif(output >= 20):
+                self.set_heat_setting(2)
+            elif(output >= 10):
+                self.set_heat_setting(1)
+            else:
+                if(self.heatSetting == 0 and self.targetTemp > 350):
+                    self.set_heat_setting(1)
+                else:
+                    self.set_heat_setting(0)
+            
             time.sleep(.25)
 
     def auto_connect_thread(self, threadNum):
