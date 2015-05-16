@@ -145,16 +145,6 @@ class RoastTab(QWidget):
         self.update_section_time()
         self.update_total_time()
 
-        # Update PID values - TO BE REMOVED
-        if(self.editPValue.text()):
-            self.roaster.set_p(float(self.editPValue.text()))
-
-        if(self.editIValue.text()):
-            self.roaster.set_i(float(self.editIValue.text()))
-
-        if(self.editDValue.text()):
-            self.roaster.set_d(float(self.editDValue.text()))
-
         # Update current section progress bar.
         if self.recipe.check_recipe_loaded():
             value = self.recipe.get_current_section_time() - self.roaster.get_section_time()
@@ -350,14 +340,6 @@ class RoastTab(QWidget):
         self.timeSlider.sliderPressed.connect(self.toggle_time_slider_status)
         self.timeSlider.sliderReleased.connect(self.toggle_time_slider_status)
         sliderPanel.addWidget(self.timeSlider, 3, 0)
-
-        # Create PID editors - TO BE REMOVED
-        self.editPValue = QLineEdit()
-        sliderPanel.addWidget(self.editPValue, 4, 0)
-        self.editIValue = QLineEdit()
-        sliderPanel.addWidget(self.editIValue, 4, 1)
-        self.editDValue = QLineEdit()
-        sliderPanel.addWidget(self.editDValue, 4, 2)
 
         return sliderPanel
 
