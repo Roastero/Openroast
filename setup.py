@@ -25,8 +25,9 @@ msi_data = {"Shortcut": shortcut_table}
 bdist_msi_options = {'data': msi_data}
 
 # Dependencies are automatically detected, but it might need fine tuning.
-build_exe_options = {"packages": ["os", "json", "matplotlib", "serial"],
-                     "excludes": ["tkinter"],
+build_exe_options = {"packages": ["os", "json", "matplotlib.backends.backend_qt5agg",
+                        "matplotlib.animation", "serial"],
+                     "excludes": ["matplotlib.backends.backend_tkagg", "tkinter"],
                      "include_files": ["roastero/static", "roastero/recipes", "roastero/modules", "LICENSE"],
                      "icon": "roastero/static/icons/roastero-windows.ico",
                      "include_msvcr": True

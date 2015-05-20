@@ -21,10 +21,6 @@ class RecipeEditor(QDialog):
         self.setContextMenuPolicy(Qt.NoContextMenu)
         #self.setWindowIcon(QIcon("icon.png"))
 
-        # Open qss file.
-        self.style = open('static/mainStyle.css').read()
-        self.setStyleSheet(self.style)
-
         self.create_ui()
 
         self.recipe = {}
