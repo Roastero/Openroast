@@ -26,14 +26,6 @@ class MainWindow(QMainWindow):
         self.setContextMenuPolicy(Qt.NoContextMenu)
         #self.setWindowIcon(QIcon("icon.png"))
 
-        # Open qss file.
-        QFontDatabase.addApplicationFont("static/fonts/asap/asap-regular.ttf")
-        QFontDatabase.addApplicationFont("static/fonts/asap/asap-bold.ttf")
-        QFontDatabase.addApplicationFont("static/fonts/asap/asap-bold-italic.ttf")
-        QFontDatabase.addApplicationFont("static/fonts/asap/asap-italic.ttf")
-        self.style = open('static/mainStyle.css').read()
-        self.setStyleSheet(self.style)
-
         # Create toolbar.
         self.create_toolbar()
 
