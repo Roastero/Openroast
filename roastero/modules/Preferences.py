@@ -3,11 +3,12 @@ import json
 
 class Preferences:
     def __init__():
-        self.defaultPreferences = {
+        self.values = {
             pidValues: {"p": 0.06, "i": 0.90, "d": 0.90},
-
+            roaster: {"FreshRoast SR700":"FreshRoastSR700"},
+            units: "Fahrenheit",
+            screenshotDirectory: os.path.expanduser('~/Documents/Roastero/Screenshots')
         }
-        self.additionalPreferences = {}
 
 
     def load_preferences_file(filePath=None):
@@ -26,9 +27,3 @@ class Preferences:
     # File to keep track of changes to preferences
     # Only add to this file if user changes value
     self.preferencesFile = os.path.expanduser('~/Documents/Roastero/preferences.json')
-
-
-    # Default values
-
-    # PID Controller Values
-    PIDVALUES: {"p": 0.06, "i": 0.90, "d": 0.90}

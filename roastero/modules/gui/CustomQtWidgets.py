@@ -42,3 +42,26 @@ class RecipeModel(QFileSystemModel):
                     return path[position+1:]
 
         return super(RecipeModel, self).data(index, role)
+
+class LogModel(QFileSystemModel):
+    """A Subclass of QFileSystemModel to add a column"""
+    def __init__(self, *args, **kwargs):
+        super(LogModel, self).__init__()
+
+    def columnCount(self, parent = QModelIndex()):
+        return super(LogModel, self).columnCount()+1
+
+    def data(self, index, role):
+        if index.column() == self.columnCount() - 1:
+            if role == Qt.DisplayRole:
+                filePath = self.filePath(index)
+                if os.path.isfile(filePath):
+                    with open(filePath) as json_data:
+                        fileContents = json.load(json_data)
+                    return fileContents["recipeName"]
+                else:
+                    path = self.filePath(index)
+                    position = path.rfind("/")
+                    return path[position+1:]
+
+        return super(LogModel, self).data(index, role)

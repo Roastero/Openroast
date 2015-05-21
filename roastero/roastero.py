@@ -22,12 +22,13 @@ from PyQt5.QtGui import QFontDatabase
 # Local project imports
 from modules.gui.MainWindow import MainWindow
 
-def check_for_user_recipe_folder():
-    roasteroRecipeFolder = os.path.expanduser('~/Documents/Roastero/recipes/')
-    if not os.path.isdir(roasteroRecipeFolder):
-        shutil.copytree("recipes", roasteroRecipeFolder)
+def check_for_user_folder():
+    roasteroUserFolder = os.path.expanduser('~/Documents/Roastero/')
+    if not os.path.isdir(roasteroUserFolder):
+        shutil.copytree("recipes", os.path.join(roasteroUserFolder, "recipes"))
+        shutil.copytree("log", os.path.join(roasteroUserFolder, "log"))
 
-check_for_user_recipe_folder()
+check_for_user_folder()
 app = QApplication(sys.argv)
 
 # Set application style.
