@@ -6,6 +6,7 @@ from PyQt5.QtGui import *
 # Local project imports
 from .RoastTab import RoastTab
 from .RecipesTab import RecipesTab
+from .RoastLogTab import RoastLogTab
 from .AboutWindow import About
 from .PreferencesWindow import PreferencesWindow
 from ..roaster_libraries.FreshRoastSR700 import FreshRoastSR700
@@ -55,7 +56,7 @@ class MainWindow(QMainWindow):
             triggered=self.roast.clear_roast)
 
         self.newRoastAct = QAction("&Roast Again", self,
-            shortcut=QKeySequence(Qt.CTRL + Qt.Key_R), 
+            shortcut=QKeySequence(Qt.CTRL + Qt.Key_R),
             statusTip="Roast recipe again",
             triggered=self.roast.reset_current_roast)
 
@@ -127,6 +128,12 @@ class MainWindow(QMainWindow):
         self.recipesTabButton.clicked.connect(self.select_recipes_tab)
         self.mainToolBar.addWidget(self.recipesTabButton)
 
+        # Add roast log tab button.
+        self.roastLogTabButton = QPushButton("ROAST LOG", self)
+        self.roastLogTabButton.setObjectName("toolbar")
+        self.roastLogTabButton.clicked.connect(self.select_roastLog_tab)
+        self.mainToolBar.addWidget(self.roastLogTabButton)
+
         # Add spacer to set login button on the right.
         self.spacer = QWidget()
         self.spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
@@ -134,7 +141,8 @@ class MainWindow(QMainWindow):
 
         # Add buttons to array to be disabled on selection.
         self.tabButtons = [self.roastTabButton,
-                           self.recipesTabButton]
+                           self.recipesTabButton,
+                           self.roastLogTabButton]
 
     def create_tabs(self):
         self.tabs = QStackedWidget()
@@ -142,10 +150,12 @@ class MainWindow(QMainWindow):
         # Create widgets to add to tabs.
         self.roast = RoastTab(roasterObject = self.roaster, recipeObject = self.recipe)
         self.recipes = RecipesTab(recipeObject = self.recipe, roastTabObject = self.roast, MainWindowObject = self)
+        self.roastLog = RoastLogTab()
 
         # Add widgets to tabs.
         self.tabs.insertWidget(0, self.roast)
         self.tabs.insertWidget(1, self.recipes)
+        self.tabs.insertWidget(2, self.roastLog)
 
         # Set the tabs as the central widget.
         self.setCentralWidget(self.tabs)
@@ -160,6 +170,10 @@ class MainWindow(QMainWindow):
     def select_recipes_tab(self):
         self.tabs.setCurrentIndex(1)
         self.change_blocked_button(1)
+
+    def select_roastLog_tab(self):
+        self.tabs.setCurrentIndex(2)
+        self.change_blocked_button(2)
 
     def change_blocked_button(self, index):
         # Set all buttons enabled.
