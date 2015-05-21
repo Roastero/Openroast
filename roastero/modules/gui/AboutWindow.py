@@ -36,7 +36,7 @@ class About(QDialog):
         # License
         self.licenseLabel = QLabel("License")
         self.licenseLabel.setAlignment(Qt.AlignCenter)
-        with open('LICENSE', 'r') as file:
+        with open('../LICENSE', 'r') as file:
              licenseText = file.read()
         self.licenseTextBox = QTextEdit()
         self.licenseTextBox.setText(licenseText)
