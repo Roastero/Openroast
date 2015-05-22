@@ -7,6 +7,9 @@ from PyQt5.QtCore import *
 import webbrowser
 from functools import partial
 
+# Local project imports
+from .. import config
+
 class About(QDialog):
     def __init__(self, recipeLocation=None):
         super(About, self).__init__()
@@ -43,7 +46,8 @@ class About(QDialog):
         self.licenseTextBox.setReadOnly(True)
 
         # Version
-        self.versionLabel = QLabel("Version - 0.2.0")
+        versionLabelString = "Version - " + config.get_version()
+        self.versionLabel = QLabel(versionLabelString)
         self.versionLabel.setObjectName("versionLabel")
         self.versionLabel.setAlignment(Qt.AlignCenter)
 

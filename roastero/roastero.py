@@ -27,8 +27,10 @@ def check_for_user_folder():
     if not os.path.isdir(roasteroUserFolder):
         shutil.copytree("recipes", os.path.join(roasteroUserFolder, "recipes"))
         shutil.copytree("log", os.path.join(roasteroUserFolder, "log"))
+        shutil.copyfile("config.ini", roasteroUserFolder)
 
 check_for_user_folder()
+
 app = QApplication(sys.argv)
 
 # Set application style.

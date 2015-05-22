@@ -1,6 +1,11 @@
 import sys, matplotlib
 from cx_Freeze import setup, Executable
 
+# Define Roastero version
+f = open('roastero/VERSION', 'r')
+version = f.readline()
+f.close()
+
 # MSI shortcut folder to create the start in directory.
 shortcut_table = [
     ("DesktopShortcut",        # Shortcut
@@ -40,7 +45,7 @@ if sys.platform == "win32":
     base = "Win32GUI"
 
 setup(  name = "Roastero",
-        version = "0.2.1",
+        version = version,
         description = "An open source cross-platform application for home coffee roasting",
         options = {"build_exe": build_exe_options, "bdist_msi": bdist_msi_options,
         "bdist_mac": {"iconfile": "roastero/static/icons/roastero-mac.icns"}},

@@ -9,8 +9,12 @@ from .RecipesTab import RecipesTab
 from .RoastLogTab import RoastLogTab
 from .AboutWindow import About
 from .PreferencesWindow import PreferencesWindow
-from ..roaster_libraries.FreshRoastSR700 import FreshRoastSR700
 from ..roaster_libraries.Recipe import Recipe
+from .. import config
+
+# Dynamically import roaster class
+if config.get_roaster() == "FreshRoastSR700":
+    from ..roaster_libraries.FreshRoastSR700 import FreshRoastSR700
 
 # Standard Library Imports
 import json, os
