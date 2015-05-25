@@ -6,28 +6,14 @@ from PyQt5.QtWidgets import *
 from PyQt5.QtCore import *
 
 # Local project imports
-from ..gui.CustomQtWidgets import TimeEditNoWheel, ComboBoxNoWheel
-
-# Matplotlib imports
-import matplotlib
-matplotlib.use('Qt5Agg')
-import matplotlib.pyplot as plt
-import matplotlib.animation as animation
-from matplotlib.dates import MinuteLocator, DateFormatter
-from matplotlib.backend_bases import key_press_handler
-from matplotlib.backends.backend_qt5agg import (
-    FigureCanvasQTAgg as FigureCanvas,
-    NavigationToolbar2QT as NavigationToolbar)
-
+from .CustomQtWidgets import TimeEditNoWheel, ComboBoxNoWheel
+from .RoastGraphWidget import RoastGraphWidget
 
 class RoastTab(QWidget):
     def __init__(self, roasterObject, recipeObject):
         super(RoastTab, self).__init__()
 
         # Class variables.
-        self.graphXValueList = []
-        self.graphYValueList = []
-        self.counter = 0
         self.roaster = roasterObject
         self.recipe = recipeObject
         self.sectTimeSliderPressed = False
@@ -54,7 +40,8 @@ class RoastTab(QWidget):
         self.layout = QGridLayout()
 
         # Create graph widget.
-        self.create_graph()
+        self.graphWidgetObject = RoastGraphWidget(animated = True, updateMethod = self.graph_get_data, animatingMethod = self.check_roaster_status)
+        self.graphWidget = self.graphWidgetObject.create_graph()
         self.layout.addWidget(self.graphWidget, 0, 0)
         self.layout.setColumnStretch(0, 1)
 
@@ -75,65 +62,18 @@ class RoastTab(QWidget):
         # Set main layout for widget.
         self.setLayout(self.layout)
 
-    def create_graph(self):
-        # Create the graph widget.
-        self.graphWidget = QWidget(self)
-        self.graphWidget.setObjectName("graph")
-
-        # Style attributes of matplotlib.
-        plt.rcParams['lines.linewidth'] = 3
-        plt.rcParams['lines.color'] = '#2a2a2a'
-        plt.rcParams['font.size'] = 10.
-
-        self.graphFigure = plt.figure(facecolor='#444952')
-        self.graphCanvas = FigureCanvas(self.graphFigure)
-
-        # Add graph widgets to layout for graph.
-        graphVerticalBox = QVBoxLayout()
-        graphVerticalBox.addWidget(self.graphCanvas)
-        self.graphWidget.setLayout(graphVerticalBox)
-
-        # Animate the the graph with new data
-        animateGraph = animation.FuncAnimation(self.graphFigure,
-            self.graph_draw, interval=1000)
-
-    def graph_draw(self, *args, **kwargs):
-        # Start graphing the roast if the roast has started.
+    def check_roaster_status(self):
         if (self.roaster.get_current_status() == 1 or
                 self.roaster.get_current_status() == 2):
-            self.graph_get_data()
-
-        self.graphFigure.clear()
-
-        self.graphAxes = self.graphFigure.add_subplot(111)
-        self.graphAxes.plot_date(self.graphXValueList, self.graphYValueList,
-            '#8ab71b')
-
-        # Add formatting to the graphs.
-        self.graphAxes.set_ylabel('TEMPERATURE (°F)')
-        self.graphAxes.set_xlabel('TIME')
-        self.graphFigure.subplots_adjust(bottom=0.2)
-
-        ax = self.graphAxes.get_axes()
-        ax.xaxis.set_major_formatter(DateFormatter('%M:%S'))
-        ax.set_axis_bgcolor('#23252a')
-
-        self.graphCanvas.draw()
+            return True
+        else:
+            return False
 
     def graph_get_data(self):
-        self.counter += 1
-        currentTime = datetime.datetime.fromtimestamp(self.counter)
-        self.graphXValueList.append(matplotlib.dates.date2num(currentTime))
-        self.graphYValueList.append(self.roaster.get_current_temp())
+        self.graphWidgetObject.append_x(self.roaster.get_current_temp())
 
     def save_roast_graph(self):
-        userDesktop =  os.path.expanduser('~/Desktop')
-        fileName = os.path.join(userDesktop + "/Roast_Graph")
-
-        i = 0
-        while os.path.exists('{}{:d}.png'.format(fileName, i)):
-            i += 1
-        self.graphFigure.savefig('{}{:d}.png'.format(fileName, i))
+        self.graphWidgetObject.save_roast_graph()
 
     def update_data(self):
         # Update temperature widgets.
@@ -488,10 +428,7 @@ class RoastTab(QWidget):
         self.update_total_time()
 
         # Clear roast graph.
-        self.graphXValueList = []
-        self.graphYValueList = []
-        self.counter = 0
-        self.graphFigure.clear()
+        self.graphWidgetObject.clear_graph()
 
     def load_recipe_into_roast_tab(self):
         self.recipe.load_current_section()
