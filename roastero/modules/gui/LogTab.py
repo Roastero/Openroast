@@ -20,9 +20,9 @@ from matplotlib.backends.backend_qt5agg import (
     NavigationToolbar2QT as NavigationToolbar)
 
 
-class RoastLogTab(QWidget):
+class LogTab(QWidget):
     def __init__(self):
-        super(RoastLogTab, self).__init__()
+        super(LogTab, self).__init__()
 
         # Class variables.
         # self.graphXValueList = []
