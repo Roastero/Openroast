@@ -35,7 +35,7 @@ def check_for_user_folder():
     if not os.path.isdir(roasteroUserFolder):
         shutil.copytree("recipes", os.path.join(roasteroUserFolder, "recipes"))
         shutil.copytree("log", os.path.join(roasteroUserFolder, "log"))
-        shutil.copyfile("config.ini", roasteroUserFolder)
+        shutil.copyfile("config.ini", os.path.join(roasteroUserFolder, "config.ini"))
 
 # Check for user folder.
 check_for_user_folder()
