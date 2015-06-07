@@ -40,9 +40,10 @@ class RoastTab(QWidget):
         self.layout = QGridLayout()
 
         # Create graph widget.
-        self.graphWidgetObject = RoastGraphWidget(animated = True, updateMethod = self.graph_get_data, animatingMethod = self.check_roaster_status)
-        self.graphWidget = self.graphWidgetObject.create_graph()
-        self.layout.addWidget(self.graphWidget, 0, 0)
+        self.graphWidget = RoastGraphWidget(animated = True,\
+            updateMethod = self.graph_get_data,\
+            animatingMethod = self.check_roaster_status)
+        self.layout.addWidget(self.graphWidget.widget, 0, 0)
         self.layout.setColumnStretch(0, 1)
 
         # Create right pane.
@@ -70,10 +71,10 @@ class RoastTab(QWidget):
             return False
 
     def graph_get_data(self):
-        self.graphWidgetObject.append_x(self.roaster.get_current_temp())
+        self.graphWidget.append_x(self.roaster.get_current_temp())
 
     def save_roast_graph(self):
-        self.graphWidgetObject.save_roast_graph()
+        self.graphWidget.save_roast_graph()
 
     def update_data(self):
         # Update temperature widgets.
@@ -428,7 +429,7 @@ class RoastTab(QWidget):
         self.update_total_time()
 
         # Clear roast graph.
-        self.graphWidgetObject.clear_graph()
+        self.graphWidget.clear_graph()
 
     def load_recipe_into_roast_tab(self):
         self.recipe.load_current_section()

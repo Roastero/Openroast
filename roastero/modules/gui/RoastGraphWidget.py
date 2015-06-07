@@ -22,6 +22,8 @@ class RoastGraphWidget():
         self.animated = animated
         self.animatingMethod = animatingMethod # Check if graph should continue to graph
 
+        self.widget = self.create_graph()
+
     def create_graph(self):
         # Create the graph widget.
         graphWidget = QWidget()
@@ -51,8 +53,9 @@ class RoastGraphWidget():
 
     def graph_draw(self, *args, **kwargs):
         # Start graphing the roast if the roast has started.
-        if self.animatingMethod():
-            self.updateMethod()
+        if self.animatingMethod is not None:
+            if self.animatingMethod():
+                self.updateMethod()
 
         self.graphFigure.clear()
 
