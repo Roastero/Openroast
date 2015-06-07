@@ -7,6 +7,7 @@ from PyQt5.QtCore import *
 
 # Local project imports
 from ..gui.CustomQtWidgets import LogModel
+from .RoastGraphWidget import RoastGraphWidget
 
 # Matplotlib imports
 import matplotlib
@@ -40,17 +41,12 @@ class LogTab(QWidget):
         self.layout = QGridLayout()
 
         # Create log browser.
-        self.create_log_browser()
+        self.logBrowser = self.create_log_browser()
         self.layout.addWidget(self.logBrowser, 0, 0)
 
-        # Create graph widget.
-        self.create_graph()
-        self.layout.addWidget(self.graphWidget, 0, 0)
-        self.layout.setColumnStretch(0, 1)
-
         # Create right pane.
-        # self.rightPane = self.create_right_pane()
-        # self.layout.addLayout(self.rightPane, 0, 1)
+        self.rightPane = self.create_right_pane()
+        self.layout.addLayout(self.rightPane, 0, 1)
 
         # Set main layout for widget.
         self.setLayout(self.layout)
@@ -62,65 +58,29 @@ class LogTab(QWidget):
         self.model.setRootPath(os.path.expanduser('~/Documents/Roastero/log/'))
 
         # Create a TreeView to view the information from the model
-        self.logBrowser = QTreeView()
-        self.logBrowser.setModel(self.model)
-        self.logBrowser.setRootIndex(self.model.index(os.path.expanduser('~/Documents/Roastero/log/')))
-        self.logBrowser.setFocusPolicy(Qt.NoFocus)
-        self.logBrowser.header().close()
+        logBrowser = QTreeView()
+        logBrowser.setModel(self.model)
+        logBrowser.setRootIndex(self.model.index(os.path.expanduser('~/Documents/Roastero/log/')))
+        logBrowser.setFocusPolicy(Qt.NoFocus)
+        logBrowser.header().close()
 
-        self.logBrowser.setAnimated(True)
-        self.logBrowser.setIndentation(0)
+        logBrowser.setAnimated(True)
+        logBrowser.setIndentation(0)
 
         # Hides all the unecessary columns created by the model
-        self.logBrowser.setColumnHidden(0, True)
-        self.logBrowser.setColumnHidden(1, True)
-        self.logBrowser.setColumnHidden(2, True)
-        self.logBrowser.setColumnHidden(3, True)
+        logBrowser.setColumnHidden(0, True)
+        logBrowser.setColumnHidden(1, True)
+        logBrowser.setColumnHidden(2, True)
+        logBrowser.setColumnHidden(3, True)
 
-        self.logBrowser.clicked.connect(self.on_logBrowser_clicked)
+        logBrowser.clicked.connect(self.on_logBrowser_clicked)
 
-    def create_graph(self):
-        # Create the graph widget.
-        self.graphWidget = QWidget(self)
-        self.graphWidget.setObjectName("graph")
-
-        # Style attributes of matplotlib.
-        plt.rcParams['lines.linewidth'] = 3
-        plt.rcParams['lines.color'] = '#2a2a2a'
-        plt.rcParams['font.size'] = 10.
-
-        self.graphFigure = plt.figure(facecolor='#444952')
-        self.graphCanvas = FigureCanvas(self.graphFigure)
-
-        # Add graph widgets to layout for graph.
-        graphVerticalBox = QVBoxLayout()
-        graphVerticalBox.addWidget(self.graphCanvas)
-        self.graphWidget.setLayout(graphVerticalBox)
-
-        # # Animate the the graph with new data
-        # animateGraph = animation.FuncAnimation(self.graphFigure,
-        #     self.graph_draw, interval=1000)
-
-    def graph_draw(self, graphXValueList = None, graphYValueList = None):
-        self.graphFigure.clear()
-
-        self.graphAxes = self.graphFigure.add_subplot(111)
-        self.graphAxes.plot_date(graphXValueList, graphYValueList,
-            '#8ab71b')
-
-        # Add formatting to the graphs.
-        self.graphAxes.set_ylabel('TEMPERATURE (°F)')
-        self.graphAxes.set_xlabel('TIME')
-        self.graphFigure.subplots_adjust(bottom=0.2)
-
-        ax = self.graphAxes.get_axes()
-        ax.xaxis.set_major_formatter(DateFormatter('%M:%S'))
-        ax.set_axis_bgcolor('#23252a')
-
-        self.graphCanvas.draw()
+        return logBrowser
 
     def on_logBrowser_clicked(self, index):
-        """This method is used when a log is selected in the left column."""
+        """
+        This method is used when a log is selected in the left column.
+        """
         indexItem = self.model.index(index.row(), 0, index.parent())
 
         self.selectedFilePath = self.model.filePath(indexItem)
@@ -136,8 +96,23 @@ class LogTab(QWidget):
             # Load roast log information from file
             self.load_roast_log_file(self.selectedFilePath)
 
+    def create_right_pane(self):
+        """
+        Creates the right pane of the log browser.
+        """
+        # Create right pane layout
+        rightPaneLayout = QGridLayout()
+
+        # Create Graph
+        # Create graph widget.
+        self.graphWidget = RoastGraphWidget()
+        rightPaneLayout.addWidget(self.graphWidget.widget, 0, 0)
+
+        return rightPaneLayout
+
+
     def load_roast_log_file(self, filePath):
-        """Used to load file from a path into selected roast log object."""
+        """Used to load file from a path into selected log object."""
         with open(filePath) as json_data:
             roastLogObject = json.load(json_data)
         self.currentlySelectedRoastLog = roastLogObject
