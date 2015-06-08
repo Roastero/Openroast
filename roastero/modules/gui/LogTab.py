@@ -48,6 +48,10 @@ class LogTab(QWidget):
         self.rightPane = self.create_right_pane()
         self.layout.addLayout(self.rightPane, 0, 1)
 
+        # Set stretch so items align correctly.
+        self.layout.setColumnStretch(1, 2)
+        # self.layout.setRowStretch(0, 2)
+
         # Set main layout for widget.
         self.setLayout(self.layout)
 
@@ -103,7 +107,6 @@ class LogTab(QWidget):
         # Create right pane layout
         rightPaneLayout = QGridLayout()
 
-        # Create Graph
         # Create graph widget.
         self.graphWidget = RoastGraphWidget()
         rightPaneLayout.addWidget(self.graphWidget.widget, 0, 0)
