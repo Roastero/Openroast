@@ -2,8 +2,9 @@ language: python
 python:
     - "3.4"
 # command to install dependencies
+sudo: required
 install:
-    - "apt-get install python3-pyqt5"
+    - "sudo apt-get install python3-pyqt5"
     - "pip install -r requirements.txt"
 # command to run tests
 script: nosetests
