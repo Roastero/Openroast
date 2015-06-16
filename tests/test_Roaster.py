@@ -1,5 +1,5 @@
 import unittest
-from modules.roaster_libraries.Roaster import Roaster
+from roastero.modules.roaster_libraries.Roaster import Roaster
 
 class TestRoaster(unittest.TestCase):
     def setUp(self):

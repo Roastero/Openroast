@@ -1,6 +1,6 @@
 import unittest
-from modules.roaster_libraries.Recipe import Recipe
-from modules.roaster_libraries.FreshRoastSR700 import FreshRoastSR700
+from roastero.modules.roaster_libraries.Recipe import Recipe
+from roastero.modules.roaster_libraries.FreshRoastSR700 import FreshRoastSR700
 
 class TestRecipe(unittest.TestCase):
     def setUp(self):
