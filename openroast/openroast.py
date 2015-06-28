@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Authors: Mark Spicer, Caleb Coffie
-# License: Roastero is released under GPLv3. Please see the license file for a
+# License: openroast is released under GPLv3. Please see the license file for a
 #          copy of the license.
 # Contact: For additional information, please email admin@roastero.com
 
@@ -31,11 +31,11 @@ from modules.gui.MainWindow import MainWindow
 def check_for_user_folder():
     """ Verify that a user folder exists and create one if it does not before
     launching the application """
-    roasteroUserFolder = os.path.expanduser('~/Documents/Roastero/')
-    if not os.path.isdir(roasteroUserFolder):
-        shutil.copytree("recipes", os.path.join(roasteroUserFolder, "recipes"))
-        shutil.copytree("log", os.path.join(roasteroUserFolder, "log"))
-        shutil.copyfile("config.ini", os.path.join(roasteroUserFolder, "config.ini"))
+    openroastUserFolder = os.path.expanduser('~/Documents/openroast/')
+    if not os.path.isdir(openroastUserFolder):
+        shutil.copytree("recipes", os.path.join(openroastUserFolder, "recipes"))
+        shutil.copytree("log", os.path.join(openroastUserFolder, "log"))
+        shutil.copyfile("config.ini", os.path.join(openroastUserFolder, "config.ini"))
 
 # Check for user folder.
 check_for_user_folder()

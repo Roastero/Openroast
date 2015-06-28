@@ -2,7 +2,7 @@ import unittest, sys
 from PyQt5.QtTest import QTest
 from PyQt5.QtWidgets import QApplication
 from PyQt5.QtGui import QFontDatabase
-from roastero.modules.gui.MainWindow import MainWindow
+from openroast.modules.gui.MainWindow import MainWindow
 
 class MainWindowTest(unittest.TestCase):
     def setUp(self):

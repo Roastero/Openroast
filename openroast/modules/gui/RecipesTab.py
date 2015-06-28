@@ -56,12 +56,12 @@ class RecipesTab(QWidget):
         This method also adds a button to create new recipes to the layout."""
         # Creates model with all information about the files in ./recipes
         self.model = RecipeModel()
-        self.model.setRootPath(os.path.expanduser('~/Documents/Roastero/recipes/'))
+        self.model.setRootPath(os.path.expanduser('~/Documents/openroast/recipes/'))
 
         # Create a TreeView to view the information from the model
         self.recipeBrowser = QTreeView()
         self.recipeBrowser.setModel(self.model)
-        self.recipeBrowser.setRootIndex(self.model.index(os.path.expanduser('~/Documents/Roastero/recipes/')))
+        self.recipeBrowser.setRootIndex(self.model.index(os.path.expanduser('~/Documents/openroast/recipes/')))
         self.recipeBrowser.setFocusPolicy(Qt.NoFocus)
         self.recipeBrowser.header().close()
 

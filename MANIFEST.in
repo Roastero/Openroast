@@ -1,3 +1,3 @@
 include LICENSE
-recursive-include roastero *.py *.json
-recursive-include roastero/static *
+recursive-include openroast *.py *.json
+recursive-include openroast/static *

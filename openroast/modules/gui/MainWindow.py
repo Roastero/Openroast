@@ -25,7 +25,7 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
 
         # Define main window for the application.
-        self.setWindowTitle('Roastero')
+        self.setWindowTitle('openroast')
         self.setMinimumSize(800,600)
         self.setContextMenuPolicy(Qt.NoContextMenu)
         #self.setWindowIcon(QIcon("icon.png"))
@@ -72,11 +72,11 @@ class MainWindow(QMainWindow):
             triggered=self.roast.save_roast_graph)
 
         self.openAboutWindow = QAction("&About", self,
-            statusTip="About Roastero",
+            statusTip="About openroast",
             triggered=self.open_about_window)
 
         self.openPreferencesWindow = QAction("&Preferences", self,
-            statusTip="Change Roastero settings",
+            statusTip="Change openroast settings",
             triggered=self.open_preferences_window)
 
     def create_menus(self):
@@ -108,7 +108,7 @@ class MainWindow(QMainWindow):
         self.mainToolBar.setFloatable(False)
 
         # Add logo.
-        self.logo = QLabel("ROASTERO")
+        self.logo = QLabel("openroast")
         self.logo.setObjectName("logo")
         self.mainToolBar.addWidget(self.logo)
 
@@ -144,7 +144,7 @@ class MainWindow(QMainWindow):
         self.tabs = QStackedWidget()
 
         # Create widgets to add to tabs.
-        self.roast = RoastTab(roasterObject = self.roaster, recipeObject = self.recipe)
+        self.roast = RoastTab(openroastbject = self.roaster, recipeObject = self.recipe)
         self.recipes = RecipesTab(recipeObject = self.recipe, roastTabObject = self.roast, MainWindowObject = self)
         self.log = LogTab()
 
@@ -183,7 +183,7 @@ class MainWindow(QMainWindow):
         try:
             recipeFile = QFileDialog.getOpenFileName(self, 'Select Recipe',
                 os.path.expanduser('~/'), 'Recipes (*.json);;All Files (*)')
-            copy2(recipeFile[0], os.path.expanduser('~/Documents/Roastero/recipes/local'))
+            copy2(recipeFile[0], os.path.expanduser('~/Documents/openroast/recipes/local'))
         except FileNotFoundError:
             # Occurs if file browser is canceled
             pass

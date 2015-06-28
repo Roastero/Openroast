@@ -1,5 +1,5 @@
 import unittest
-from roastero.modules.roaster_libraries.FreshRoastSR700 import FreshRoastSR700
+from openroast.modules.roaster_libraries.FreshRoastSR700 import FreshRoastSR700
 
 class TestFreshRoastSR700(unittest.TestCase):
     def setUp(self):

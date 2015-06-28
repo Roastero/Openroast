@@ -16,7 +16,7 @@ class RecipeEditor(QDialog):
         super(RecipeEditor, self).__init__()
 
         # Define main window for the application.
-        self.setWindowTitle('Roastero')
+        self.setWindowTitle('openroast')
         self.setMinimumSize(800,600)
         self.setContextMenuPolicy(Qt.NoContextMenu)
         #self.setWindowIcon(QIcon("icon.png"))
@@ -360,7 +360,7 @@ class RecipeEditor(QDialog):
         # Alert user if they try to delete all the steps
         if len(newSteps) < 1:
             alert = QMessageBox()
-            alert.setWindowTitle('Roastero')
+            alert.setWindowTitle('openroast')
             alert.setStyleSheet(self.style)
             alert.setText("You must have atleast one step!")
             alert.exec_()
@@ -379,7 +379,7 @@ class RecipeEditor(QDialog):
         if "file" in self.recipe:
             filePath = self.recipe["file"]
         else:
-            filePath = os.path.expanduser('~/Documents/Roastero/recipes/local/') + format_filename(self.recipeName.text()) + ".json"
+            filePath = os.path.expanduser('~/Documents/openroast/recipes/local/') + format_filename(self.recipeName.text()) + ".json"
             # TODO: Account for existing file with same name
 
         # Create Dictionary with all the new recipe information

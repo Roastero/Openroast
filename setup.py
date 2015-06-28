@@ -1,8 +1,8 @@
 import sys, matplotlib
 from cx_Freeze import setup, Executable
 
-# Define Roastero version
-f = open('roastero/VERSION', 'r')
+# Define openroast version
+f = open('openroast/VERSION', 'r')
 version = f.readline()
 f.close()
 
@@ -10,9 +10,9 @@ f.close()
 shortcut_table = [
     ("DesktopShortcut",        # Shortcut
      "DesktopFolder",          # Directory_
-     "Roastero",               # Name
+     "openroast",               # Name
      "TARGETDIR",              # Component_
-     "[TARGETDIR]roastero.exe",# Target
+     "[TARGETDIR]openroast.exe",# Target
      None,                     # Arguments
      None,                     # Description
      None,                     # Hotkey
@@ -33,8 +33,8 @@ bdist_msi_options = {'data': msi_data}
 build_exe_options = {"packages": ["os", "json", "matplotlib.backends.backend_qt5agg",
                         "matplotlib.animation", "serial"],
                      "excludes": ["matplotlib.backends.backend_tkagg", "tkinter"],
-                     "include_files": ["roastero/static", "roastero/recipes", "roastero/modules", "LICENSE"],
-                     "icon": "roastero/static/icons/roastero-windows.ico",
+                     "include_files": ["openroast/static", "openroast/recipes", "openroast/modules", "LICENSE"],
+                     "icon": "openroast/static/icons/openroast-windows.ico",
                      "include_msvcr": True
 }
 
@@ -44,17 +44,17 @@ base = None
 if sys.platform == "win32":
     base = "Win32GUI"
 
-setup(  name = "Roastero",
+setup(  name = "openroast",
         version = version,
         description = "An open source cross-platform application for home coffee roasting",
         options = {"build_exe": build_exe_options, "bdist_msi": bdist_msi_options,
-        "bdist_mac": {"iconfile": "roastero/static/icons/roastero-mac.icns"}},
-        executables = [Executable("roastero/roastero.py",
+        "bdist_mac": {"iconfile": "openroast/static/icons/openroast-mac.icns"}},
+        executables = [Executable("openroast/openroast.py",
             base=base
         )],
         data_files=matplotlib.get_py2exe_datafiles(),
-	url = "http://roastero.com",
-	author = "Roastero",
-	author_email = "admin@roastero.com",
-	packages = ["roastero"]
+	url = "http://openroast.com",
+	author = "openroast",
+	author_email = "admin@openroast.com",
+	packages = ["openroast"]
 )

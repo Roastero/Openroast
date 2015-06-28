@@ -59,12 +59,12 @@ class LogTab(QWidget):
         """Creates the side panel to browse all the files in the log folder."""
         # Creates model with all information about the files in ./recipes
         self.model = LogModel()
-        self.model.setRootPath(os.path.expanduser('~/Documents/Roastero/log/'))
+        self.model.setRootPath(os.path.expanduser('~/Documents/openroast/log/'))
 
         # Create a TreeView to view the information from the model
         logBrowser = QTreeView()
         logBrowser.setModel(self.model)
-        logBrowser.setRootIndex(self.model.index(os.path.expanduser('~/Documents/Roastero/log/')))
+        logBrowser.setRootIndex(self.model.index(os.path.expanduser('~/Documents/openroast/log/')))
         logBrowser.setFocusPolicy(Qt.NoFocus)
         logBrowser.header().close()
 

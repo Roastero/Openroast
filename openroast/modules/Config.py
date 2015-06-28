@@ -8,7 +8,7 @@ class Config:
         self.config = ConfigParser()
 
         # Read in ini files
-        self.config.read(["default_config.ini", os.path.expanduser('~/Documents/Roastero/config.ini')])
+        self.config.read(["default_config.ini", os.path.expanduser('~/Documents/openroast/config.ini')])
 
         # Place software version into config object
         f = open('VERSION', 'r')
@@ -22,7 +22,7 @@ class Config:
 
     def get_screenshot_directory(self, config = None):
         config = config or self.config
-        return config.get("GeneralSettings", "ScreenshotDirectory", fallback = os.path.expanduser('~/Documents/Roastero/Screenshots'))
+        return config.get("GeneralSettings", "ScreenshotDirectory", fallback = os.path.expanduser('~/Documents/openroast/Screenshots'))
 
     def set_screenshot_directory(self, directory, config = None):
         config = config or self.config
@@ -87,5 +87,5 @@ class Config:
 
     def write_user_config(self, config = None):
         config = config or self.config
-        with open(os.path.expanduser('~/Documents/Roastero/config.ini'), 'w') as configfile:
+        with open(os.path.expanduser('~/Documents/openroast/config.ini'), 'w') as configfile:
             config.write(configfile)

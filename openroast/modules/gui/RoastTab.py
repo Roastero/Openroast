@@ -10,11 +10,11 @@ from .CustomQtWidgets import TimeEditNoWheel, ComboBoxNoWheel
 from .RoastGraphWidget import RoastGraphWidget
 
 class RoastTab(QWidget):
-    def __init__(self, roasterObject, recipeObject):
+    def __init__(self, openroastbject, recipeObject):
         super(RoastTab, self).__init__()
 
         # Class variables.
-        self.roaster = roasterObject
+        self.roaster = openroastbject
         self.recipe = recipeObject
         self.sectTimeSliderPressed = False
         self.tempSliderPressed = False

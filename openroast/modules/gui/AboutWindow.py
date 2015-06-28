@@ -15,7 +15,7 @@ class About(QDialog):
         super(About, self).__init__()
 
         # Define main window for the application.
-        self.setWindowTitle('About Roastero')
+        self.setWindowTitle('About openroast')
         self.setMinimumSize(600,400)
         self.setContextMenuPolicy(Qt.NoContextMenu)
         #self.setWindowIcon(QIcon("icon.png"))
@@ -31,10 +31,10 @@ class About(QDialog):
         # Create main layout for window.
         self.layout = QGridLayout(self)
 
-        # Roastero Label
-        self.roasteroLabel = QLabel("Roastero")
-        self.roasteroLabel.setAlignment(Qt.AlignCenter)
-        self.roasteroLabel.setObjectName("logo")
+        # openroast Label
+        self.openroastLabel = QLabel("openroast")
+        self.openroastLabel.setAlignment(Qt.AlignCenter)
+        self.openroastLabel.setObjectName("logo")
 
         # License
         self.licenseLabel = QLabel("License")
@@ -64,7 +64,7 @@ class About(QDialog):
         self.authorButton2.clicked.connect(partial(self.open_link_in_browser, self.author2Link))
 
         # Add all the widgets
-        self.layout.addWidget(self.roasteroLabel, 0, 0, 1, 2)
+        self.layout.addWidget(self.openroastLabel, 0, 0, 1, 2)
         self.layout.addWidget(self.licenseLabel, 1, 0, 1, 2)
         self.layout.addWidget(self.licenseTextBox, 2, 0, 1, 2)
         self.layout.addWidget(self.versionLabel, 3, 0, 1, 2)

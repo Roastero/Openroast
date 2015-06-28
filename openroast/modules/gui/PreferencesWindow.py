@@ -8,7 +8,7 @@ class PreferencesWindow(QDialog):
         super(PreferencesWindow, self).__init__()
 
         # Define main window for the application.
-        self.setWindowTitle('Roastero Preferences')
+        self.setWindowTitle('openroast Preferences')
         self.setMinimumSize(800,600)
         self.setContextMenuPolicy(Qt.NoContextMenu)
         #self.setWindowIcon(QIcon("icon.png"))
