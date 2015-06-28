@@ -6,9 +6,9 @@ from PyQt5.QtGui import *
 # Local project imports
 from .RoastTab import RoastTab
 from .RecipesTab import RecipesTab
-from .LogTab import LogTab
+# from .LogTab import LogTab
 from .AboutWindow import About
-from .PreferencesWindow import PreferencesWindow
+# from .PreferencesWindow import PreferencesWindow
 from ..roaster_libraries.Recipe import Recipe
 from .. import config
 
@@ -75,9 +75,9 @@ class MainWindow(QMainWindow):
             statusTip="About openroast",
             triggered=self.open_about_window)
 
-        self.openPreferencesWindow = QAction("&Preferences", self,
-            statusTip="Change openroast settings",
-            triggered=self.open_preferences_window)
+        # self.openPreferencesWindow = QAction("&Preferences", self,
+        #     statusTip="Change openroast settings",
+        #     triggered=self.open_preferences_window)
 
     def create_menus(self):
         menubar = self.menuBar()
@@ -95,7 +95,7 @@ class MainWindow(QMainWindow):
 
         # Create edit menu.
         self.editMenu = menubar.addMenu("&Edit")
-        self.editMenu.addAction(self.openPreferencesWindow)
+        # self.editMenu.addAction(self.openPreferencesWindow)
 
         # Create help menu.
         self.helpMenu = menubar.addMenu("&Help")
@@ -182,7 +182,7 @@ class MainWindow(QMainWindow):
         try:
             recipeFile = QFileDialog.getOpenFileName(self, 'Select Recipe',
                 os.path.expanduser('~/'), 'Recipes (*.json);;All Files (*)')
-            copy2(recipeFile[0], os.path.expanduser('~/Documents/openroast/recipes/local'))
+            copy2(recipeFile[0], os.path.expanduser('~/Documents/openroast/recipes/My Recipes/'))
         except FileNotFoundError:
             # Occurs if file browser is canceled
             pass
@@ -208,6 +208,6 @@ class MainWindow(QMainWindow):
         self.aboutWindow = About()
         self.aboutWindow.exec_()
 
-    def open_preferences_window(self):
-        self.preferencesWindow = PreferencesWindow()
-        self.preferencesWindow.exec_()
+    # def open_preferences_window(self):
+    #     self.preferencesWindow = PreferencesWindow()
+    #     self.preferencesWindow.exec_()
