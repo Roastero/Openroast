@@ -125,10 +125,10 @@ class MainWindow(QMainWindow):
         self.mainToolBar.addWidget(self.recipesTabButton)
 
         # Add roast log tab button.
-        self.logTabButton = QPushButton("LOG", self)
-        self.logTabButton.setObjectName("toolbar")
-        self.logTabButton.clicked.connect(self.select_log_tab)
-        self.mainToolBar.addWidget(self.logTabButton)
+        # self.logTabButton = QPushButton("LOG", self)
+        # self.logTabButton.setObjectName("toolbar")
+        # self.logTabButton.clicked.connect(self.select_log_tab)
+        # self.mainToolBar.addWidget(self.logTabButton)
 
         # Add spacer to set login button on the right.
         self.spacer = QWidget()
@@ -137,8 +137,7 @@ class MainWindow(QMainWindow):
 
         # Add buttons to array to be disabled on selection.
         self.tabButtons = [self.roastTabButton,
-                           self.recipesTabButton,
-                           self.logTabButton]
+                           self.recipesTabButton]
 
     def create_tabs(self):
         self.tabs = QStackedWidget()
@@ -146,12 +145,12 @@ class MainWindow(QMainWindow):
         # Create widgets to add to tabs.
         self.roast = RoastTab(openroastbject = self.roaster, recipeObject = self.recipe)
         self.recipes = RecipesTab(recipeObject = self.recipe, roastTabObject = self.roast, MainWindowObject = self)
-        self.log = LogTab()
+        # self.log = LogTab()
 
         # Add widgets to tabs.
         self.tabs.insertWidget(0, self.roast)
         self.tabs.insertWidget(1, self.recipes)
-        self.tabs.insertWidget(2, self.log)
+        # self.tabs.insertWidget(2, self.log)
 
         # Set the tabs as the central widget.
         self.setCentralWidget(self.tabs)
@@ -167,9 +166,9 @@ class MainWindow(QMainWindow):
         self.tabs.setCurrentIndex(1)
         self.change_blocked_button(1)
 
-    def select_log_tab(self):
-        self.tabs.setCurrentIndex(2)
-        self.change_blocked_button(2)
+    # def select_log_tab(self):
+    #     self.tabs.setCurrentIndex(2)
+    #     self.change_blocked_button(2)
 
     def change_blocked_button(self, index):
         # Set all buttons enabled.

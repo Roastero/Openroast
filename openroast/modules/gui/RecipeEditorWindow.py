@@ -379,7 +379,7 @@ class RecipeEditor(QDialog):
         if "file" in self.recipe:
             filePath = self.recipe["file"]
         else:
-            filePath = os.path.expanduser('~/Documents/openroast/recipes/local/') + format_filename(self.recipeName.text()) + ".json"
+            filePath = os.path.expanduser('~/Documents/openroast/recipes/My Recipes/') + format_filename(self.recipeName.text()) + ".json"
             # TODO: Account for existing file with same name
 
         # Create Dictionary with all the new recipe information

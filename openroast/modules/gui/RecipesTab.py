@@ -174,8 +174,13 @@ class RecipesTab(QWidget):
             # Load recipe information from file
             self.load_recipe_file(self.selectedFilePath)
 
+            # Set bean link button enabled/disabled if it is available or not.
+            if(self.currentBeanUrl):
+                self.beanLinkButton.setEnabled(True)
+            else:
+                self.beanLinkButton.setEnabled(False)
+
             # Set lower buttons enabled once recipe is selected.
-            self.beanLinkButton.setEnabled(True)
             self.editRecipeButton.setEnabled(True)
             self.recipeRoastButton.setEnabled(True)
 
