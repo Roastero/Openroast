@@ -1,0 +1,99 @@
+{
+    "creator": "Daniel",
+    "roastName": "Dan's Espresso",
+    "steps": [
+        {
+            "targetTemp": 250,
+            "fanSpeed": 9,
+            "sectionTime": 30
+        },
+        {
+            "targetTemp": 200,
+            "fanSpeed": 9,
+            "sectionTime": 30
+        },
+        {
+            "targetTemp": 220,
+            "fanSpeed": 9,
+            "sectionTime": 30
+        },
+        {
+            "targetTemp": 240,
+            "fanSpeed": 9,
+            "sectionTime": 30
+        },
+        {
+            "targetTemp": 280,
+            "fanSpeed": 9,
+            "sectionTime": 30
+        },
+        {
+            "targetTemp": 290,
+            "fanSpeed": 9,
+            "sectionTime": 60
+        },
+        {
+            "targetTemp": 300,
+            "fanSpeed": 9,
+            "sectionTime": 60
+        },
+        {
+            "targetTemp": 310,
+            "fanSpeed": 9,
+            "sectionTime": 60
+        },
+        {
+            "targetTemp": 350,
+            "fanSpeed": 9,
+            "sectionTime": 30
+        },
+        {
+            "targetTemp": 390,
+            "fanSpeed": 8,
+            "sectionTime": 30
+        },
+        {
+            "targetTemp": 420,
+            "fanSpeed": 6,
+            "sectionTime": 30
+        },
+        {
+            "targetTemp": 450,
+            "fanSpeed": 5,
+            "sectionTime": 60
+        },
+        {
+            "targetTemp": 470,
+            "fanSpeed": 4,
+            "sectionTime": 60
+        },
+        {
+            "targetTemp": 490,
+            "fanSpeed": 4,
+            "sectionTime": 60
+        },
+        {
+            "targetTemp": 490,
+            "fanSpeed": 3,
+            "sectionTime": 60
+        },
+        {
+            "cooling": true,
+            "fanSpeed": 9,
+            "sectionTime": 180
+        }
+    ],
+    "bean": {
+        "region": "Blend",
+        "source": {
+            "reseller": "",
+            "link": ""
+        },
+        "country": "Blend"
+    },
+    "totalTime": 840,
+    "roastDescription": {
+        "roastType": "Full City+",
+        "description": "4oz batch size\n\nFirst step is on EMPTY roaster.  This equalizes the temperature to guarantee a consistent start.  Drop beans at 5sec remaining.\n\nBased on the Diedrich profile, this profile steps up to higher heat faster.  This profile is more suited to beans destined for espresso.  My ideal stop point is just at the start of 2nd crack.  If you like to go longer, add time to the last step.\n\nTimes quoted are profile times.  If you remove the first step, subtract 30sec from all times.\n\n1st Crack: ~ 8:30\n2nd Crack ~ 10:40\n\nHit cool at any time you like after first crack.  Beans tested with this profile:\n\nSumatra, Mexico, Brazil blend"
+    }
+}

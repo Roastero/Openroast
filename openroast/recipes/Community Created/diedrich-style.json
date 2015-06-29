@@ -1,0 +1,99 @@
+{
+    "creator": "Daniel",
+    "roastName": "Diedrich Style",
+    "steps": [
+        {
+            "targetTemp": 250,
+            "fanSpeed": 9,
+            "sectionTime": 30
+        },
+        {
+            "targetTemp": 200,
+            "fanSpeed": 9,
+            "sectionTime": 60
+        },
+        {
+            "targetTemp": 220,
+            "fanSpeed": 9,
+            "sectionTime": 60
+        },
+        {
+            "targetTemp": 240,
+            "fanSpeed": 9,
+            "sectionTime": 60
+        },
+        {
+            "targetTemp": 280,
+            "fanSpeed": 9,
+            "sectionTime": 60
+        },
+        {
+            "targetTemp": 290,
+            "fanSpeed": 9,
+            "sectionTime": 60
+        },
+        {
+            "targetTemp": 300,
+            "fanSpeed": 9,
+            "sectionTime": 60
+        },
+        {
+            "targetTemp": 310,
+            "fanSpeed": 9,
+            "sectionTime": 60
+        },
+        {
+            "targetTemp": 350,
+            "fanSpeed": 9,
+            "sectionTime": 60
+        },
+        {
+            "targetTemp": 390,
+            "fanSpeed": 8,
+            "sectionTime": 60
+        },
+        {
+            "targetTemp": 420,
+            "fanSpeed": 6,
+            "sectionTime": 60
+        },
+        {
+            "targetTemp": 450,
+            "fanSpeed": 5,
+            "sectionTime": 60
+        },
+        {
+            "targetTemp": 470,
+            "fanSpeed": 4,
+            "sectionTime": 60
+        },
+        {
+            "targetTemp": 490,
+            "fanSpeed": 4,
+            "sectionTime": 60
+        },
+        {
+            "targetTemp": 490,
+            "fanSpeed": 3,
+            "sectionTime": 60
+        },
+        {
+            "cooling": true,
+            "fanSpeed": 9,
+            "sectionTime": 180
+        }
+    ],
+    "bean": {
+        "region": "N/A",
+        "source": {
+            "reseller": "Sweet Maria's",
+            "link": ""
+        },
+        "country": "N/A"
+    },
+    "totalTime": 1050,
+    "roastDescription": {
+        "roastType": "City+ to Full City++",
+        "description": "4oz batch size\n\nFirst step is on EMPTY roaster.  This equalizes the temperature to guarantee a consistent start.  Drop beans at 5sec remaining.\n\nThis profile simulates the Diedrich drum roast slow start / fast finish concept.  The idea is to get to 1st crack at about 11min of heat, and then finish the roast 2-3min later.\n\nTimes quoted are profile times.  If you remove the first step, subtract 30sec from all times.\n\n1st Crack: ~ 12:00\n2nd Crack ~ 14:00\n\nHit cool at any time you like after first crack.  Beans tested with this profile:\n\nPeru - 2min past 1st crack\nSumatra - 20sec into 2nd crack\nGuatemala - 2min past 1st crack"
+    }
+}

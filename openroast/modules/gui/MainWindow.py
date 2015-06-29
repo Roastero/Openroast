@@ -25,7 +25,7 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__()
 
         # Define main window for the application.
-        self.setWindowTitle('openroast')
+        self.setWindowTitle('Openroast')
         self.setMinimumSize(800,600)
         self.setContextMenuPolicy(Qt.NoContextMenu)
         #self.setWindowIcon(QIcon("icon.png"))

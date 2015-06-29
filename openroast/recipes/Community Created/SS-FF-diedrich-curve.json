@@ -1,0 +1,79 @@
+{
+    "creator": "Steve",
+    "roastName": "SS-FF Diedrich Curve",
+    "steps": [
+        {
+            "targetTemp": 250,
+            "fanSpeed": 9,
+            "sectionTime": 30
+        },
+        {
+            "targetTemp": 250,
+            "fanSpeed": 9,
+            "sectionTime": 30
+        },
+        {
+            "targetTemp": 270,
+            "fanSpeed": 9,
+            "sectionTime": 30
+        },
+        {
+            "targetTemp": 290,
+            "fanSpeed": 7,
+            "sectionTime": 90
+        },
+        {
+            "targetTemp": 320,
+            "fanSpeed": 7,
+            "sectionTime": 90
+        },
+        {
+            "targetTemp": 350,
+            "fanSpeed": 6,
+            "sectionTime": 90
+        },
+        {
+            "targetTemp": 390,
+            "fanSpeed": 5,
+            "sectionTime": 90
+        },
+        {
+            "targetTemp": 470,
+            "fanSpeed": 5,
+            "sectionTime": 120
+        },
+        {
+            "targetTemp": 480,
+            "fanSpeed": 4,
+            "sectionTime": 60
+        },
+        {
+            "targetTemp": 490,
+            "fanSpeed": 4,
+            "sectionTime": 60
+        },
+        {
+            "targetTemp": 500,
+            "fanSpeed": 4,
+            "sectionTime": 30
+        },
+        {
+            "cooling": true,
+            "fanSpeed": 9,
+            "sectionTime": 180
+        }
+    ],
+    "bean": {
+        "region": "N/A",
+        "source": {
+            "reseller": "",
+            "link": ""
+        },
+        "country": "N/A"
+    },
+    "totalTime": 900,
+    "roastDescription": {
+        "roastType": "Full City",
+        "description": "4oz batch\n\nFirst step is on EMPTY roaster.  Drop beans at 5sec remaining.\n\nThis is what I am aiming for:\n\"The profile spends around 6 to 8 minutes, rather than 3 to 4 minutes, in the \"maillard zone\" running from 290F to 390F bean temperatures, then spends 2.5 minutes, rather than 3.5 to 5, in the \"caramelization zone\" from first crack to end of roast. This is what creates the strong change in roast flavors.\"\n\n\n\n"
+    }
+}
