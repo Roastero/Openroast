@@ -1,0 +1,29 @@
+{
+    "steps": [
+        {
+            "sectionTime": 300,
+            "fanSpeed": 5,
+            "targetTemp": 360
+        },
+        {
+            "sectionTime": 300,
+            "cooling": true,
+            "fanSpeed": 5
+        }
+    ],
+    "creator": "Openroast",
+    "bean": {
+        "region": "Hawaii",
+        "source": {
+            "link": "",
+            "reseller": ""
+        },
+        "country": "United States"
+    },
+    "totalTime": 600,
+    "roastName": "My First Recipe",
+    "roastDescription": {
+        "roastType": "Full City",
+        "description": "Feel free to edit this recipe or create a new one! If you add a bean link, be sure to add http:// or https:// before the link. You can find your recipe files at ~/Documents/openroast/recipes/My Recipes"
+    }
+}

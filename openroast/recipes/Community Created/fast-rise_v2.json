@@ -1,0 +1,79 @@
+{
+    "creator": "Daniel",
+    "roastName": "Fast Rise v2",
+    "steps": [
+        {
+            "sectionTime": 30,
+            "fanSpeed": 9,
+            "targetTemp": 250
+        },
+        {
+            "sectionTime": 45,
+            "fanSpeed": 9,
+            "targetTemp": 290
+        },
+        {
+            "sectionTime": 45,
+            "fanSpeed": 9,
+            "targetTemp": 350
+        },
+        {
+            "sectionTime": 60,
+            "fanSpeed": 8,
+            "targetTemp": 400
+        },
+        {
+            "sectionTime": 150,
+            "fanSpeed": 6,
+            "targetTemp": 450
+        },
+        {
+            "sectionTime": 30,
+            "fanSpeed": 5,
+            "targetTemp": 460
+        },
+        {
+            "sectionTime": 30,
+            "fanSpeed": 5,
+            "targetTemp": 470
+        },
+        {
+            "sectionTime": 30,
+            "fanSpeed": 4,
+            "targetTemp": 480
+        },
+        {
+            "sectionTime": 30,
+            "fanSpeed": 4,
+            "targetTemp": 490
+        },
+        {
+            "sectionTime": 30,
+            "fanSpeed": 3,
+            "targetTemp": 490
+        },
+        {
+            "sectionTime": 30,
+            "fanSpeed": 2,
+            "targetTemp": 490
+        },
+        {
+            "sectionTime": 180,
+            "fanSpeed": 9,
+            "cooling": true
+        }
+    ],
+    "bean": {
+        "region": "Blend",
+        "country": "Blend",
+        "source": {
+            "reseller": "Sweet Maria's",
+            "link": ""
+        }
+    },
+    "totalTime": 690,
+    "roastDescription": {
+        "roastType": "Full City+(+)",
+        "description": "4oz batch\n\nFirst step is on EMPTY roaster.  Drop beans at 5sec remaining.\n\nYellow ~ 2:50\nCinamon~ 3:50\n1C ~ 5:45\n2C ~ 8:00\n\n4 Bean Espresso Blend - 1oz each of\n\nBrazil Pulp Natural\nBrazil Dry\nMexico Organic Chiapas\nSumatra Lintong\n\n"
+    }
+}
