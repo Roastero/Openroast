@@ -33,7 +33,12 @@ bdist_msi_options = {'data': msi_data}
 build_exe_options = {"packages": ["os", "json", "matplotlib.backends.backend_qt5agg",
                         "matplotlib.animation", "serial"],
                      "excludes": ["matplotlib.backends.backend_tkagg", "tkinter"],
-                     "include_files": ["openroast/static", "openroast/recipes", "openroast/modules", "LICENSE"],
+                     "include_files": [
+                        "openroast/static",
+                        "openroast/recipes",
+                        "openroast/modules",
+                        "openroast/VERSION",
+                        "LICENSE"],
                      "icon": "openroast/static/icons/openroast-windows.ico",
                      "include_msvcr": True
 }
@@ -44,7 +49,7 @@ base = None
 if sys.platform == "win32":
     base = "Win32GUI"
 
-setup(  name = "openroast",
+setup(  name = "Openroast",
         version = version,
         description = "An open source cross-platform application for home coffee roasting",
         options = {"build_exe": build_exe_options, "bdist_msi": bdist_msi_options,
@@ -53,7 +58,7 @@ setup(  name = "openroast",
             base=base
         )],
         data_files=matplotlib.get_py2exe_datafiles(),
-	url = "http://openroast.com",
+	url = "http://roastero.com",
 	author = "openroast",
 	author_email = "admin@openroast.com",
 	packages = ["openroast"]
