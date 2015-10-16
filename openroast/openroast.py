@@ -34,7 +34,6 @@ def check_for_user_folder():
     openroastUserFolder = os.path.expanduser('~/Documents/openroast/')
     if not os.path.isdir(openroastUserFolder):
         shutil.copytree("recipes", os.path.join(openroastUserFolder, "recipes"))
-        shutil.copytree("log", os.path.join(openroastUserFolder, "log"))
         shutil.copyfile("config.ini", os.path.join(openroastUserFolder, "config.ini"))
 
 # Check for user folder.
