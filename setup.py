@@ -1,10 +1,17 @@
-import sys, matplotlib
+import os
+import sys
+import matplotlib
+from setuptools import find_packages
 from cx_Freeze import setup, Executable
 
-# Define openroast version
-f = open('openroast/VERSION', 'r')
-version = f.readline()
-f.close()
+
+here = os.path.abspath(os.path.dirname(__file__))
+with open(os.path.join(here, 'README.md')) as f:
+    README = f.read()
+with open(os.path.join(here, 'requirements.txt')) as f:
+    requires = f.read().splitlines()
+with open(os.path.join(here, 'openroast/VERSION')) as f:
+    version = f.readline()
 
 # MSI shortcut folder to create the start in directory.
 shortcut_table = [(
@@ -31,21 +38,14 @@ bdist_msi_options = {'data': msi_data}
 # Dependencies are automatically detected, but it might need fine tuning.
 build_exe_options = {
     "packages": ["openroast"],
-     "includes": [
-        "os",
-        "json",
-        "matplotlib.backends.backend_qt5agg",
-        "matplotlib.animation",
-        "serial"],
-     "excludes": [
-        "matplotlib.backends.backend_tkagg",
-        "tkinter"],
+     "includes": ["matplotlib", "serial", "distutils", "matplotlib.backends.backend_qt5agg"],
      "include_files": [
         "openroast/static",
         "openroast/recipes",
         "openroast/modules",
         "openroast/VERSION",
-        "LICENSE"],
+        "LICENSE",
+        (matplotlib.get_data_path(), "mpl-data")],
      "icon": "openroast/static/icons/openroast-windows.ico",
      "include_msvcr": True
 }
@@ -56,19 +56,25 @@ base = None
 if sys.platform == "win32":
     base = "Win32GUI"
 
+
+
 setup(
-    name = "Openroast",
-    version = version,
-    description = "An open source cross-platform application for home coffee roasting",
+    name='Openroast',
+    version=version,
+    description='An open source, cross-platform application for home coffee roasting',
+    long_description=README,
+    license='GPLv3',
+    author='Roastero',
+    url='http://roastero.com',
+    author_email='admin@roatero.com',
+    include_package_data=True,
     options = {
         "build_exe": build_exe_options,
         "bdist_msi": bdist_msi_options,
-        "bdist_mac": {"iconfile": "openroast/static/icons/openroast-mac.icns"}},
+        "bdist_mac": {"iconfile": "static/icons/openroast-mac.icns"}},
     executables = [
-        Executable("openroast/openroast.py",
-        base=base)],
+        Executable('openroast/openroast.py')],
+    zip_safe=False,
     data_files=matplotlib.get_py2exe_datafiles(),
-	url = "http://roastero.com",
-	author = "openroast",
-	author_email = "admin@openroast.com",
-	packages = ["openroast"])
+    packages=find_packages(),
+    install_requires=requires)
