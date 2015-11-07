@@ -1,16 +1,19 @@
-# PyQt imports
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
+# -*- coding: utf-8 -*-
+# Roastero, released under GPLv3
 
-# Standard Library Imports
-import os, json, time, webbrowser
+import os
+import json
+import time
+import webbrowser
 
-# Local project imports
-from ..gui.RecipeEditorWindow import RecipeEditor
-from ..gui.CustomQtWidgets import RecipeModel
+from PyQt5 import QtCore
+from PyQt5 import QtWidgets
 
-class RecipesTab(QWidget):
+from openroast.views import customqtwidgets
+from openroast.views import recipeeditorwindow
+
+
+class RecipesTab(QtWidgets.QWidget):
     def __init__(self, recipeObject, roastTabObject, MainWindowObject):
         super(RecipesTab, self).__init__()
 
@@ -25,7 +28,7 @@ class RecipesTab(QWidget):
 
     def create_ui(self):
         """A method used to create the basic ui for the Recipe Tab."""
-        self.layout = QGridLayout()
+        self.layout = QtWidgets.QGridLayout()
 
         # Create recipe browser.
         self.create_recipe_browser()
@@ -43,9 +46,9 @@ class RecipesTab(QWidget):
         self.layout.setRowStretch(0, 3)
 
         # Create label to cover recipe info.
-        self.recipeSelectionLabel = QLabel()
+        self.recipeSelectionLabel = QtWidgets.QLabel()
         self.recipeSelectionLabel.setObjectName("recipeSelectionLabel")
-        self.recipeSelectionLabel.setAlignment(Qt.AlignCenter)
+        self.recipeSelectionLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.layout.addWidget(self.recipeSelectionLabel, 0, 1)
 
         # Set main layout for widget.
@@ -55,14 +58,14 @@ class RecipesTab(QWidget):
         """Creates the side panel to browse all the files in the recipe folder.
         This method also adds a button to create new recipes to the layout."""
         # Creates model with all information about the files in ./recipes
-        self.model = RecipeModel()
+        self.model = customqtwidgets.RecipeModel()
         self.model.setRootPath(os.path.expanduser('~/Documents/openroast/recipes/'))
 
         # Create a TreeView to view the information from the model
-        self.recipeBrowser = QTreeView()
+        self.recipeBrowser = QtWidgets.QTreeView()
         self.recipeBrowser.setModel(self.model)
         self.recipeBrowser.setRootIndex(self.model.index(os.path.expanduser('~/Documents/openroast/recipes/')))
-        self.recipeBrowser.setFocusPolicy(Qt.NoFocus)
+        self.recipeBrowser.setFocusPolicy(QtCore.Qt.NoFocus)
         self.recipeBrowser.header().close()
 
         self.recipeBrowser.setAnimated(True)
@@ -77,31 +80,31 @@ class RecipesTab(QWidget):
         self.recipeBrowser.clicked.connect(self.on_recipeBrowser_clicked)
 
         # Add create new recipe button.
-        self.createNewRecipeButton = QPushButton("NEW RECIPE")
+        self.createNewRecipeButton = QtWidgets.QPushButton("NEW RECIPE")
         self.createNewRecipeButton.clicked.connect(self.create_new_recipe)
 
     def create_recipe_window(self):
         """Creates the whole right-hand side of the recipe tab. These fields are
         populated when a recipe is chosen from the left column."""
         # Create all of the gui Objects
-        self.recipeWindow = QGridLayout()
-        self.recipeNameLabel = QLabel("Recipe Name")
-        self.recipeCreatorLabel = QLabel("Created by ")
-        self.recipeTotalTimeLabel = QLabel("Total Time: ")
-        self.recipeRoastTypeLabel = QLabel("Roast Type: ")
-        self.beanRegionLabel = QLabel("Bean Region: ")
-        self.beanCountryLabel = QLabel("Bean Country: ")
-        self.recipeDescriptionBox = QTextEdit()
+        self.recipeWindow = QtWidgets.QGridLayout()
+        self.recipeNameLabel = QtWidgets.QLabel("Recipe Name")
+        self.recipeCreatorLabel = QtWidgets.QLabel("Created by ")
+        self.recipeTotalTimeLabel = QtWidgets.QLabel("Total Time: ")
+        self.recipeRoastTypeLabel = QtWidgets.QLabel("Roast Type: ")
+        self.beanRegionLabel = QtWidgets.QLabel("Bean Region: ")
+        self.beanCountryLabel = QtWidgets.QLabel("Bean Country: ")
+        self.recipeDescriptionBox = QtWidgets.QTextEdit()
         self.recipeDescriptionBox.setReadOnly(True)
-        self.recipeStepsTable = QTableWidget()
+        self.recipeStepsTable = QtWidgets.QTableWidget()
 
         # Set options for recipe table.
         self.recipeStepsTable.setShowGrid(False)
         self.recipeStepsTable.setAlternatingRowColors(True)
         self.recipeStepsTable.setCornerButtonEnabled(False)
         self.recipeStepsTable.horizontalHeader().setSectionResizeMode(1)
-        self.recipeStepsTable.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.recipeStepsTable.setSelectionMode(QAbstractItemView.NoSelection)
+        self.recipeStepsTable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        self.recipeStepsTable.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
 
         # Assign Object Names for qss
         self.recipeNameLabel.setObjectName("RecipeName")
@@ -125,11 +128,11 @@ class RecipesTab(QWidget):
     def create_recipe_buttons(self):
         """Creates the button panel on the bottom to allow for the user to
         interact with the currently selected/viewed recipe."""
-        self.recipeButtonsLayout = QGridLayout()
+        self.recipeButtonsLayout = QtWidgets.QGridLayout()
         self.recipeButtonsLayout.setSpacing(0)
-        self.recipeRoastButton = QPushButton("ROAST NOW")
-        self.editRecipeButton = QPushButton("EDIT")
-        self.beanLinkButton = QPushButton("PURCHASE BEANS")
+        self.recipeRoastButton = QtWidgets.QPushButton("ROAST NOW")
+        self.editRecipeButton = QtWidgets.QPushButton("EDIT")
+        self.beanLinkButton = QtWidgets.QPushButton("PURCHASE BEANS")
 
         # Assign object names for qss styling.
         self.recipeRoastButton.setObjectName("smallButton")
@@ -138,8 +141,8 @@ class RecipesTab(QWidget):
         self.createNewRecipeButton.setObjectName("smallButtonAlt")
 
         # Add spacer.
-        self.spacer = QWidget()
-        self.spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.spacer = QtWidgets.QWidget()
+        self.spacer.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         self.recipeButtonsLayout.addWidget(self.spacer)
 
         self.recipeRoastButton.clicked.connect(self.load_recipe)
@@ -223,9 +226,9 @@ class RecipesTab(QWidget):
 
         for row in range(len(recipeObject["steps"])):
 
-            sectionTimeWidget = QTableWidgetItem()
-            sectionTempWidget = QTableWidgetItem()
-            sectionFanSpeedWidget = QTableWidgetItem()
+            sectionTimeWidget = QtWidgets.QTableWidgetItem()
+            sectionTempWidget = QtWidgets.QTableWidgetItem()
+            sectionFanSpeedWidget = QtWidgets.QTableWidgetItem()
 
             sectionTimeWidget.setText(time.strftime("%M:%S",
                 time.gmtime(recipeObject["steps"][row]["sectionTime"])))
@@ -237,9 +240,9 @@ class RecipesTab(QWidget):
                 sectionTempWidget.setText("Cooling")
 
             # Set widget cell alignment.
-            sectionTempWidget.setTextAlignment(Qt.AlignCenter)
-            sectionFanSpeedWidget.setTextAlignment(Qt.AlignCenter)
-            sectionTimeWidget.setTextAlignment(Qt.AlignCenter)
+            sectionTempWidget.setTextAlignment(QtCore.Qt.AlignCenter)
+            sectionFanSpeedWidget.setTextAlignment(QtCore.Qt.AlignCenter)
+            sectionTimeWidget.setTextAlignment(QtCore.Qt.AlignCenter)
 
             # Add widgets
             self.recipeStepsTable.setItem(row, 0, sectionTempWidget)
@@ -261,7 +264,7 @@ class RecipesTab(QWidget):
 
     def open_recipe_editor(self):
         """Method used to open Recipe Editor Window with an existing recipe."""
-        self.editorWindow = RecipeEditor(recipeLocation = self.currentlySelectedRecipePath)
+        self.editorWindow = recipeeditorwindow.RecipeEditor(recipeLocation = self.currentlySelectedRecipePath)
         self.editorWindow.exec_()
 
         # Used to update the recipe in the recipes tab after editing
@@ -270,11 +273,14 @@ class RecipesTab(QWidget):
 
     def create_new_recipe(self):
         """Method used to open Recipe Editor Window for a new recipe."""
-        self.editorWindow = RecipeEditor()
+        self.editorWindow = recipeeditorwindow.RecipeEditor()
         self.editorWindow.exec_()
 
         # Used to update the recipe in the recipes tab after creation
-        self.load_recipe_file(self.selectedFilePath)
+        try:
+            self.load_recipe_file(self.selectedFilePath)
+        except AttributeError:
+            pass
 
     def get_currently_selected_recipe(self):
         """returns currently selected recipe for use in Recipe Editor Window."""

@@ -1,7 +1,10 @@
-# Standard Library Imports
+# -*- coding: utf-8 -*-
+# Roastero, released under GPLv3
+
 import json
 
-class Recipe:
+
+class Recipe(object):
     def __init__(self, roaster):
         self.roaster = roaster
         self.currentRecipeStep = 0
@@ -78,7 +81,8 @@ class Recipe:
             return 150
 
     def reset_roaster_settings(self):
-        self.set_roaster_settings(targetTemp=150, fanSpeed=1, sectionTime=0, cooling=False)
+        self.set_roaster_settings(targetTemp=150, fanSpeed=1, 
+            sectionTime=0, cooling=False)
 
     def set_roaster_settings(self, targetTemp, fanSpeed, sectionTime, cooling):
         if cooling:

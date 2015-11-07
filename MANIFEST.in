@@ -1,3 +1,0 @@
-include LICENSE
-recursive-include openroast *.py *.json
-recursive-include openroast/static *

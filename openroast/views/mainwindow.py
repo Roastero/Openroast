@@ -1,83 +1,78 @@
-# PyQt imports
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
-from PyQt5.QtGui import *
+# -*- coding: utf-8 -*-
+# Roastero, released under GPLv3
 
-# Local project imports
-from .RoastTab import RoastTab
-from .RecipesTab import RecipesTab
-# from .LogTab import LogTab
-from .AboutWindow import About
-# from .PreferencesWindow import PreferencesWindow
-from ..roaster_libraries.Recipe import Recipe
-from .. import config
+import os
+import json
+import shutil
 
-# Dynamically import roaster class
-if config.get_roaster() == "FreshRoastSR700":
-    from ..roaster_libraries.FreshRoastSR700 import FreshRoastSR700
+from PyQt5 import QtGui
+from PyQt5 import QtCore
+from PyQt5 import QtWidgets
 
-# Standard Library Imports
-import json, os
-from shutil import copy2
+from openroast.views import roasttab
+from openroast.views import recipestab
+from openroast.views import aboutwindow
+from openroast.controllers import recipe
+from openroast.controllers import config
+from openroast.controllers import freshroastsr700
 
-class MainWindow(QMainWindow):
+
+class MainWindow(QtWidgets.QMainWindow):
     def __init__(self):
         super(MainWindow, self).__init__()
 
         # Define main window for the application.
         self.setWindowTitle('Openroast')
-        self.setMinimumSize(800,600)
-        self.setContextMenuPolicy(Qt.NoContextMenu)
-        #self.setWindowIcon(QIcon("icon.png"))
+        self.setMinimumSize(800, 600)
+        self.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
 
         # Create toolbar.
         self.create_toolbar()
 
         # Create Recipe and Roaster objects
-        self.roaster = FreshRoastSR700()
-        self.recipe = Recipe(self.roaster)
+        self.roaster = freshroastsr700.FreshRoastSR700()
+        self.recipe = recipe.Recipe(self.roaster)
 
         # Create tabs.
         self.create_tabs()
 
         # Create menu.
-        self.createActions()
+        self.create_actions()
         self.create_menus()
 
-    def createActions(self):
+    def create_actions(self):
         # File menu actions.
-        self.clearRoastAct = QAction("&Clear", self, shortcut=QKeySequence(
-            Qt.CTRL + Qt.SHIFT + Qt.Key_C),
+        self.clearRoastAct = QtWidgets.QAction(
+            "&Clear",
+            self,
+            shortcut=QtGui.QKeySequence(
+                QtCore.Qt.CTRL + QtCore.Qt.SHIFT + QtCore.Qt.Key_C),
             statusTip="Clear the roast window",
             triggered=self.roast.clear_roast)
 
-        self.newRoastAct = QAction("&Roast Again", self,
-            shortcut=QKeySequence(Qt.CTRL + Qt.Key_R),
+        self.newRoastAct = QtWidgets.QAction("&Roast Again", self,
+            shortcut=QtGui.QKeySequence(QtCore.Qt.CTRL + QtCore.Qt.Key_R),
             statusTip="Roast recipe again",
             triggered=self.roast.reset_current_roast)
 
-        self.importRecipeAct = QAction("&Import Recipe", self,
-            shortcut=QKeySequence(Qt.CTRL + Qt.Key_I),
+        self.importRecipeAct = QtWidgets.QAction("&Import Recipe", self,
+            shortcut=QtGui.QKeySequence(QtCore.Qt.CTRL + QtCore.Qt.Key_I),
             statusTip="Import a recipe file",
             triggered=self.import_recipe_file)
 
-        self.exportRecipeAct = QAction("&Export Recipe", self,
-            shortcut=QKeySequence(Qt.CTRL + Qt.Key_E),
+        self.exportRecipeAct = QtWidgets.QAction("&Export Recipe", self,
+            shortcut=QtGui.QKeySequence(QtCore.Qt.CTRL + QtCore.Qt.Key_E),
             statusTip="Export a recipe file",
             triggered=self.export_recipe_file)
 
-        self.saveRoastGraphAct = QAction("&Save Roast Graph", self,
-            shortcut=QKeySequence(Qt.CTRL + Qt.Key_K),
+        self.saveRoastGraphAct = QtWidgets.QAction("&Save Roast Graph", self,
+            shortcut=QtGui.QKeySequence(QtCore.Qt.CTRL + QtCore.Qt.Key_K),
             statusTip="Save an image of the roast graph",
             triggered=self.roast.save_roast_graph)
 
-        self.openAboutWindow = QAction("&About", self,
+        self.openAboutWindow = QtWidgets.QAction("&About", self,
             statusTip="About openroast",
             triggered=self.open_about_window)
-
-        # self.openPreferencesWindow = QAction("&Preferences", self,
-        #     statusTip="Change openroast settings",
-        #     triggered=self.open_preferences_window)
 
     def create_menus(self):
         menubar = self.menuBar()
@@ -95,7 +90,6 @@ class MainWindow(QMainWindow):
 
         # Create edit menu.
         self.editMenu = menubar.addMenu("&Edit")
-        # self.editMenu.addAction(self.openPreferencesWindow)
 
         # Create help menu.
         self.helpMenu = menubar.addMenu("&Help")
@@ -108,31 +102,26 @@ class MainWindow(QMainWindow):
         self.mainToolBar.setFloatable(False)
 
         # Add logo.
-        self.logo = QLabel("openroast")
+        self.logo = QtWidgets.QLabel("openroast")
         self.logo.setObjectName("logo")
         self.mainToolBar.addWidget(self.logo)
 
         # Add roasting tab button.
-        self.roastTabButton = QPushButton("ROAST", self)
+        self.roastTabButton = QtWidgets.QPushButton("ROAST", self)
         self.roastTabButton.setObjectName("toolbar")
         self.roastTabButton.clicked.connect(self.select_roast_tab)
         self.mainToolBar.addWidget(self.roastTabButton)
 
         # Add recipes tab button.
-        self.recipesTabButton = QPushButton("RECIPES", self)
+        self.recipesTabButton = QtWidgets.QPushButton("RECIPES", self)
         self.recipesTabButton.setObjectName("toolbar")
         self.recipesTabButton.clicked.connect(self.select_recipes_tab)
         self.mainToolBar.addWidget(self.recipesTabButton)
 
-        # Add roast log tab button.
-        # self.logTabButton = QPushButton("LOG", self)
-        # self.logTabButton.setObjectName("toolbar")
-        # self.logTabButton.clicked.connect(self.select_log_tab)
-        # self.mainToolBar.addWidget(self.logTabButton)
-
         # Add spacer to set login button on the right.
-        self.spacer = QWidget()
-        self.spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.spacer = QtWidgets.QWidget()
+        self.spacer.setSizePolicy(
+            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         self.mainToolBar.addWidget(self.spacer)
 
         # Add buttons to array to be disabled on selection.
@@ -140,17 +129,19 @@ class MainWindow(QMainWindow):
                            self.recipesTabButton]
 
     def create_tabs(self):
-        self.tabs = QStackedWidget()
+        self.tabs = QtWidgets.QStackedWidget()
 
         # Create widgets to add to tabs.
-        self.roast = RoastTab(openroastbject = self.roaster, recipeObject = self.recipe)
-        self.recipes = RecipesTab(recipeObject = self.recipe, roastTabObject = self.roast, MainWindowObject = self)
-        # self.log = LogTab()
+        self.roast = roasttab.RoastTab(
+            openroastbject=self.roaster, recipeObject=self.recipe)
+        self.recipes = recipestab.RecipesTab(
+            recipeObject=self.recipe,
+            roastTabObject=self.roast,
+            MainWindowObject=self)
 
         # Add widgets to tabs.
         self.tabs.insertWidget(0, self.roast)
         self.tabs.insertWidget(1, self.recipes)
-        # self.tabs.insertWidget(2, self.log)
 
         # Set the tabs as the central widget.
         self.setCentralWidget(self.tabs)
@@ -166,10 +157,6 @@ class MainWindow(QMainWindow):
         self.tabs.setCurrentIndex(1)
         self.change_blocked_button(1)
 
-    # def select_log_tab(self):
-    #     self.tabs.setCurrentIndex(2)
-    #     self.change_blocked_button(2)
-
     def change_blocked_button(self, index):
         # Set all buttons enabled.
         for button in self.tabButtons:
@@ -182,7 +169,8 @@ class MainWindow(QMainWindow):
         try:
             recipeFile = QFileDialog.getOpenFileName(self, 'Select Recipe',
                 os.path.expanduser('~/'), 'Recipes (*.json);;All Files (*)')
-            copy2(recipeFile[0], os.path.expanduser('~/Documents/openroast/recipes/My Recipes/'))
+            shutil.copy2(recipeFile[0], 
+                os.path.expanduser('~/Documents/openroast/recipes/My Recipes/'))
         except FileNotFoundError:
             # Occurs if file browser is canceled
             pass
@@ -193,7 +181,8 @@ class MainWindow(QMainWindow):
         try:
             recipeFile = QFileDialog.getSaveFileName(self, 'Export Recipe',
                 os.path.expanduser('~/'), 'Recipes (*.json);;All Files (*)')
-            jsonObject = json.dumps(self.roast.get_recipe_object().get_current_recipe(), indent=4)
+            jsonObject = json.dumps(
+                self.roast.get_recipe_object().get_current_recipe(), indent=4)
 
             file = open(recipeFile[0], 'w')
             file.write(jsonObject)
@@ -205,9 +194,5 @@ class MainWindow(QMainWindow):
             pass
 
     def open_about_window(self):
-        self.aboutWindow = About()
+        self.aboutWindow = aboutwindow.About()
         self.aboutWindow.exec_()
-
-    # def open_preferences_window(self):
-    #     self.preferencesWindow = PreferencesWindow()
-    #     self.preferencesWindow.exec_()

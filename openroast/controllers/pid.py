@@ -1,5 +1,15 @@
-class PID:
-    def __init__(self, P, I, D, Derivator=0, Integrator=0, Integrator_max=4, Integrator_min=-4):
+# -*- coding: utf-8 -*-
+# Author: cnr437@gmail.com
+# Code URL: http://code.activestate.com/recipes/577231-discrete-pid-controller/
+# License: MIT
+# Modified by Roastero.
+
+
+class PID(object):
+    """Discrete PID control."""
+    def __init__(self, P, I, D, Derivator=0, Integrator=0, Integrator_max=4, 
+            Integrator_min=-4):
+
         self.Kp = P
         self.Ki = I
         self.Kd = D
@@ -12,9 +22,7 @@ class PID:
         self.error=0.0
 
     def update(self, currentTemp, targetTemp):
-        """
-        Calculate PID output value for given reference input and feedback
-        """
+        """Calculate PID output value for given reference input and feedback."""
         self.targetTemp = targetTemp
         self.error = targetTemp - currentTemp
 
@@ -36,9 +44,7 @@ class PID:
         return(output)
 
     def setPoint(self,targetTemp):
-        """
-        Initilize the setpoint of PID
-        """
+        """Initilize the setpoint of PID."""
         self.targetTemp = targetTemp
         self.Integrator=0
         self.Derivator=0

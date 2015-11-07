@@ -1,11 +1,14 @@
-# Standard Library Imports
-import time, threading
+# -*- coding: utf-8 -*-
+# Roastero, released under GPLv3
 
-# Local project imports
-from ..tools.pid import *
-from ..roaster_libraries.Recipe import Recipe
+import time
+import threading
 
-class Roaster:
+from openroast.controllers import pid 
+from openroast.controllers import recipe
+
+
+class Roaster(object):
     def __init__(self):
         self.currentTemp = 150      # Int in degrees Fahrenheit
         self.targetTemp = 150       # Int in degrees Fahrenheit
@@ -37,7 +40,8 @@ class Roaster:
         timerThread.start()
 
         # Start a thread to control the thermostat of the roaster.
-        thermostatThread = threading.Thread(target=self.thermostat_thread, args=(3,))
+        thermostatThread = threading.Thread(
+            target=self.thermostat_thread, args=(3,))
         self.threads.append(thermostatThread)
         thermostatThread.setDaemon(True)
         thermostatThread.start()

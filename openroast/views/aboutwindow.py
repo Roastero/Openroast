@@ -1,67 +1,62 @@
-# PyQt imports
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
+# -*- coding: utf-8 -*-
+# Roastero, released under GPLv3
 
-# Standard Library Imports
+import functools
 import webbrowser
-from functools import partial
 
-# Local project imports
-from .. import config
+from PyQt5 import QtCore
+from PyQt5 import QtWidgets
 
-class About(QDialog):
+from openroast.controllers import config
+
+
+class About(QtWidgets.QDialog):
     def __init__(self, recipeLocation=None):
         super(About, self).__init__()
 
         # Define main window for the application.
-        self.setWindowTitle('About openroast')
-        self.setMinimumSize(600,400)
-        self.setContextMenuPolicy(Qt.NoContextMenu)
-        #self.setWindowIcon(QIcon("icon.png"))
-
-        # Open qss file.
-        self.style = open('static/mainStyle.css').read()
-        self.setStyleSheet(self.style)
+        self.setWindowTitle('About Openroast')
+        self.setMinimumSize(600, 400)
+        self.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
 
         self.create_ui()
 
     def create_ui(self):
         """A method used to create the basic ui for the About Window"""
         # Create main layout for window.
-        self.layout = QGridLayout(self)
+        self.layout = QtWidgets.QGridLayout(self)
 
         # openroast Label
-        self.openroastLabel = QLabel("openroast")
-        self.openroastLabel.setAlignment(Qt.AlignCenter)
+        self.openroastLabel = QtWidgets.QLabel("openroast")
+        self.openroastLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.openroastLabel.setObjectName("logo")
 
         # License
-        self.licenseLabel = QLabel("License")
-        self.licenseLabel.setAlignment(Qt.AlignCenter)
-        with open('../LICENSE', 'r') as file:
+        self.licenseLabel = QtWidgets.QLabel("License")
+        self.licenseLabel.setAlignment(QtCore.Qt.AlignCenter)
+        with open('LICENSE', 'r') as file:
              licenseText = file.read()
-        self.licenseTextBox = QTextEdit()
+        self.licenseTextBox = QtWidgets.QTextEdit()
         self.licenseTextBox.setText(licenseText)
         self.licenseTextBox.setReadOnly(True)
 
         # Version
         versionLabelString = "Version - " + config.get_version()
-        self.versionLabel = QLabel(versionLabelString)
+        self.versionLabel = QtWidgets.QLabel(versionLabelString)
         self.versionLabel.setObjectName("versionLabel")
-        self.versionLabel.setAlignment(Qt.AlignCenter)
+        self.versionLabel.setAlignment(QtCore.Qt.AlignCenter)
 
         # Created by
-        self.authorsLabel = QLabel("Authors")
-        self.authorsLabel.setAlignment(Qt.AlignCenter)
+        self.authorsLabel = QtWidgets.QLabel("Authors")
+        self.authorsLabel.setAlignment(QtCore.Qt.AlignCenter)
 
-        self.authorButton1 = QPushButton("Caleb Coffie")
+        self.authorButton1 = QtWidgets.QPushButton("Caleb Coffie")
         self.author1Link = "https://CalebCoffie.com"
-        self.authorButton1.clicked.connect(partial(self.open_link_in_browser, self.author1Link))
+        self.authorButton1.clicked.connect(functools.partial(self.open_link_in_browser, self.author1Link))
 
-        self.authorButton2 = QPushButton("Mark Spicer")
+        self.authorButton2 = QtWidgets.QPushButton("Mark Spicer")
         self.author2Link = "https://markspicer.me"
-        self.authorButton2.clicked.connect(partial(self.open_link_in_browser, self.author2Link))
+        self.authorButton2.clicked.connect(functools.partial(self.open_link_in_browser, self.author2Link))
 
         # Add all the widgets
         self.layout.addWidget(self.openroastLabel, 0, 0, 1, 2)

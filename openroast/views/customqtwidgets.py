@@ -1,11 +1,12 @@
-# Standard Library Imports
-import datetime, os
+# -*- coding: utf-8 -*-
+# Roastero, released under GPLv3
 
-# PyQt imports
-from PyQt5.QtWidgets import *
-from PyQt5.QtCore import *
+import os
+import json
 
-# Matplotlib imports
+from PyQt5 import QtCore
+from PyQt5 import QtWidgets
+
 import matplotlib
 matplotlib.use('Qt5Agg')
 import matplotlib.pyplot as plt
@@ -13,20 +14,24 @@ import matplotlib.animation as animation
 from matplotlib.dates import MinuteLocator, DateFormatter
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
+
 class RoastGraphWidget():
-    def __init__(self, graphXValueList = None, graphYValueList = None, animated = False, updateMethod = None, animatingMethod = None):
+    def __init__(self, graphXValueList=None, graphYValueList=None, 
+            animated=False, updateMethod=None, animatingMethod=None):
+
         self.graphXValueList = graphXValueList or []
         self.graphYValueList = graphYValueList or []
         self.counter = 0
         self.updateMethod = updateMethod
         self.animated = animated
-        self.animatingMethod = animatingMethod # Check if graph should continue to graph
+        # Check if graph should continue to graph.
+        self.animatingMethod = animatingMethod
 
         self.widget = self.create_graph()
 
     def create_graph(self):
         # Create the graph widget.
-        graphWidget = QWidget()
+        graphWidget = QtWidgets.QWidget()
         graphWidget.setObjectName("graph")
 
         # Style attributes of matplotlib.
@@ -38,7 +43,7 @@ class RoastGraphWidget():
         self.graphCanvas = FigureCanvas(self.graphFigure)
 
         # Add graph widgets to layout for graph.
-        graphVerticalBox = QVBoxLayout()
+        graphVerticalBox = QtWidgets.QVBoxLayout()
         graphVerticalBox.addWidget(self.graphCanvas)
         graphWidget.setLayout(graphVerticalBox)
 
@@ -94,3 +99,69 @@ class RoastGraphWidget():
         while os.path.exists('{}{:d}.png'.format(fileName, i)):
             i += 1
         self.graphFigure.savefig('{}{:d}.png'.format(fileName, i))
+
+
+class ComboBoxNoWheel(QtWidgets.QComboBox):
+    """A combobox with the wheel removed."""
+    def __init__(self, *args, **kwargs):
+        super(ComboBoxNoWheel, self).__init__()
+
+    def wheelEvent(self, event):
+        event.ignore()
+
+
+class TimeEditNoWheel(QtWidgets.QTimeEdit):
+    """A time edit combobox with the wheel removed."""
+    def __init__(self, *args, **kwargs):
+        super(TimeEditNoWheel, self).__init__()
+
+    def wheelEvent(self, event):
+        event.ignore()
+
+
+class RecipeModel(QtWidgets.QFileSystemModel):
+    """A Subclass of QFileSystemModel to add a column."""
+    def __init__(self, *args, **kwargs):
+        super(RecipeModel, self).__init__()
+
+    def columnCount(self, parent = QtCore.QModelIndex()):
+        return super(RecipeModel, self).columnCount()+1
+
+    def data(self, index, role):
+        if index.column() == self.columnCount() - 1:
+            if role == QtCore.Qt.DisplayRole:
+                filePath = self.filePath(index)
+                if os.path.isfile(filePath):
+                    with open(filePath) as json_data:
+                        fileContents = json.load(json_data)
+                    return fileContents["roastName"]
+                else:
+                    path = self.filePath(index)
+                    position = path.rfind("/")
+                    return path[position+1:]
+
+        return super(RecipeModel, self).data(index, role)
+
+
+class LogModel(QtWidgets.QFileSystemModel):
+    """A Subclass of QFileSystemModel to add a column."""
+    def __init__(self, *args, **kwargs):
+        super(LogModel, self).__init__()
+
+    def columnCount(self, parent = QtCore.QModelIndex()):
+        return super(LogModel, self).columnCount()+1
+
+    def data(self, index, role):
+        if index.column() == self.columnCount() - 1:
+            if role == Qt.DisplayRole:
+                filePath = self.filePath(index)
+                if os.path.isfile(filePath):
+                    with open(filePath) as json_data:
+                        fileContents = json.load(json_data)
+                    return fileContents["recipeName"]
+                else:
+                    path = self.filePath(index)
+                    position = path.rfind("/")
+                    return path[position+1:]
+
+        return super(LogModel, self).data(index, role)

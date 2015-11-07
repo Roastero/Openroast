@@ -1,18 +1,15 @@
-#!/usr/bin/env python
-# Name: FreshRoastSR700.py
-# Authors: Mark Spicer, Caleb Coffie
-# Purpose: A class to interface with the Fresh Roast SR700 coffee roaster.
+# -*- coding: utf-8 -*-
+# Roastero, released under GPLv3
 
-# Standard Library Imports
-import threading, sys, serial, struct, time, binascii
+import time
+import serial
+import threading
 
-# Local project imports
-from ..tools.SerialPortFinder import *
-from ..tools.pid import *
-from .Roaster import Roaster
+from openroast import tools
+from openroast.controllers import roaster
 
-# Define FreshRoastSR700 class.
-class FreshRoastSR700(Roaster):
+
+class FreshRoastSR700(roaster.Roaster):
     def __init__(self):
         super().__init__()
 
@@ -30,7 +27,8 @@ class FreshRoastSR700(Roaster):
         # Additional variables
         self.program = []           # A list used to hold the roast program
 
-        autoConnectThread = threading.Thread(target=self.auto_connect_thread, args=(5,))
+        autoConnectThread = threading.Thread(
+            target=self.auto_connect_thread, args=(5,))
         self.threads.append(autoConnectThread)
         autoConnectThread.daemon = True
         autoConnectThread.start()
@@ -261,7 +259,7 @@ class FreshRoastSR700(Roaster):
         # Attempt to make a connection to the roaster until it finds the device.
         while(True):
             try:
-                vid_pid_to_serial_url("1A86:5523")
+                tools.vid_pid_to_serial_url("1A86:5523")
                 break
             except LookupError:
                 continue
@@ -269,18 +267,18 @@ class FreshRoastSR700(Roaster):
             time.sleep(1)
 
         # Open serial connection to roaster.
-        self.ser = serial.Serial(port=vid_pid_to_serial_url("1A86:5523"),
-                                baudrate=9600,
-                                bytesize=8,
-                                parity='N',
-                                stopbits=1.5,
-                                timeout=.25,
-                                xonxoff=False,
-                                rtscts=False,
-                                writeTimeout=None,
-                                dsrdtr=False,
-                                interCharTimeout=None
-        )
+        self.ser = serial.Serial(
+            port=tools.vid_pid_to_serial_url("1A86:5523"),
+            baudrate=9600,
+            bytesize=8,
+            parity='N',
+            stopbits=1.5,
+            timeout=.25,
+            xonxoff=False,
+            rtscts=False,
+            writeTimeout=None,
+            dsrdtr=False,
+            interCharTimeout=None)
 
         # Set the connected variable to true if a serial connection is made.
         if self.ser:
