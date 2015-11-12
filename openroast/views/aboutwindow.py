@@ -7,8 +7,6 @@ import webbrowser
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
 
-from openroast.controllers import config
-
 
 class About(QtWidgets.QDialog):
     def __init__(self, recipeLocation=None):
@@ -41,7 +39,7 @@ class About(QtWidgets.QDialog):
         self.licenseTextBox.setReadOnly(True)
 
         # Version
-        versionLabelString = "Version - " + config.get_version()
+        versionLabelString = "Version - 1.0.0"
         self.versionLabel = QtWidgets.QLabel(versionLabelString)
         self.versionLabel.setObjectName("versionLabel")
         self.versionLabel.setAlignment(QtCore.Qt.AlignCenter)

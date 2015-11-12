@@ -4,6 +4,7 @@
 import os
 import json
 import shutil
+import openroast
 
 from PyQt5 import QtGui
 from PyQt5 import QtCore
@@ -12,9 +13,6 @@ from PyQt5 import QtWidgets
 from openroast.views import roasttab
 from openroast.views import recipestab
 from openroast.views import aboutwindow
-from openroast.controllers import recipe
-from openroast.controllers import config
-from openroast.controllers import freshroastsr700
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -28,10 +26,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Create toolbar.
         self.create_toolbar()
-
-        # Create Recipe and Roaster objects
-        self.roaster = freshroastsr700.FreshRoastSR700()
-        self.recipe = recipe.Recipe(self.roaster)
 
         # Create tabs.
         self.create_tabs()
@@ -132,10 +126,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.tabs = QtWidgets.QStackedWidget()
 
         # Create widgets to add to tabs.
-        self.roast = roasttab.RoastTab(
-            openroastbject=self.roaster, recipeObject=self.recipe)
+        self.roast = roasttab.RoastTab()
         self.recipes = recipestab.RecipesTab(
-            recipeObject=self.recipe,
             roastTabObject=self.roast,
             MainWindowObject=self)
 
@@ -196,3 +188,6 @@ class MainWindow(QtWidgets.QMainWindow):
     def open_about_window(self):
         self.aboutWindow = aboutwindow.About()
         self.aboutWindow.exec_()
+
+    def closeEvent(self, event):
+        openroast.roaster.disconnect()

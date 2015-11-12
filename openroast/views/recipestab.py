@@ -14,11 +14,10 @@ from openroast.views import recipeeditorwindow
 
 
 class RecipesTab(QtWidgets.QWidget):
-    def __init__(self, recipeObject, roastTabObject, MainWindowObject):
+    def __init__(self, roastTabObject, MainWindowObject):
         super(RecipesTab, self).__init__()
 
         # Pass in recipe object
-        self.recipe = recipeObject
 
         self.roastTab = roastTabObject
 
