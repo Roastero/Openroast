@@ -1,9 +1,12 @@
-# Standard Library Imports
-import json
+# -*- coding: utf-8 -*-
+# Roastero, released under GPLv3
 
-class Recipe:
-    def __init__(self, roaster):
-        self.roaster = roaster
+import json
+import openroast
+
+
+class Recipe(object):
+    def __init__(self):
         self.currentRecipeStep = 0
 
         # Stores recipe
@@ -11,9 +14,6 @@ class Recipe:
 
         # Tells if a recipe has been loaded
         self.recipeLoaded = False
-
-        # Pass Recipe object to Roaster object
-        self.roaster.pass_recipe_object(self)
 
     def load_recipe_json(self, recipeJson):
         self.recipe = recipeJson
@@ -78,20 +78,22 @@ class Recipe:
             return 150
 
     def reset_roaster_settings(self):
-        self.set_roaster_settings(targetTemp=150, fanSpeed=1, sectionTime=0, cooling=False)
+        openroast.roaster.target_temp = 150
+        openroast.roaster.fan_speed = 1
+        openroast.roaster.time_remaining = 0
 
     def set_roaster_settings(self, targetTemp, fanSpeed, sectionTime, cooling):
         if cooling:
-            self.roaster.cooling_phase()
+            openroast.roaster.cool()
         else:
-            self.roaster.set_target_temp(targetTemp)
+            openroast.roaster.target_temp = targetTemp
 
         # Prevent the roaster from starting when section time = 0 (ex clear)
         if(not cooling and sectionTime > 0 and self.currentRecipeStep > 0):
-            self.roaster.roast()
+            openroast.roaster.roast()
 
-        self.roaster.set_fan_speed(fanSpeed)
-        self.roaster.set_section_time(sectionTime)
+        openroast.roaster.fan_speed = fanSpeed
+        openroast.roaster.time_remaining = sectionTime
 
     def load_current_section(self):
         self.set_roaster_settings(self.get_current_target_temp(),
@@ -101,7 +103,7 @@ class Recipe:
 
     def move_to_next_section(self):
         if (self.currentRecipeStep + 1) >= self.get_num_recipe_sections():
-            self.roaster.idle()
+            openroast.roaster.idle()
         else:
             self.currentRecipeStep += 1
             self.load_current_section()

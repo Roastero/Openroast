@@ -1,25 +1,27 @@
-# PyQt imports
-from PyQt5.QtWidgets import *
-from PyQt5.QtGui import *
-from PyQt5.QtCore import *
+# -*- coding: utf-8 -*-
+# Roastero, released under GPLv3
 
-# Standard Library Imports
-import json, time, os
-from functools import partial
+import os
+import json
+import time
+import functools
 
-# Local project imports
-from ..gui.CustomQtWidgets import TimeEditNoWheel, ComboBoxNoWheel
-from ..tools.fileNameFormatter import format_filename
+from PyQt5 import QtGui
+from PyQt5 import QtCore
+from PyQt5 import QtWidgets
 
-class RecipeEditor(QDialog):
+from openroast import tools
+from openroast.views import customqtwidgets
+
+
+class RecipeEditor(QtWidgets.QDialog):
     def __init__(self, recipeLocation=None):
         super(RecipeEditor, self).__init__()
 
         # Define main window for the application.
-        self.setWindowTitle('openroast')
-        self.setMinimumSize(800,600)
-        self.setContextMenuPolicy(Qt.NoContextMenu)
-        #self.setWindowIcon(QIcon("icon.png"))
+        self.setWindowTitle('Openroast')
+        self.setMinimumSize(800, 600)
+        self.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
 
         self.create_ui()
 
@@ -36,7 +38,7 @@ class RecipeEditor(QDialog):
     def create_ui(self):
         """A method used to create the basic ui for the Recipe Editor Window"""
         # Create main layout for window.
-        self.layout = QGridLayout(self)
+        self.layout = QtWidgets.QGridLayout(self)
         self.layout.setRowStretch(1, 3)
 
         # Create input fields.
@@ -56,34 +58,34 @@ class RecipeEditor(QDialog):
         """Creates all of the UI components for the top of the Recipe Editor
         Window."""
         # Create layout for section.
-        self.inputFieldLayout = QGridLayout()
+        self.inputFieldLayout = QtWidgets.QGridLayout()
 
         # Create labels for fields.
-        recipeNameLabel = QLabel("Recipe Name: ")
-        recipeCreatorLabel = QLabel("Created by: ")
-        recipeRoastTypeLabel = QLabel("Roast Type: ")
-        beanRegionLabel = QLabel("Bean Region: ")
-        beanCountryLabel = QLabel("Bean Country: ")
-        beanLinkLabel = QLabel("Bean Link: ")
-        beanStoreLabel = QLabel("Bean Store Name: ")
+        recipeNameLabel = QtWidgets.QLabel("Recipe Name: ")
+        recipeCreatorLabel = QtWidgets.QLabel("Created by: ")
+        recipeRoastTypeLabel = QtWidgets.QLabel("Roast Type: ")
+        beanRegionLabel = QtWidgets.QLabel("Bean Region: ")
+        beanCountryLabel = QtWidgets.QLabel("Bean Country: ")
+        beanLinkLabel = QtWidgets.QLabel("Bean Link: ")
+        beanStoreLabel = QtWidgets.QLabel("Bean Store Name: ")
 
         # Create input fields.
-        self.recipeName = QLineEdit()
-        self.recipeCreator = QLineEdit()
-        self.recipeRoastType = QLineEdit()
-        self.beanRegion = QLineEdit()
-        self.beanCountry = QLineEdit()
-        self.beanLink = QLineEdit()
-        self.beanStore = QLineEdit()
+        self.recipeName = QtWidgets.QLineEdit()
+        self.recipeCreator = QtWidgets.QLineEdit()
+        self.recipeRoastType = QtWidgets.QLineEdit()
+        self.beanRegion = QtWidgets.QLineEdit()
+        self.beanCountry = QtWidgets.QLineEdit()
+        self.beanLink = QtWidgets.QLineEdit()
+        self.beanStore = QtWidgets.QLineEdit()
 
         # Remove focus from input boxes.
-        self.recipeName.setAttribute(Qt.WA_MacShowFocusRect, 0)
-        self.recipeCreator.setAttribute(Qt.WA_MacShowFocusRect, 0)
-        self.recipeRoastType.setAttribute(Qt.WA_MacShowFocusRect, 0)
-        self.beanRegion.setAttribute(Qt.WA_MacShowFocusRect, 0)
-        self.beanCountry.setAttribute(Qt.WA_MacShowFocusRect, 0)
-        self.beanLink.setAttribute(Qt.WA_MacShowFocusRect, 0)
-        self.beanStore.setAttribute(Qt.WA_MacShowFocusRect, 0)
+        self.recipeName.setAttribute(QtCore.Qt.WA_MacShowFocusRect, 0)
+        self.recipeCreator.setAttribute(QtCore.Qt.WA_MacShowFocusRect, 0)
+        self.recipeRoastType.setAttribute(QtCore.Qt.WA_MacShowFocusRect, 0)
+        self.beanRegion.setAttribute(QtCore.Qt.WA_MacShowFocusRect, 0)
+        self.beanCountry.setAttribute(QtCore.Qt.WA_MacShowFocusRect, 0)
+        self.beanLink.setAttribute(QtCore.Qt.WA_MacShowFocusRect, 0)
+        self.beanStore.setAttribute(QtCore.Qt.WA_MacShowFocusRect, 0)
 
         # Add objects to the inputFieldLayout
         self.inputFieldLayout.addWidget(recipeNameLabel, 0, 0)
@@ -106,14 +108,14 @@ class RecipeEditor(QDialog):
         creates the Description box and calls another method to make the
         recipe steps table."""
         # Create big edit box layout.
-        self.bigEditLayout = QGridLayout()
+        self.bigEditLayout = QtWidgets.QGridLayout()
 
         # Create labels for the edit boxes.
-        recipeDescriptionBoxLabel = QLabel("Description: ")
-        recipeStepsLabel = QLabel("Steps: ")
+        recipeDescriptionBoxLabel = QtWidgets.QLabel("Description: ")
+        recipeStepsLabel = QtWidgets.QLabel("Steps: ")
 
         # Create widgets.
-        self.recipeDescriptionBox = QTextEdit()
+        self.recipeDescriptionBox = QtWidgets.QTextEdit()
         self.recipeSteps = self.create_steps_spreadsheet()
 
         # Add widgets to layout.
@@ -126,12 +128,12 @@ class RecipeEditor(QDialog):
         """Creates the button panel on the bottom of the Recipe Editor
         Window."""
         # Set bottom button layout.
-        self.bottomButtonLayout = QHBoxLayout()
+        self.bottomButtonLayout = QtWidgets.QHBoxLayout()
         self.bottomButtonLayout.setSpacing(0)
 
         # Create buttons.
-        self.saveButton = QPushButton("SAVE")
-        self.closeButton = QPushButton("CLOSE")
+        self.saveButton = QtWidgets.QPushButton("SAVE")
+        self.closeButton = QtWidgets.QPushButton("CLOSE")
 
         # Assign object names to the buttons.
         self.saveButton.setObjectName("smallButton")
@@ -140,8 +142,8 @@ class RecipeEditor(QDialog):
         self.closeButton.clicked.connect(self.close_edit_window)
 
         # Create Spacer.
-        self.spacer = QWidget()
-        self.spacer.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.spacer = QtWidgets.QWidget()
+        self.spacer.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
 
         # Add widgets to the layout.
         self.bottomButtonLayout.addWidget(self.spacer)
@@ -151,12 +153,12 @@ class RecipeEditor(QDialog):
     def create_steps_spreadsheet(self):
         """Creates Recipe Steps table. It does not populate the table in this
         method."""
-        recipeStepsTable = QTableWidget()
+        recipeStepsTable = QtWidgets.QTableWidget()
         recipeStepsTable.setShowGrid(False)
         recipeStepsTable.setAlternatingRowColors(True)
         recipeStepsTable.setCornerButtonEnabled(False)
         recipeStepsTable.horizontalHeader().setSectionResizeMode(1)
-        recipeStepsTable.setSelectionMode(QAbstractItemView.NoSelection)
+        recipeStepsTable.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
 
         # Steps spreadsheet
         recipeStepsTable.setColumnCount(4)
@@ -187,7 +189,7 @@ class RecipeEditor(QDialog):
         for row in range(len(steps)):
             recipeStepsTable.insertRow(recipeStepsTable.rowCount())
             # Temperature Value
-            sectionTempWidget = ComboBoxNoWheel()
+            sectionTempWidget = customqtwidgets.ComboBoxNoWheel()
             sectionTempWidget.setObjectName("recipeEditCombo")
             sectionTempWidget.addItems(targetTempChoices)
             sectionTempWidget.insertSeparator(1)
@@ -210,42 +212,42 @@ class RecipeEditor(QDialog):
 
 
             # Time Value
-            sectionTimeWidget = TimeEditNoWheel()
+            sectionTimeWidget = customqtwidgets.TimeEditNoWheel()
             sectionTimeWidget.setObjectName("recipeEditTime")
-            sectionTimeWidget.setAttribute(Qt.WA_MacShowFocusRect, 0)
+            sectionTimeWidget.setAttribute(QtCore.Qt.WA_MacShowFocusRect, 0)
             sectionTimeWidget.setDisplayFormat("mm:ss")
             # Set QTimeEdit to the right time from recipe
             sectionTimeStr = time.strftime("%M:%S", time.gmtime(steps[row]["sectionTime"]))
-            sectionTime = QTime().fromString(sectionTimeStr, "mm:ss")
+            sectionTime = QtCore.QTime().fromString(sectionTimeStr, "mm:ss")
             sectionTimeWidget.setTime(sectionTime)
 
             # Fan Speed Value
-            sectionFanSpeedWidget = ComboBoxNoWheel()
+            sectionFanSpeedWidget = customqtwidgets.ComboBoxNoWheel()
             sectionFanSpeedWidget.setObjectName("recipeEditCombo")
 
             sectionFanSpeedWidget.addItems(fanSpeedChoices)
             sectionFanSpeedWidget.setCurrentIndex(fanSpeedChoices.index(str(steps[row]["fanSpeed"])))
 
             # Modify Row field
-            upArrow = QPushButton()
+            upArrow = QtWidgets.QPushButton()
             upArrow.setObjectName("upArrow")
-            upArrow.setIcon(QIcon('static/images/upSmall.png'))
-            upArrow.clicked.connect(partial(self.move_recipe_step_up, row))
-            downArrow = QPushButton()
+            upArrow.setIcon(QtGui.QIcon('static/images/upSmall.png'))
+            upArrow.clicked.connect(functools.partial(self.move_recipe_step_up, row))
+            downArrow = QtWidgets.QPushButton()
             downArrow.setObjectName("downArrow")
-            downArrow.setIcon(QIcon('static/images/downSmall.png'))
-            downArrow.clicked.connect(partial(self.move_recipe_step_down, row))
-            deleteRow = QPushButton()
-            deleteRow.setIcon(QIcon('static/images/delete.png'))
+            downArrow.setIcon(QtGui.QIcon('static/images/downSmall.png'))
+            downArrow.clicked.connect(functools.partial(self.move_recipe_step_down, row))
+            deleteRow = QtWidgets.QPushButton()
+            deleteRow.setIcon(QtGui.QIcon('static/images/delete.png'))
             deleteRow.setObjectName("deleteRow")
-            deleteRow.clicked.connect(partial(self.delete_recipe_step, row))
-            insertRow = QPushButton()
-            insertRow.setIcon(QIcon('static/images/plus.png'))
+            deleteRow.clicked.connect(functools.partial(self.delete_recipe_step, row))
+            insertRow = QtWidgets.QPushButton()
+            insertRow.setIcon(QtGui.QIcon('static/images/plus.png'))
             insertRow.setObjectName("insertRow")
-            insertRow.clicked.connect(partial(self.insert_recipe_step, row))
+            insertRow.clicked.connect(functools.partial(self.insert_recipe_step, row))
 
             # Create a grid layout to add all the widgets to
-            modifyRowWidgetLayout = QHBoxLayout()
+            modifyRowWidgetLayout = QtWidgets.QHBoxLayout()
             modifyRowWidgetLayout.setSpacing(0)
             modifyRowWidgetLayout.setContentsMargins(0,0,0,0)
             modifyRowWidgetLayout.addWidget(upArrow)
@@ -254,7 +256,7 @@ class RecipeEditor(QDialog):
             modifyRowWidgetLayout.addWidget(insertRow)
 
             # Assign Layout to a QWidget to add to a single column
-            modifyRowWidget = QWidget()
+            modifyRowWidget = QtWidgets.QWidget()
             modifyRowWidget.setObjectName("buttonTable")
             modifyRowWidget.setLayout(modifyRowWidgetLayout)
 
@@ -340,7 +342,7 @@ class RecipeEditor(QDialog):
         recipeSteps = []
         for row in range(0, self.recipeSteps.rowCount()):
             currentRow = {}
-            currentRow["sectionTime"] = QTime(0, 0, 0).secsTo(self.recipeSteps.cellWidget(row, 2).time())
+            currentRow["sectionTime"] = QtCore.QTime(0, 0, 0).secsTo(self.recipeSteps.cellWidget(row, 2).time())
             currentRow["fanSpeed"] = int(self.recipeSteps.cellWidget(row, 1).currentText())
 
             # Get Temperature or cooling
@@ -359,7 +361,7 @@ class RecipeEditor(QDialog):
         """
         # Alert user if they try to delete all the steps
         if len(newSteps) < 1:
-            alert = QMessageBox()
+            alert = QtWidgets.QMessageBox()
             alert.setWindowTitle('openroast')
             alert.setStyleSheet(self.style)
             alert.setText("You must have atleast one step!")
@@ -379,7 +381,7 @@ class RecipeEditor(QDialog):
         if "file" in self.recipe:
             filePath = self.recipe["file"]
         else:
-            filePath = os.path.expanduser('~/Documents/openroast/recipes/My Recipes/') + format_filename(self.recipeName.text()) + ".json"
+            filePath = os.path.expanduser('~/Documents/openroast/recipes/My Recipes/') + tools.format_filename(self.recipeName.text()) + ".json"
             # TODO: Account for existing file with same name
 
         # Create Dictionary with all the new recipe information

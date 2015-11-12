@@ -1,2 +1,4 @@
 matplotlib
 pyserial
+freshroastsr700
+datetime

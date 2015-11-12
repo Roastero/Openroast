@@ -24,6 +24,6 @@
     "roastName": "My First Recipe",
     "roastDescription": {
         "roastType": "Full City",
-        "description": "Feel free to edit this recipe or create a new one! If you add a bean link, be sure to add http:// or https:// before the link. You can find your recipe files at ~/Documents/openroast/recipes/My Recipes"
+        "description": "Feel free to edit this recipe or create a new one! If you add a bean link, be sure to add http:// or https:// before the link. You can find your recipe files at ~/Documents/Openroast/Recipes/My Recipes"
     }
 }

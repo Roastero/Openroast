@@ -10,8 +10,6 @@ with open(os.path.join(here, 'README.md')) as f:
     README = f.read()
 with open(os.path.join(here, 'requirements.txt')) as f:
     requires = f.read().splitlines()
-with open(os.path.join(here, 'openroast/VERSION')) as f:
-    version = f.readline()
 
 # MSI shortcut folder to create the start in directory.
 shortcut_table = [(
@@ -40,13 +38,11 @@ build_exe_options = {
     "packages": ["openroast"],
      "includes": ["matplotlib", "serial", "distutils", "matplotlib.backends.backend_qt5agg"],
      "include_files": [
-        "openroast/static",
-        "openroast/recipes",
-        "openroast/modules",
-        "openroast/VERSION",
+        "static",
+        "openroast/views",
+        "openroast/controllers",
         "LICENSE",
         (matplotlib.get_data_path(), "mpl-data")],
-     "icon": "openroast/static/icons/openroast-windows.ico",
      "include_msvcr": True
 }
 
@@ -56,11 +52,9 @@ base = None
 if sys.platform == "win32":
     base = "Win32GUI"
 
-
-
 setup(
     name='Openroast',
-    version=version,
+    version='1.0.0',
     description='An open source, cross-platform application for home coffee roasting',
     long_description=README,
     license='GPLv3',
@@ -73,7 +67,7 @@ setup(
         "bdist_msi": bdist_msi_options,
         "bdist_mac": {"iconfile": "static/icons/openroast-mac.icns"}},
     executables = [
-        Executable('openroast/openroast.py')],
+        Executable('run.py', targetName='Openroast')],
     zip_safe=False,
     data_files=matplotlib.get_py2exe_datafiles(),
     packages=find_packages(),
