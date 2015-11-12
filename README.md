@@ -12,8 +12,8 @@ Openroast is an open source, cross-platform application for home coffee roasting
 - Software-based PID Controller
 
 ## Screenshots
-![Roast Tab Screenshot](screenshots/screen01.png)
-![Recipe Tab Screenshot](screenshots/screen02.png)
+![Roast Tab Screenshot](static/images/screenshots/screen01.png)
+![Recipe Tab Screenshot](static/images/screenshots/screen02.png)
 
 ## Setting Up A Development Environment
 In order to setup a development environment on your desired platform, please refer to our wiki page: [Setting Up A Development Environment](https://github.com/Roastero/openroast/wiki/Setting-Up-A-Development-Environment)
