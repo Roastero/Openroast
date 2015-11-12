@@ -93,14 +93,18 @@ class RoastGraphWidget():
         self.graphFigure.clear()
 
     def save_roast_graph(self):
-        userDesktop =  os.path.expanduser('~/Desktop')
-        fileName = os.path.join(userDesktop + "/Roast_Graph")
-
-        i = 0
-        while os.path.exists('{}{:d}.png'.format(fileName, i)):
-            i += 1
-        self.graphFigure.savefig('{}{:d}.png'.format(fileName, i))
-
+        try:
+            file_name = QtWidgets.QFileDialog.getSaveFileName(
+                QtWidgets.QWidget(), 
+                'Save Roast Graph', 
+                os.path.expanduser('~/'), 
+                'Graph (*.png);;All Files (*)')
+            self.graphFigure.savefig(file_name[0], bbox_inches='tight')
+        except FileNotFoundError:
+            # Occurs if file browser is canceled
+            pass
+        else:
+            pass
 
 class ComboBoxNoWheel(QtWidgets.QComboBox):
     """A combobox with the wheel removed."""

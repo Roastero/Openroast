@@ -82,9 +82,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.fileMenu.addAction(self.saveRoastGraphAct)
         self.fileMenu.addSeparator()
 
-        # Create edit menu.
-        self.editMenu = menubar.addMenu("&Edit")
-
         # Create help menu.
         self.helpMenu = menubar.addMenu("&Help")
         self.helpMenu.addAction(self.openAboutWindow)
@@ -159,10 +156,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def import_recipe_file(self):
         try:
-            recipeFile = QFileDialog.getOpenFileName(self, 'Select Recipe',
+            recipeFile = QtWidgets.QFileDialog.getOpenFileName(self, 'Select Recipe',
                 os.path.expanduser('~/'), 'Recipes (*.json);;All Files (*)')
             shutil.copy2(recipeFile[0], 
-                os.path.expanduser('~/Documents/openroast/recipes/My Recipes/'))
+                os.path.expanduser('~/Documents/Openroast/Recipes/My Recipes/'))
         except FileNotFoundError:
             # Occurs if file browser is canceled
             pass
@@ -171,10 +168,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def export_recipe_file(self):
         try:
-            recipeFile = QFileDialog.getSaveFileName(self, 'Export Recipe',
+            recipeFile = QtWidgets.QFileDialog.getSaveFileName(self, 'Export Recipe',
                 os.path.expanduser('~/'), 'Recipes (*.json);;All Files (*)')
             jsonObject = json.dumps(
-                self.roast.get_recipe_object().get_current_recipe(), indent=4)
+                self.recipes.currentlySelectedRecipe, indent=4)
 
             file = open(recipeFile[0], 'w')
             file.write(jsonObject)

@@ -4,6 +4,7 @@
 import os
 import json
 import time
+import openroast
 import webbrowser
 
 from PyQt5 import QtCore
@@ -31,24 +32,24 @@ class RecipesTab(QtWidgets.QWidget):
 
         # Create recipe browser.
         self.create_recipe_browser()
-        self.layout.addWidget(self.recipeBrowser, 0, 0)
+        self.layout.addWidget(openroast.recipes.rowser, 0, 0)
         self.layout.addWidget(self.createNewRecipeButton, 1, 0)
 
         # Create recipe window.
         self.create_recipe_window()
         self.create_recipe_buttons()
-        self.layout.addLayout(self.recipeWindow, 0, 1)
-        self.layout.addLayout(self.recipeButtonsLayout, 1, 1)
+        self.layout.addLayout(openroast.recipes.indow, 0, 1)
+        self.layout.addLayout(openroast.recipes.uttonsLayout, 1, 1)
 
         # Set stretch so items align correctly.
         self.layout.setColumnStretch(1, 2)
         self.layout.setRowStretch(0, 3)
 
         # Create label to cover recipe info.
-        self.recipeSelectionLabel = QtWidgets.QLabel()
-        self.recipeSelectionLabel.setObjectName("recipeSelectionLabel")
-        self.recipeSelectionLabel.setAlignment(QtCore.Qt.AlignCenter)
-        self.layout.addWidget(self.recipeSelectionLabel, 0, 1)
+        openroast.recipes.electionLabel = QtWidgets.QLabel()
+        openroast.recipes.electionLabel.setObjectName("recipeSelectionLabel")
+        openroast.recipes.electionLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.layout.addWidget(openroast.recipes.electionLabel, 0, 1)
 
         # Set main layout for widget.
         self.setLayout(self.layout)
@@ -58,25 +59,25 @@ class RecipesTab(QtWidgets.QWidget):
         This method also adds a button to create new recipes to the layout."""
         # Creates model with all information about the files in ./recipes
         self.model = customqtwidgets.RecipeModel()
-        self.model.setRootPath(os.path.expanduser('~/Documents/openroast/recipes/'))
+        self.model.setRootPath(os.path.expanduser('~/Documents/Openroast/Recipes/'))
 
         # Create a TreeView to view the information from the model
-        self.recipeBrowser = QtWidgets.QTreeView()
-        self.recipeBrowser.setModel(self.model)
-        self.recipeBrowser.setRootIndex(self.model.index(os.path.expanduser('~/Documents/openroast/recipes/')))
-        self.recipeBrowser.setFocusPolicy(QtCore.Qt.NoFocus)
-        self.recipeBrowser.header().close()
+        openroast.recipes.rowser = QtWidgets.QTreeView()
+        openroast.recipes.rowser.setModel(self.model)
+        openroast.recipes.rowser.setRootIndex(self.model.index(os.path.expanduser('~/Documents/Openroast/Recipes/')))
+        openroast.recipes.rowser.setFocusPolicy(QtCore.Qt.NoFocus)
+        openroast.recipes.rowser.header().close()
 
-        self.recipeBrowser.setAnimated(True)
-        self.recipeBrowser.setIndentation(0)
+        openroast.recipes.rowser.setAnimated(True)
+        openroast.recipes.rowser.setIndentation(0)
 
         # Hides all the unecessary columns created by the model
-        self.recipeBrowser.setColumnHidden(0, True)
-        self.recipeBrowser.setColumnHidden(1, True)
-        self.recipeBrowser.setColumnHidden(2, True)
-        self.recipeBrowser.setColumnHidden(3, True)
+        openroast.recipes.rowser.setColumnHidden(0, True)
+        openroast.recipes.rowser.setColumnHidden(1, True)
+        openroast.recipes.rowser.setColumnHidden(2, True)
+        openroast.recipes.rowser.setColumnHidden(3, True)
 
-        self.recipeBrowser.clicked.connect(self.on_recipeBrowser_clicked)
+        openroast.recipes.rowser.clicked.connect(self.on_recipeBrowser_clicked)
 
         # Add create new recipe button.
         self.createNewRecipeButton = QtWidgets.QPushButton("NEW RECIPE")
@@ -86,55 +87,55 @@ class RecipesTab(QtWidgets.QWidget):
         """Creates the whole right-hand side of the recipe tab. These fields are
         populated when a recipe is chosen from the left column."""
         # Create all of the gui Objects
-        self.recipeWindow = QtWidgets.QGridLayout()
-        self.recipeNameLabel = QtWidgets.QLabel("Recipe Name")
-        self.recipeCreatorLabel = QtWidgets.QLabel("Created by ")
-        self.recipeTotalTimeLabel = QtWidgets.QLabel("Total Time: ")
-        self.recipeRoastTypeLabel = QtWidgets.QLabel("Roast Type: ")
+        openroast.recipes.indow = QtWidgets.QGridLayout()
+        openroast.recipes.ameLabel = QtWidgets.QLabel("Recipe Name")
+        openroast.recipes.reatorLabel = QtWidgets.QLabel("Created by ")
+        openroast.recipes.otalTimeLabel = QtWidgets.QLabel("Total Time: ")
+        openroast.recipes.oastTypeLabel = QtWidgets.QLabel("Roast Type: ")
         self.beanRegionLabel = QtWidgets.QLabel("Bean Region: ")
         self.beanCountryLabel = QtWidgets.QLabel("Bean Country: ")
-        self.recipeDescriptionBox = QtWidgets.QTextEdit()
-        self.recipeDescriptionBox.setReadOnly(True)
-        self.recipeStepsTable = QtWidgets.QTableWidget()
+        openroast.recipes.escriptionBox = QtWidgets.QTextEdit()
+        openroast.recipes.escriptionBox.setReadOnly(True)
+        openroast.recipes.tepsTable = QtWidgets.QTableWidget()
 
         # Set options for recipe table.
-        self.recipeStepsTable.setShowGrid(False)
-        self.recipeStepsTable.setAlternatingRowColors(True)
-        self.recipeStepsTable.setCornerButtonEnabled(False)
-        self.recipeStepsTable.horizontalHeader().setSectionResizeMode(1)
-        self.recipeStepsTable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        self.recipeStepsTable.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
+        openroast.recipes.tepsTable.setShowGrid(False)
+        openroast.recipes.tepsTable.setAlternatingRowColors(True)
+        openroast.recipes.tepsTable.setCornerButtonEnabled(False)
+        openroast.recipes.tepsTable.horizontalHeader().setSectionResizeMode(1)
+        openroast.recipes.tepsTable.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
+        openroast.recipes.tepsTable.setSelectionMode(QtWidgets.QAbstractItemView.NoSelection)
 
         # Assign Object Names for qss
-        self.recipeNameLabel.setObjectName("RecipeName")
-        self.recipeCreatorLabel.setObjectName("RecipeCreator")
-        self.recipeTotalTimeLabel.setObjectName("RecipeTotalTime")
-        self.recipeRoastTypeLabel.setObjectName("RecipeRoastType")
+        openroast.recipes.ameLabel.setObjectName("RecipeName")
+        openroast.recipes.reatorLabel.setObjectName("RecipeCreator")
+        openroast.recipes.otalTimeLabel.setObjectName("RecipeTotalTime")
+        openroast.recipes.oastTypeLabel.setObjectName("RecipeRoastType")
         self.beanRegionLabel.setObjectName("RecipeBeanRegion")
         self.beanCountryLabel.setObjectName("RecipeBeanCountry")
-        self.recipeStepsTable.setObjectName("RecipeSteps")
+        openroast.recipes.tepsTable.setObjectName("RecipeSteps")
 
         # Add objects to the layout
-        self.recipeWindow.addWidget(self.recipeNameLabel, 0, 0, 1, 2)
-        self.recipeWindow.addWidget(self.recipeCreatorLabel, 1, 0)
-        self.recipeWindow.addWidget(self.recipeRoastTypeLabel, 2, 0)
-        self.recipeWindow.addWidget(self.recipeTotalTimeLabel, 3, 0)
-        self.recipeWindow.addWidget(self.beanRegionLabel, 4, 0)
-        self.recipeWindow.addWidget(self.beanCountryLabel, 5, 0)
-        self.recipeWindow.addWidget(self.recipeDescriptionBox, 7, 0)
-        self.recipeWindow.addWidget(self.recipeStepsTable, 7, 1)
+        openroast.recipes.indow.addWidget(openroast.recipes.ameLabel, 0, 0, 1, 2)
+        openroast.recipes.indow.addWidget(openroast.recipes.reatorLabel, 1, 0)
+        openroast.recipes.indow.addWidget(openroast.recipes.oastTypeLabel, 2, 0)
+        openroast.recipes.indow.addWidget(openroast.recipes.otalTimeLabel, 3, 0)
+        openroast.recipes.indow.addWidget(self.beanRegionLabel, 4, 0)
+        openroast.recipes.indow.addWidget(self.beanCountryLabel, 5, 0)
+        openroast.recipes.indow.addWidget(openroast.recipes.escriptionBox, 7, 0)
+        openroast.recipes.indow.addWidget(openroast.recipes.tepsTable, 7, 1)
 
     def create_recipe_buttons(self):
         """Creates the button panel on the bottom to allow for the user to
         interact with the currently selected/viewed recipe."""
-        self.recipeButtonsLayout = QtWidgets.QGridLayout()
-        self.recipeButtonsLayout.setSpacing(0)
-        self.recipeRoastButton = QtWidgets.QPushButton("ROAST NOW")
+        openroast.recipes.uttonsLayout = QtWidgets.QGridLayout()
+        openroast.recipes.uttonsLayout.setSpacing(0)
+        openroast.recipes.oastButton = QtWidgets.QPushButton("ROAST NOW")
         self.editRecipeButton = QtWidgets.QPushButton("EDIT")
         self.beanLinkButton = QtWidgets.QPushButton("PURCHASE BEANS")
 
         # Assign object names for qss styling.
-        self.recipeRoastButton.setObjectName("smallButton")
+        openroast.recipes.oastButton.setObjectName("smallButton")
         self.beanLinkButton.setObjectName("smallButton")
         self.editRecipeButton.setObjectName("smallButton")
         self.createNewRecipeButton.setObjectName("smallButtonAlt")
@@ -142,20 +143,20 @@ class RecipesTab(QtWidgets.QWidget):
         # Add spacer.
         self.spacer = QtWidgets.QWidget()
         self.spacer.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-        self.recipeButtonsLayout.addWidget(self.spacer)
+        openroast.recipes.uttonsLayout.addWidget(self.spacer)
 
-        self.recipeRoastButton.clicked.connect(self.load_recipe)
+        openroast.recipes.oastButton.clicked.connect(self.load_recipe)
         self.editRecipeButton.clicked.connect(self.open_recipe_editor)
         self.beanLinkButton.clicked.connect(self.open_link_in_browser)
 
-        self.recipeButtonsLayout.addWidget(self.beanLinkButton, 0, 1)
-        self.recipeButtonsLayout.addWidget(self.editRecipeButton, 0, 2)
-        self.recipeButtonsLayout.addWidget(self.recipeRoastButton, 0, 3)
+        openroast.recipes.uttonsLayout.addWidget(self.beanLinkButton, 0, 1)
+        openroast.recipes.uttonsLayout.addWidget(self.editRecipeButton, 0, 2)
+        openroast.recipes.uttonsLayout.addWidget(openroast.recipes.oastButton, 0, 3)
 
         # Disable buttons until recipe is selected.
         self.beanLinkButton.setEnabled(False)
         self.editRecipeButton.setEnabled(False)
-        self.recipeRoastButton.setEnabled(False)
+        openroast.recipes.oastButton.setEnabled(False)
 
     def on_recipeBrowser_clicked(self, index):
         """This method is used when a recipe is selected in the left column.
@@ -167,10 +168,10 @@ class RecipesTab(QtWidgets.QWidget):
 
         # Allow single click expanding of folders
         if os.path.isdir(self.selectedFilePath):
-            if self.recipeBrowser.isExpanded(indexItem):
-                self.recipeBrowser.collapse(indexItem)
+            if openroast.recipes.rowser.isExpanded(indexItem):
+                openroast.recipes.rowser.collapse(indexItem)
             else:
-                self.recipeBrowser.expand(indexItem)
+                openroast.recipes.rowser.expand(indexItem)
         # Handles when a file is clicked
         else:
             # Load recipe information from file
@@ -184,10 +185,10 @@ class RecipesTab(QtWidgets.QWidget):
 
             # Set lower buttons enabled once recipe is selected.
             self.editRecipeButton.setEnabled(True)
-            self.recipeRoastButton.setEnabled(True)
+            openroast.recipes.oastButton.setEnabled(True)
 
             # Hide recipe selection label once a recipe is selected.
-            self.recipeSelectionLabel.setHidden(True)
+            openroast.recipes.electionLabel.setHidden(True)
 
     def load_recipe_file(self, filePath):
         """Used to load file from a path into selected recipe object."""
@@ -200,27 +201,27 @@ class RecipesTab(QtWidgets.QWidget):
     def load_recipe_information(self, recipeObject):
         """Loads recipe information the into the right hand column fields.
         This method also populates the recipe steps table."""
-        self.recipeNameLabel.setText(recipeObject["roastName"])
-        self.recipeCreatorLabel.setText("Created by " +
+        openroast.recipes.ameLabel.setText(recipeObject["roastName"])
+        openroast.recipes.reatorLabel.setText("Created by " +
             recipeObject["creator"])
-        self.recipeRoastTypeLabel.setText("Roast Type: " +
+        openroast.recipes.oastTypeLabel.setText("Roast Type: " +
             recipeObject["roastDescription"]["roastType"])
         self.beanRegionLabel.setText("Bean Region: " +
             recipeObject["bean"]["region"])
         self.beanCountryLabel.setText("Bean Country: " +
             recipeObject["bean"]["country"])
-        self.recipeDescriptionBox.setText(recipeObject["roastDescription"]
+        openroast.recipes.escriptionBox.setText(recipeObject["roastDescription"]
             ["description"])
         self.currentBeanUrl = recipeObject["bean"]["source"]["link"]
 
         # Total Time
         t = time.strftime("%M:%S", time.gmtime(recipeObject["totalTime"]))
-        self.recipeTotalTimeLabel.setText("Total Time: " + t + " minutes")
+        openroast.recipes.otalTimeLabel.setText("Total Time: " + t + " minutes")
 
         # Steps spreadsheet
-        self.recipeStepsTable.setRowCount(len(recipeObject["steps"]))
-        self.recipeStepsTable.setColumnCount(3)
-        self.recipeStepsTable.setHorizontalHeaderLabels(["Temperature",
+        openroast.recipes.tepsTable.setRowCount(len(recipeObject["steps"]))
+        openroast.recipes.tepsTable.setColumnCount(3)
+        openroast.recipes.tepsTable.setHorizontalHeaderLabels(["Temperature",
             "Fan Speed", "Section Time"])
 
         for row in range(len(recipeObject["steps"])):
@@ -244,16 +245,16 @@ class RecipesTab(QtWidgets.QWidget):
             sectionTimeWidget.setTextAlignment(QtCore.Qt.AlignCenter)
 
             # Add widgets
-            self.recipeStepsTable.setItem(row, 0, sectionTempWidget)
-            self.recipeStepsTable.setItem(row, 1, sectionFanSpeedWidget)
-            self.recipeStepsTable.setItem(row, 2, sectionTimeWidget)
+            openroast.recipes.tepsTable.setItem(row, 0, sectionTempWidget)
+            openroast.recipes.tepsTable.setItem(row, 1, sectionFanSpeedWidget)
+            openroast.recipes.tepsTable.setItem(row, 2, sectionTimeWidget)
 
     def load_recipe(self):
         """Loads recipe into Roast tab."""
-        if (self.recipe.check_recipe_loaded()):
+        if (openroast.recipes.check_recipe_loaded()):
             self.roastTab.clear_roast()
 
-        self.recipe.load_recipe_json(self.currentlySelectedRecipe)
+        openroast.recipes.load_recipe_json(self.currentlySelectedRecipe)
         self.roastTab.load_recipe_into_roast_tab()
         self.MainWindow.select_roast_tab()
 
@@ -279,6 +280,8 @@ class RecipesTab(QtWidgets.QWidget):
         try:
             self.load_recipe_file(self.selectedFilePath)
         except AttributeError:
+            pass
+        except IsADirectoryError:
             pass
 
     def get_currently_selected_recipe(self):

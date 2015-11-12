@@ -58,7 +58,7 @@ class RoastTab(QtWidgets.QWidget):
         self.layout.addLayout(self.progressBar, 1, 0, 1, 2, QtCore.Qt.AlignCenter)
 
         # Create not connected label.
-        self.connectionStatusLabel = QtWidgets.QLabel("Please connect your openroast.roaster.")
+        self.connectionStatusLabel = QtWidgets.QLabel("Please connect your roaster.")
         self.connectionStatusLabel.setObjectName("connectionStatus")
         self.connectionStatusLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.layout.addWidget(self.connectionStatusLabel, 0, 0)
@@ -88,13 +88,13 @@ class RoastTab(QtWidgets.QWidget):
         self.update_total_time()
 
         # Update current section progress bar.
-        if openroast.recipe.check_recipe_loaded():
-            value = openroast.recipe.get_current_section_time() - openroast.roaster.get_section_time()
+        if(openroast.recipes.check_recipe_loaded()):
+            value = openroast.recipes.get_current_section_time() - openroast.roaster.time_remaining
 
-            value = value / openroast.recipe.get_current_section_time()
+            value = value / openroast.recipes.get_current_section_time()
             value = round(value * 100)
 
-            self.sectionBars[openroast.recipe.get_current_step_number()].setValue(value)
+            self.sectionBars[openroast.recipes.get_current_step_number()].setValue(value)
 
         # Check connection status of the openroast.roaster.
         if (openroast.roaster.connected):
@@ -133,15 +133,15 @@ class RoastTab(QtWidgets.QWidget):
         # An array to hold all progress bars.
         self.sectionBars = []
 
-        if openroast.recipe.check_recipe_loaded():
+        if(openroast.recipes.check_recipe_loaded()):
             counter = 0
 
-            for i in range(0, openroast.recipe.get_num_recipe_sections()):
+            for i in range(0, openroast.recipes.get_num_recipe_sections()):
                 # Calculate display time and generate label text.
-                time = openroast.recipe.get_section_time(i)
+                time = openroast.recipes.get_section_time(i)
                 minutes, seconds = self.calc_display_time(time)
                 labelText = (str(minutes) +  ":" + str(seconds) + "@" +
-                    str(openroast.recipe.get_section_temp(i)))
+                    str(openroast.recipes.get_section_temp(i)))
 
                # Create label for section.
                 label = QtWidgets.QLabel(labelText)
@@ -156,7 +156,7 @@ class RoastTab(QtWidgets.QWidget):
                 # Add css styling based upon the order of the progress bars.
                 if(i == 0):
                     bar.setObjectName("firstProgressBar")
-                elif(i == openroast.recipe.get_num_recipe_sections() - 1):
+                elif(i == openroast.recipes.get_num_recipe_sections() - 1):
                     bar.setObjectName("lastProgressBar")
                 else:
                     bar.setObjectName("middleProgressBar")
@@ -391,10 +391,10 @@ class RoastTab(QtWidgets.QWidget):
         to their original state. """
 
         # Reset openroast.roaster.
-        openroast.recipe.reset_openroast.roaster_settings()
+        openroast.recipes.reset_roaster_settings()
 
         # Clear the recipe.
-        openroast.recipe.clear_recipe()
+        openroast.recipes.clear_recipe()
 
         # Clear roast tab gui.
         self.clear_roast_tab_gui()
@@ -403,8 +403,8 @@ class RoastTab(QtWidgets.QWidget):
         """ Used to reset the current loaded recipe """
 
         # Verify that the recipe is loaded and reset it.
-        if(openroast.recipe.check_recipe_loaded()):
-            openroast.recipe.restart_current_recipe()
+        if(openroast.recipes.check_recipe_loaded()):
+            openroast.recipes.restart_current_recipe()
             self.recreate_progress_bar()
 
         # Clear roast tab gui.
@@ -429,7 +429,7 @@ class RoastTab(QtWidgets.QWidget):
         self.graphWidget.clear_graph()
 
     def load_recipe_into_roast_tab(self):
-        openroast.recipe.load_current_section()
+        openroast.recipes.load_current_section()
         self.recreate_progress_bar()
         self.update_section_time()
         self.targetTempLabel.setText(str(openroast.roaster.target_temp))
@@ -437,11 +437,11 @@ class RoastTab(QtWidgets.QWidget):
         self.update_fan_info()
 
     def next_section(self):
-        openroast.recipe.move_to_next_section()
+        openroast.recipes.move_to_next_section()
         self.update_section_time()
         self.targetTempLabel.setText(str(openroast.roaster.target_temp))
         self.update_target_temp()
         self.update_fan_info()
 
     def get_recipe_object(self):
-        return openroast.recipe
+        return openroast.recipes

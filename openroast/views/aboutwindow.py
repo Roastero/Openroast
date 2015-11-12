@@ -48,12 +48,12 @@ class About(QtWidgets.QDialog):
         self.authorsLabel = QtWidgets.QLabel("Authors")
         self.authorsLabel.setAlignment(QtCore.Qt.AlignCenter)
 
-        self.authorButton1 = QtWidgets.QPushButton("Caleb Coffie")
-        self.author1Link = "https://CalebCoffie.com"
+        self.authorButton1 = QtWidgets.QPushButton("Mark Spicer")
+        self.author1Link = "https://markspicer.me"
         self.authorButton1.clicked.connect(functools.partial(self.open_link_in_browser, self.author1Link))
 
-        self.authorButton2 = QtWidgets.QPushButton("Mark Spicer")
-        self.author2Link = "https://markspicer.me"
+        self.authorButton2 = QtWidgets.QPushButton("Caleb Coffie")
+        self.author2Link = "https://CalebCoffie.com"
         self.authorButton2.clicked.connect(functools.partial(self.open_link_in_browser, self.author2Link))
 
         # Add all the widgets
