@@ -67,7 +67,7 @@ setup(
         "bdist_msi": bdist_msi_options,
         "bdist_mac": {"iconfile": "static/icons/openroast-mac.icns"}},
     executables = [
-        Executable('run.py', targetName='Openroast')],
+        Executable('Openroast.py')],
     zip_safe=False,
     data_files=matplotlib.get_py2exe_datafiles(),
     packages=find_packages(),
