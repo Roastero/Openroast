@@ -437,7 +437,7 @@ class RoastTab(QtWidgets.QWidget):
         self.update_fan_info()
 
     def next_section(self):
-        openroast.recipes.move_to_next_section()
+        openroast.recipes.move_to_next_section(None, None)
         self.update_section_time()
         self.targetTempLabel.setText(str(openroast.roaster.target_temp))
         self.update_target_temp()

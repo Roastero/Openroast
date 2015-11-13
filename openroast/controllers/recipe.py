@@ -101,12 +101,15 @@ class Recipe(object):
                                 self.get_current_section_time(),
                                 self.get_current_cooling_status())
 
-    def move_to_next_section(self):
-        if (self.currentRecipeStep + 1) >= self.get_num_recipe_sections():
-            openroast.roaster.idle()
+    def move_to_next_section(self, roaster, state):
+        if self.check_recipe_loaded():
+            if (self.currentRecipeStep + 1) >= self.get_num_recipe_sections():
+                openroast.roaster.idle()
+            else:
+                self.currentRecipeStep += 1
+                self.load_current_section()
         else:
-            self.currentRecipeStep += 1
-            self.load_current_section()
+            openroast.roaster.idle()
 
     def get_current_recipe(self):
         return self.recipe

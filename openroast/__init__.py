@@ -14,8 +14,9 @@ from openroast.views import mainwindow
 from openroast.controllers import recipe
 
 
-roaster = freshroastsr700.freshroastsr700(thermostat=True)
 recipes = recipe.Recipe()
+roaster = freshroastsr700.freshroastsr700(
+    thermostat=True, state_transition_func=recipes.move_to_next_section)
 
 
 class Openroast(object):
