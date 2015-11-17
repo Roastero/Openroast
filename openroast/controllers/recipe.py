@@ -108,6 +108,7 @@ class Recipe(object):
             else:
                 self.currentRecipeStep += 1
                 self.load_current_section()
+                openroast.window.roast.update_controllers()
         else:
             openroast.roaster.idle()
 

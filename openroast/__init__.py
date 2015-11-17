@@ -48,6 +48,7 @@ class Openroast(object):
     def run(self):
         """Turn everything on."""
         roaster.auto_connect()
-        self.window = mainwindow.MainWindow()
-        self.window.show()
+        global window
+        window = mainwindow.MainWindow()
+        window.show()
         sys.exit(self.app.exec_())
