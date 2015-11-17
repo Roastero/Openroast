@@ -85,13 +85,12 @@ class Recipe(object):
     def set_roaster_settings(self, targetTemp, fanSpeed, sectionTime, cooling):
         if cooling:
             openroast.roaster.cool()
-        else:
-            openroast.roaster.target_temp = targetTemp
 
         # Prevent the roaster from starting when section time = 0 (ex clear)
         if(not cooling and sectionTime > 0 and self.currentRecipeStep > 0):
             openroast.roaster.roast()
 
+        openroast.roaster.target_temp = targetTemp
         openroast.roaster.fan_speed = fanSpeed
         openroast.roaster.time_remaining = sectionTime
 
