@@ -432,14 +432,15 @@ class RoastTab(QtWidgets.QWidget):
         openroast.recipes.load_current_section()
         self.recreate_progress_bar()
         self.update_section_time()
-        self.targetTempLabel.setText(str(openroast.roaster.target_temp))
         self.update_target_temp()
         self.update_fan_info()
 
     def next_section(self):
         openroast.recipes.move_to_next_section(None, None)
+        self.update_controllers()
+
+    def update_controllers(self):
         self.update_section_time()
-        self.targetTempLabel.setText(str(openroast.roaster.target_temp))
         self.update_target_temp()
         self.update_fan_info()
 
