@@ -54,7 +54,7 @@ if sys.platform == "win32":
 
 setup(
     name='Openroast',
-    version='1.0.0',
+    version='1.0.1',
     description='An open source, cross-platform application for home coffee roasting',
     long_description=README,
     license='GPLv3',
