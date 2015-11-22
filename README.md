@@ -18,5 +18,8 @@ Openroast is an open source, cross-platform application for home coffee roasting
 ## Setting Up A Development Environment
 In order to setup a development environment on your desired platform, please refer to our wiki page: [Setting Up A Development Environment](https://github.com/Roastero/openroast/wiki/Setting-Up-A-Development-Environment)
 
+## Packaging
+For packaging instructions, please refer to our wiki page: [Packaging Openroast](https://github.com/Roastero/Openroast/wiki/Packaging-Openroast)
+
 ## License
 The code is being released under GPL v3.
