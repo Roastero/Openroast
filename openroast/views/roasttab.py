@@ -436,7 +436,7 @@ class RoastTab(QtWidgets.QWidget):
         self.update_fan_info()
 
     def next_section(self):
-        openroast.recipes.move_to_next_section(None, None)
+        openroast.recipes.move_to_next_section()
         self.update_controllers()
 
     def update_controllers(self):

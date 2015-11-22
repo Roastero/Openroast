@@ -5,70 +5,120 @@ from setuptools import find_packages
 from cx_Freeze import setup, Executable
 
 
+# Read in long description and requirements.
 here = os.path.abspath(os.path.dirname(__file__))
 with open(os.path.join(here, 'README.md')) as f:
-    README = f.read()
+    long_description = f.read()
 with open(os.path.join(here, 'requirements.txt')) as f:
     requires = f.read().splitlines()
 
-# MSI shortcut folder to create the start in directory.
-shortcut_table = [(
-    "DesktopShortcut",        # Shortcut
-    "DesktopFolder",          # Directory_
-    "Openroast",              # Name
-    "TARGETDIR",              # Component_
-    "[TARGETDIR]Openroast.exe",# Target
-    None,                     # Arguments
-    None,                     # Description
-    None,                     # Hotkey
-    None,                     # Icon
-    None,                     # IconIndex
-    None,                     # ShowCmd
-    'TARGETDIR'               # WkDir
-)]
+# Setup variables to be used cross-platform.
+name = 'Openroast'
+version = '1.0.1'
+description = 'An open source, cross-platform application for home coffee roasting'
+license = 'GPLv3'
+author = 'Roastero'
+url = 'https://github.com/Roastero/openroast'
+author_email = 'admin@roatero.com'
 
-# Now create the table dictionary
-msi_data = {"Shortcut": shortcut_table}
+# Detetermine platform and define setup.
+if sys.platform == 'win32':
+    setup(
+        name=name,
+        version=version,
+        description=description,
+        long_description=long_description,
+        license=license,
+        author=author,
+        url=url,
+        author_email=author_email,
+        include_package_data=True,
+        options = {
+            'build_exe': {
+                'packages': ['openroast'],
+                'includes': [
+                    'matplotlib',
+                    'serial',
+                    'distutils',
+                    'matplotlib.backends.backend_qt5agg'],
+                'include_files': [
+                    'static',
+                    'openroast/views',
+                    'openroast/controllers',
+                    'LICENSE',
+                    (matplotlib.get_data_path(), 'mpl-data')],
+                'icon': 'static/icons/openroast-windows.ico',
+                'include_msvcr': True
+            },
+            'bdist_msi': {
+                'data': {
+                    'Shortcut': [(
+                        'DesktopShortcut',        # Shortcut
+                        'DesktopFolder',          # Directory_
+                        'Openroast',              # Name
+                        'TARGETDIR',              # Component_
+                        '[TARGETDIR]Openroast.exe',# Target
+                        None,                     # Arguments
+                        None,                     # Description
+                        None,                     # Hotkey
+                        None,                     # Icon
+                        None,                     # IconIndex
+                        None,                     # ShowCmd
+                        'TARGETDIR'               # WkDir
+                    )]
+                }
+            }
+        },
+        executables = [
+            Executable('Openroast.py', base='Win32GUI')],
+        zip_safe=False,
+        data_files=matplotlib.get_py2exe_datafiles(),
+        packages=find_packages(),
+        install_requires=requires)
 
-# Change some default MSI options and specify the use of the above defined tables
-bdist_msi_options = {'data': msi_data}
-
-# Dependencies are automatically detected, but it might need fine tuning.
-build_exe_options = {
-    "packages": ["openroast"],
-     "includes": ["matplotlib", "serial", "distutils", "matplotlib.backends.backend_qt5agg"],
-     "include_files": [
-        "static",
-        "openroast/views",
-        "openroast/controllers",
-        "LICENSE",
-        (matplotlib.get_data_path(), "mpl-data")],
-     "include_msvcr": True
-}
-
-# GUI applications require a different base on Windows (the default is for a
-# console application).
-base = None
-if sys.platform == "win32":
-    base = "Win32GUI"
-
-setup(
-    name='Openroast',
-    version='1.0.1',
-    description='An open source, cross-platform application for home coffee roasting',
-    long_description=README,
-    license='GPLv3',
-    author='Roastero',
-    url='http://roastero.com',
-    author_email='admin@roatero.com',
-    include_package_data=True,
-    options = {
-        "build_exe": build_exe_options,
-        "bdist_msi": bdist_msi_options,
-        "bdist_mac": {"iconfile": "static/icons/openroast-mac.icns"}},
-    executables = [
-        Executable('Openroast.py')],
-    zip_safe=False,
-    data_files=matplotlib.get_py2exe_datafiles(),
-    packages=find_packages(),
-    install_requires=requires)
+elif(sys.platform == 'darwin'):
+    setup(
+        name=name,
+        version=version,
+        description=description,
+        long_description=long_description,
+        license=license,
+        author=author,
+        url=url,
+        author_email=author_email,
+        include_package_data=True,
+        options = {
+            'build_exe': {
+                'packages': ['openroast'],
+                'includes': [
+                    'matplotlib',
+                    'serial',
+                    'distutils',
+                    'matplotlib.backends.backend_qt5agg'],
+                'include_files': [
+                    'static',
+                    'openroast/views',
+                    'openroast/controllers',
+                    'LICENSE',
+                    (matplotlib.get_data_path(), 'mpl-data')],
+                'include_msvcr': True
+            },
+            'bdist_mac': {'iconfile': 'static/icons/openroast-mac.icns'}},
+        executables = [
+            Executable('Openroast.py')],
+        zip_safe=False,
+        data_files=matplotlib.get_py2exe_datafiles(),
+        packages=find_packages(),
+        install_requires=requires)
+else:
+    setup(
+        name=name,
+        version=version,
+        description=description,
+        long_description=long_description,
+        license=license,
+        author=author,
+        url=url,
+        author_email=author_email,
+        packages=find_packages(),
+        install_requires=requires)
