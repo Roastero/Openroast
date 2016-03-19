@@ -14,7 +14,7 @@ with open(os.path.join(here, 'requirements.txt')) as f:
 
 # Setup variables to be used cross-platform.
 name = 'Openroast'
-version = '1.0.1'
+version = '1.1.0'
 description = 'An open source, cross-platform application for home coffee roasting'
 license = 'GPLv3'
 author = 'Roastero'
