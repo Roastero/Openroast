@@ -5,6 +5,7 @@ import os
 import sys
 import shutil
 import inspect
+import multiprocessing
 
 
 def get_script_dir(follow_symlinks=True):
@@ -22,6 +23,7 @@ def get_script_dir(follow_symlinks=True):
 
 
 os.chdir(get_script_dir())
+multiprocessing.freeze_support()
 
 import openroast
 
