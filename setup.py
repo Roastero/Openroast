@@ -3,6 +3,8 @@ import sys
 import matplotlib
 from setuptools import find_packages
 from cx_Freeze import setup, Executable
+import distutils
+import opcode
 
 
 # Read in long description and requirements.
@@ -23,6 +25,7 @@ author_email = 'admin@roatero.com'
 
 # Detetermine platform and define setup.
 if sys.platform == 'win32':
+    distutils_path = os.path.join(os.path.dirname(opcode.__file__), 'distutils')
     setup(
         name=name,
         version=version,
@@ -39,14 +42,15 @@ if sys.platform == 'win32':
                 'includes': [
                     'matplotlib',
                     'serial',
-                    'distutils',
                     'matplotlib.backends.backend_qt5agg'],
                 'include_files': [
                     'static',
                     'openroast/views',
                     'openroast/controllers',
                     'LICENSE',
-                    (matplotlib.get_data_path(), 'mpl-data')],
+                    (matplotlib.get_data_path(), 'mpl-data'),
+                    (distutils_path, 'distutils')],
+                'excludes': ['distutils'],
                 'icon': 'static/icons/openroast-windows.ico',
                 'include_msvcr': True
             },
