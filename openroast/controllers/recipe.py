@@ -10,14 +10,14 @@ class Recipe(object):
     def __init__(self, max_recipe_size_bytes=64*1024):
         # this object is accessed by multiple processes, in part because
         # freshroastsr700 calls Recipe.move_to_next_section() from a
-        # child process.  Therefore, all data shandling must be process-safe.
+        # child process.  Therefore, all data handling must be process-safe.
 
         # recipe step currently being applied
         self.currentRecipeStep = sharedctypes.Value('i', 0)
         # Stores recipe
-        # Here, we need shared memory to store the recipe.
+        # Here, we need to use shared memory to store the recipe.
         # Tried multiprocessing.Manager, wasn't very successful with that,
-        # resortign to allocating a fixed-size large buffer to store JSON
+        # resorting to allocating a fixed-size, large buffer to store a JSON
         # string.  This Array needs to live for the lifetime of the object.
         self.recipe_str = Array(ctypes.c_char, max_recipe_size_bytes)
 
@@ -25,8 +25,8 @@ class Recipe(object):
         self.recipeLoaded = sharedctypes.Value('i', 0)  # boolean
 
     def _recipe(self):
-        # retrieve the recipe as a JSON string in shared memory
-        # needed to allow freshroastsr700 to access recipe from
+        # retrieve the recipe as a JSON string in shared memory.
+        # needed to allow freshroastsr700 to access Recipe from
         # its child process
         if self.recipeLoaded.value:
             return json.loads(self.recipe_str.value.decode('utf_8'))
@@ -54,6 +54,8 @@ class Recipe(object):
         return self.recipeLoaded.value != 0
 
     def get_num_recipe_sections(self):
+        if not self.check_recipe_loaded():
+            return 0
         return len(self._recipe()["steps"])
 
     def get_current_step_number(self):
@@ -129,7 +131,7 @@ class Recipe(object):
     def move_to_next_section(self):
         # this gets called from freshroastsr700's timer process, which
         # is spawned using multiprocessing.  Therefore, all things
-        # accessed in theis function must be process-safe
+        # accessed in this function must be process-safe!
         if self.check_recipe_loaded():
             if(
                 (self.currentRecipeStep.value + 1) >=
