@@ -4,7 +4,7 @@ python:
 # command to install dependencies
 sudo: required
 install:
-    - sudo pip3 install python-qt5
+    - pip3 install python-qt5
     - "pip3 install -r requirements.txt"
 # command to run tests
 script: nosetests
