@@ -140,8 +140,7 @@ class Recipe(object):
             else:
                 self.currentRecipeStep.value += 1
                 self.load_current_section()
-                openroast.window.roast.update_controllers()  # TODO - check for
-                                                             # process-safe
+                openroast.window.roast.schedule_update_controllers()
         else:
             openroast.roaster.idle()
 
