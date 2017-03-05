@@ -6,6 +6,7 @@ import time
 import math
 import datetime
 import openroast
+from multiprocessing import sharedctypes
 
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
@@ -33,6 +34,10 @@ class RoastTab(QtWidgets.QWidget):
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.update_data)
         self.timer.start()
+
+        # Create a shared memory flag for scheduling the occasional call to
+        # update_controllers() from the the timer.
+        self._schedule_controller_update_flag = sharedctypes.Value('i', 0)
 
         # Set the roast tab diabled when starting.
         self.setEnabled(False)
@@ -103,6 +108,12 @@ class RoastTab(QtWidgets.QWidget):
         else:
             self.connectionStatusLabel.setHidden(False)
             self.setEnabled(False)
+
+        # if openroast.roaster has moved the recipe to the next section,
+        # update the controller-related info onscreen.
+        if(self._schedule_controller_update_flag.value):
+            self._schedule_controller_update_flag.value=0
+            self.update_controllers()
 
     def create_right_pane(self):
         rightPane = QtWidgets.QVBoxLayout()
@@ -443,6 +454,18 @@ class RoastTab(QtWidgets.QWidget):
         self.update_section_time()
         self.update_target_temp()
         self.update_fan_info()
+
+    def schedule_update_controllers(self):
+        """This is designed to be called from other processes. Currently,
+           the openroast.roaster instance calls this function from a
+           child process.  This object's timer routine (which periodically
+           calls update_data()) will pick up this flag at the next timer tick
+           and call update_controllers() at that time.
+           Alternately, we could have set up a complicated system to
+           support calling into the Pyqt app from a separate process - this
+           is easier, at the expense of being not quite immediate, graphically.
+           """
+        self._schedule_controller_update_flag.value = 1
 
     def get_recipe_object(self):
         return openroast.recipes
