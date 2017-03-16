@@ -5,9 +5,11 @@ import json
 import openroast
 from multiprocessing import sharedctypes, Array
 import ctypes
+import freshroastsr700
+
 
 class Recipe(object):
-    def __init__(self, max_recipe_size_bytes=64*1024):
+    def __init__(self, roaster, app, max_recipe_size_bytes=64*1024):
         # this object is accessed by multiple processes, in part because
         # freshroastsr700 calls Recipe.move_to_next_section() from a
         # child process.  Therefore, all data handling must be process-safe.
@@ -23,6 +25,12 @@ class Recipe(object):
 
         # Tells if a recipe has been loaded
         self.recipeLoaded = sharedctypes.Value('i', 0)  # boolean
+
+        # we are not storing this object in a process-safe manner,
+        # but its members are process-safe (make sure you only use
+        # its process-safe members from here!)
+        self.roaster=roaster
+        self.app = app
 
     def _recipe(self):
         # retrieve the recipe as a JSON string in shared memory.
@@ -105,22 +113,22 @@ class Recipe(object):
             return 150
 
     def reset_roaster_settings(self):
-        openroast.roaster.target_temp = 150
-        openroast.roaster.fan_speed = 1
-        openroast.roaster.time_remaining = 0
+        self.roaster.target_temp = 150
+        self.roaster.fan_speed = 1
+        self.roaster.time_remaining = 0
 
     def set_roaster_settings(self, targetTemp, fanSpeed, sectionTime, cooling):
         if cooling:
-            openroast.roaster.cool()
+            self.roaster.cool()
 
         # Prevent the roaster from starting when section time = 0 (ex clear)
         if(not cooling and sectionTime > 0 and
            self.currentRecipeStep.value > 0):
-            openroast.roaster.roast()
+            self.roaster.roast()
 
-        openroast.roaster.target_temp = targetTemp
-        openroast.roaster.fan_speed = fanSpeed
-        openroast.roaster.time_remaining = sectionTime
+        self.roaster.target_temp = targetTemp
+        self.roaster.fan_speed = fanSpeed
+        self.roaster.time_remaining = sectionTime
 
     def load_current_section(self):
         self.set_roaster_settings(self.get_current_target_temp(),
@@ -136,13 +144,14 @@ class Recipe(object):
             if(
                 (self.currentRecipeStep.value + 1) >=
                     self.get_num_recipe_sections()):
-                openroast.roaster.idle()
+                self.roaster.idle()
             else:
                 self.currentRecipeStep.value += 1
                 self.load_current_section()
-                openroast.window.roast.schedule_update_controllers()
+                # call back into RoastTab window
+                self.app.roasttab_flag_update_controllers()
         else:
-            openroast.roaster.idle()
+            self.roaster.idle()
 
     def get_current_recipe(self):
         return self._recipe()

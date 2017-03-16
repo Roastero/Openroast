@@ -12,7 +12,7 @@ from PyQt5 import QtWidgets
 
 from openroast import tools
 from openroast.views import customqtwidgets
-
+from openroast import utils as utils
 
 class RecipeEditor(QtWidgets.QDialog):
     def __init__(self, recipeLocation=None):
@@ -231,18 +231,46 @@ class RecipeEditor(QtWidgets.QDialog):
             # Modify Row field
             upArrow = QtWidgets.QPushButton()
             upArrow.setObjectName("upArrow")
-            upArrow.setIcon(QtGui.QIcon('static/images/upSmall.png'))
+            #upArrow.setIcon(QtGui.QIcon('static/images/upSmall.png'))
+            upArrow.setIcon(
+                QtGui.QIcon(
+                    utils.get_resource_filename(
+                        'static/images/upSmall.png'
+                    )
+                )
+            )
             upArrow.clicked.connect(functools.partial(self.move_recipe_step_up, row))
             downArrow = QtWidgets.QPushButton()
             downArrow.setObjectName("downArrow")
-            downArrow.setIcon(QtGui.QIcon('static/images/downSmall.png'))
+            #downArrow.setIcon(QtGui.QIcon('static/images/downSmall.png'))
+            downArrow.setIcon(
+                QtGui.QIcon(
+                    utils.get_resource_filename(
+                        'static/images/downSmall.png'
+                    )
+                )
+            )
             downArrow.clicked.connect(functools.partial(self.move_recipe_step_down, row))
             deleteRow = QtWidgets.QPushButton()
-            deleteRow.setIcon(QtGui.QIcon('static/images/delete.png'))
+            # deleteRow.setIcon(QtGui.QIcon('static/images/delete.png'))
+            deleteRow.setIcon(
+                QtGui.QIcon(
+                    utils.get_resource_filename(
+                        'static/images/delete.png'
+                    )
+                )
+            )
             deleteRow.setObjectName("deleteRow")
             deleteRow.clicked.connect(functools.partial(self.delete_recipe_step, row))
             insertRow = QtWidgets.QPushButton()
-            insertRow.setIcon(QtGui.QIcon('static/images/plus.png'))
+            # insertRow.setIcon(QtGui.QIcon('static/images/plus.png'))
+            insertRow.setIcon(
+                QtGui.QIcon(
+                    utils.get_resource_filename(
+                        'static/images/plus.png'
+                    )
+                )
+            )
             insertRow.setObjectName("insertRow")
             insertRow.clicked.connect(functools.partial(self.insert_recipe_step, row))
 
@@ -381,7 +409,7 @@ class RecipeEditor(QtWidgets.QDialog):
         if "file" in self.recipe:
             filePath = self.recipe["file"]
         else:
-            filePath = os.path.expanduser('~/Documents/openroast/recipes/My Recipes/') + tools.format_filename(self.recipeName.text()) + ".json"
+            filePath = os.path.expanduser('~/Documents/Openroast/Recipes/My Recipes/') + tools.format_filename(self.recipeName.text()) + ".json"
             # TODO: Account for existing file with same name
 
         # Create Dictionary with all the new recipe information
@@ -404,6 +432,15 @@ class RecipeEditor(QtWidgets.QDialog):
 
         # Write the recipe to a file
         jsonObject = json.dumps(self.newRecipe, indent=4)
+        # will need to create dir if it doesn't exist
+        # note that this should never happen because this folder is created
+        # at OpenroastApp.__init__() time.
+        if not os.path.exists(os.path.dirname(filePath)):
+            try:
+                os.makedirs(os.path.dirname(filePath))
+            except OSError as exc: # Guard against race condition
+                if exc.errno != errno.EEXIST:
+                    raise
         file = open(filePath, 'w')
         file.write(jsonObject)
         file.close()

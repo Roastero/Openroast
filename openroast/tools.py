@@ -9,13 +9,13 @@ import string
 from serial.tools import list_ports
 
 
-def check_for_user_folder():
-    """ Verify that a user folder exists and create one if it does not before
-    launching the application """
-    openroastUserFolder = os.path.expanduser('~/Documents/openroast/')
-    if not os.path.isdir(openroastUserFolder):
-        shutil.copytree("recipes", os.path.join(openroastUserFolder, "recipes"))
-        shutil.copyfile("config.ini", os.path.join(openroastUserFolder, "config.ini"))
+# def check_for_user_folder():
+#     """ Verify that a user folder exists and create one if it does not before
+#     launching the application """
+#     openroastUserFolder = os.path.expanduser('~/Documents/openroast/')
+#     if not os.path.isdir(openroastUserFolder):
+#         shutil.copytree("recipes", os.path.join(openroastUserFolder, "recipes"))
+#         shutil.copyfile("config.ini", os.path.join(openroastUserFolder, "config.ini"))
 
 
 def format_filename(s):
@@ -28,10 +28,10 @@ def format_filename(s):
     return filename
 
 
-def vid_pid_to_serial_url(vidpid):
-    #Get all com ports currently connected to the system
-    currentComPorts = list(list_ports.comports())
-    for port in currentComPorts:
-        if re.search(vidpid, port[2], flags=re.IGNORECASE):
-            return port[0]
-    raise LookupError('VID:PID Not found on system')
+# def vid_pid_to_serial_url(vidpid):
+#     #Get all com ports currently connected to the system
+#     currentComPorts = list(list_ports.comports())
+#     for port in currentComPorts:
+#         if re.search(vidpid, port[2], flags=re.IGNORECASE):
+#             return port[0]
+#     raise LookupError('VID:PID Not found on system')

@@ -1,0 +1,41 @@
+Preparing an Openroast distribution
+-----------------------------------
+
+This document describes the steps that a developer msut execute to successfully create a distributable Openroast application package.
+
+Windows 10 - 64 bit
+===================
+
+(The following instructions were developed on Windows 10 Pro running in a Virtualbox VM with Ubuntu 14.04 as the host OS.)
+
+It is assumed that the operations herein are being performed on a fresh install of Windows 10.  A fresh install will not have any of the dependencies required to build Openroast.  These instructions, and the associated tools that are downloaded during the process, will guide the developer from a Win10 fresh install state, to a Win10 64-bit version of Openroast ready to distribute.
+
+Starting from nothing - Setting up the development environment
+--------------------------------------------------------------
+If you do not have git set up, you can get all necessary build tools set up by downloading a single file from the Openroast github project, namely, the build_win.ps1 file. (TODO - instructions).
+
+1. Download build_win.ps1.
+2. Place it in a folder in which you intend to create all the necessary project folders for this project.  (In a later step, the script will eventually fetch the files and place them under the folder [YourCurrentPath]\Roastero\Openroast.)
+3. Start a PowerShell command prompt. You need to launch PowerShell with the "Run as Administrator" option. One way to do this is to type PowerShell in the search bar, then right-click on the PowerShell app icon that appears, and select "Run as Administrator".
+4. We must set up elevated privileges to run the scripts in this PowerShell window.  The easiest way to achieve this is to enter the command `Set-ExecutionPolicy RemoteSigned`. This allows local scripts to run unsigned.
+5. In the PowerShell window, cd to your desired path, where you've placed the build_win.ps1 script.
+6. Type `build_ps1 -tool_install -python_build_tool_install` and press Enter.  The following things will happen:
+a. Download python 3.5 for Windows, git, and NSIS
+b. Install python 3.5 for Windows, git, and NSIS
+c. Install a couple of python-based tools (TODO - VERIFY - you may need to invoke the script with `build_win.ps1 -python_build_tool_install` separately for this to work if you've just installed python - it may not be visible to PowerShell yet?)
+7. You are now in a position to fetch the source code from github.
+
+Getting the source code
+-----------------------
+Assuming you are working at the head of the master branch in git, and that you have a PowerShell window opened to the directory of interest as directed in the previous step, you're ready to fetch the code from github.
+
+1. At the Power Shell prompt, type `build_win.ps1 -git_fetch` and press Enter.  You are now fetching the head of the master branch. (To fetch a different branch, type 'build_win.ps1 -branch_name issue-25 -git_fetch` instead.)
+2. You now have the code locally.  You'll want to cd into Roastero/Openroast and continue working from there.
+
+Incrementing the version number
+-------------------------------
+TODO - bumpversion is currently rather fussy on windows. This part of the script does not currently work.  Tagging and versioning is operated from Linux at the moment, and the Windows build does not change the version string.
+
+Creating a Windows Installer
+----------------------------
+Assuming you're in PowerShell and currently in the [YourWhateverFolderPath]\Roastero\Openroast directory, you can create an installer build by typing `build_win.ps1 -make_installer` and pressing Enter.  The EXE-based installer will be created in the folder [YourWhateverFolderPath]\Roastero\Openroast\build\nsis.   You'll want to test this installer on a separate Windows machine to verify functionality.

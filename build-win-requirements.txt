@@ -1,0 +1,2 @@
+PyQt5>=5.8,<5.9
+freshroastsr700>=0.2.1
