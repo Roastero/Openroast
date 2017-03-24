@@ -124,9 +124,12 @@ if( (Test-Path ".\openroast") -eq $false )
 # the openroast project.
 if( $python_build_tool_install )
 {
-    Write-Output( "Installing python build tools listed in build-win-tool-requirements.txt...")
+    Write-Output( "Installing python build tools listed in build-app-requirements.txt & build-win-tool-requirements.txt...")
+    # install python packages required to be specifically installed as pkg 
+    # to be imported by pynsist
+    pip install -U -r build-app-requirements.txt
     # install python packages required to create the build
-    pip install -r build-win-tool-requirements.txt
+    pip install -U -r build-win-tool-requirements.txt
 }
 # increment version as requested
 if( $bump_ver_maj )
@@ -167,9 +170,6 @@ if( $make_installer )
     # Need to call this twize for it to really work... because, Microsoft...
     Remove-Item -Recurse -Force build
     Remove-Item -Recurse -Force build
-    # install python packages required to be specifically installed as pkg 
-    # to be imported by pynsist
-    pip install -r build-win-requirements.txt
     # read in version number
     $version = ((((Get-Content 'openroast\version.py') -split "\s",3)[2]) -split "`"",3)[1]
     Write-Output( "Using version number " + $version )
