@@ -109,7 +109,7 @@ If you want to increment any part of the version number, you can do so by
 
 Creating a Mac app contained in a DMG
 -------------------------------------
-Assuming you're in Terminal and currently in the `[YourWhateverFolderPath]\Roastero\Openroast` folder, you can create an app build by typing `./build_mac.sh -n -m` and pressing Enter.  A disk image (DMG) containing the app will be created in the folder `[YourWhateverFolderPath]/Roastero/Openroast/dist`.   You'll want to test this app on a separate Mac machine to verify functionality.  
+Assuming you're in Terminal and currently in the `[YourWhateverFolderPath]\Roastero\Openroast` folder, you can create an app build by typing `./build_mac.sh -n -m` and pressing Enter.  A disk image (DMG) containing the app will be created in the folder `[YourWhateverFolderPath]/Roastero/Openroast/dmg`.   You'll want to test this app on a separate Mac machine to verify functionality.  
 
 Posting the installer on Github
 -------------------------------

@@ -211,7 +211,7 @@ fi
 if "${make_install}" ; then
     echo "make_install - creating Openroast app..."
     # remove old stuff
-    rm -rf build dist
+    rm -rf build dist dmg
     # get version string
     version_file=($(<openroast/version.py)) 
     version_string=$(echo ${version_file[2]} | tr -d '"')
@@ -220,7 +220,7 @@ if "${make_install}" ; then
     echo "Using version_mmp = ${version_mmp}"
     sed -E -e 's/%VERSION%/'"${version_string}"'/' -e 's/%VERSION_MMP%/'"${version_mmp}"'/' <setup_py2app.py >setup_py2app_"${version_string}".py
     # build!
-    echo "Laucnhing py2app..."
+    echo "Launching py2app..."
     python setup_py2app_"${version_string}".py py2app
     rm setup_py2app_"${version_string}".py
     # now, for some serious manually-powered stripping of unecessary files
@@ -287,15 +287,22 @@ if "${make_install}" ; then
 
     # Create DMG for distribution
     echo "Creating DMG..."
+    rm -rf dmg
+    mkdir dmg
+    # copy other required files to dist...
+    cp build_tools/CH34x_Install_V1.4.pkg dist/
+    cp 'build_tools/Openroast 1.2 for Mac README.rtf' dist/
     ./build_tools/create-dmg/create-dmg \
+--background 'build_tools/mac_dmg_background.png' \
 --window-pos 100 100 \
---window-size 400 200 \
+--window-size 400 400 \
 --icon-size 100 \
---icon 'Openroast '"${version_string}"'.app' 100 100 \
---app-drop-link 300 100 \
-'./dist/Openroast '"${version_string}"' Installer.dmg' \
+--icon 'Openroast '"${version_string}"'.app' 100 300 \
+--icon 'CH34x_Install_V1.4.pkg' 300 100 \
+--icon 'Openroast 1.2 for Mac README.rtf' 100 100 \
+--app-drop-link 300 300 \
+'./dmg/Openroast '"${version_string}"' Mac OS X Installer.dmg' \
 dist \
 /
-    rm -rf 'dist/Openroast '"${version_string}"'.app' 
     echo "make_install done."
 fi

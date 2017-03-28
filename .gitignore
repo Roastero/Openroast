@@ -37,6 +37,7 @@ var/
 *.egg
 .eggs/
 .python-version
+dmg/
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
