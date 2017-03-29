@@ -25,6 +25,13 @@ Screenshots
 
 |Roast Tab Screenshot| |Recipe Tab Screenshot|
 
+DEPRECATED - information below
+==============================
+*The information below as well as in the Wiki is out of date, and will be updated over the coming days to reflect v1.2 changes.
+
+Readers are directed to the release notes in `releases`_ for up-to-date installation information.*
+
+
 Setting Up A Development Environment
 ------------------------------------
 
@@ -44,6 +51,7 @@ The code is being released under GPL v3.
 
 .. _Setting Up A Development Environment: https://github.com/Roastero/openroast/wiki/Setting-Up-A-Development-Environment
 .. _Packaging Openroast: https://github.com/Roastero/Openroast/wiki/Packaging-Openroast
+.. _releases: https://github.com/Roastero/Openroast/releases
 
 .. |Gitter| image:: https://badges.gitter.im/Join%20Chat.svg
    :target: https://gitter.im/Roastero/openroast?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
