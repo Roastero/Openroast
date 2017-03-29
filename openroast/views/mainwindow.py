@@ -13,26 +13,31 @@ from PyQt5 import QtWidgets
 from openroast.views import roasttab
 from openroast.views import recipestab
 from openroast.views import aboutwindow
-
+from openroast.version import __version__
 
 class MainWindow(QtWidgets.QMainWindow):
-    def __init__(self):
+    def __init__(self, recipes, roaster):
         super(MainWindow, self).__init__()
 
         # Define main window for the application.
-        self.setWindowTitle('Openroast')
+        self.setWindowTitle('Openroast v%s' % __version__)
         self.setMinimumSize(800, 600)
         self.setContextMenuPolicy(QtCore.Qt.NoContextMenu)
+
+        # keep a copy of roaster & recipes, needed here
+        self.roaster = roaster
+        self.recipes = recipes
 
         # Create toolbar.
         self.create_toolbar()
 
         # Create tabs.
-        self.create_tabs()
+        self.create_tabs(self.roaster, recipes)
 
         # Create menu.
         self.create_actions()
         self.create_menus()
+
 
     def create_actions(self):
         # File menu actions.
@@ -119,14 +124,16 @@ class MainWindow(QtWidgets.QMainWindow):
         self.tabButtons = [self.roastTabButton,
                            self.recipesTabButton]
 
-    def create_tabs(self):
+    def create_tabs(self, roaster, recipes):
         self.tabs = QtWidgets.QStackedWidget()
 
         # Create widgets to add to tabs.
-        self.roast = roasttab.RoastTab()
+        self.roast = roasttab.RoastTab(
+            roaster, recipes)
         self.recipes = recipestab.RecipesTab(
             roastTabObject=self.roast,
-            MainWindowObject=self)
+            MainWindowObject=self,
+            recipes_object=self.recipes)
 
         # Add widgets to tabs.
         self.tabs.insertWidget(0, self.roast)
@@ -158,7 +165,7 @@ class MainWindow(QtWidgets.QMainWindow):
         try:
             recipeFile = QtWidgets.QFileDialog.getOpenFileName(self, 'Select Recipe',
                 os.path.expanduser('~/'), 'Recipes (*.json);;All Files (*)')
-            shutil.copy2(recipeFile[0], 
+            shutil.copy2(recipeFile[0],
                 os.path.expanduser('~/Documents/Openroast/Recipes/My Recipes/'))
         except FileNotFoundError:
             # Occurs if file browser is canceled
@@ -187,4 +194,4 @@ class MainWindow(QtWidgets.QMainWindow):
         self.aboutWindow.exec_()
 
     def closeEvent(self, event):
-        openroast.roaster.disconnect()
+        self.roaster.disconnect()

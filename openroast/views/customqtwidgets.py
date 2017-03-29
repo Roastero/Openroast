@@ -10,16 +10,16 @@ from PyQt5 import QtWidgets
 
 import matplotlib
 matplotlib.use('Qt5Agg')
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
 import matplotlib.animation as animation
 from matplotlib.dates import MinuteLocator, DateFormatter
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 
 
 class RoastGraphWidget():
-    def __init__(self, graphXValueList=None, graphYValueList=None, 
+    def __init__(self, graphXValueList=None, graphYValueList=None,
             animated=False, updateMethod=None, animatingMethod=None):
-
         self.graphXValueList = graphXValueList or []
         self.graphYValueList = graphYValueList or []
         self.counter = 0
@@ -36,11 +36,10 @@ class RoastGraphWidget():
         graphWidget.setObjectName("graph")
 
         # Style attributes of matplotlib.
-        plt.rcParams['lines.linewidth'] = 3
-        plt.rcParams['lines.color'] = '#2a2a2a'
-        plt.rcParams['font.size'] = 10.
-
-        self.graphFigure = plt.figure(facecolor='#444952')
+        matplotlib.rcParams['lines.linewidth'] = 3
+        matplotlib.rcParams['lines.color'] = '#2a2a2a'
+        matplotlib.rcParams['font.size'] = 10.
+        self.graphFigure = Figure(facecolor='#444952')
         self.graphCanvas = FigureCanvas(self.graphFigure)
 
         # Add graph widgets to layout for graph.
@@ -50,7 +49,7 @@ class RoastGraphWidget():
 
         # Animate the the graph with new data
         if self.animated:
-            animateGraph = animation.FuncAnimation(self.graphFigure,
+            self.animateGraph = animation.FuncAnimation(self.graphFigure,
                 self.graph_draw, interval=1000)
         else:
             self.graph_draw()
@@ -74,9 +73,15 @@ class RoastGraphWidget():
         self.graphAxes.set_xlabel('TIME')
         self.graphFigure.subplots_adjust(bottom=0.2)
 
-        ax = self.graphAxes.get_axes()
-        ax.xaxis.set_major_formatter(DateFormatter('%M:%S'))
-        ax.set_axis_bgcolor('#23252a')
+        self.graphAxes.get_xaxis().set_major_formatter(DateFormatter('%M:%S'))
+        # self.graphAxes.set_axis_bgcolor('#23252a')
+        self.graphAxes.set_facecolor('#23252a')
+
+        # adding more visible text color
+        self.graphAxes.get_xaxis().label.set_color('white')
+        self.graphAxes.get_yaxis().label.set_color('white')
+        self.graphAxes.tick_params(axis='x', colors='white')
+        self.graphAxes.tick_params(axis='y', colors='white')
 
         self.graphCanvas.draw()
 
@@ -95,11 +100,15 @@ class RoastGraphWidget():
     def save_roast_graph(self):
         try:
             file_name = QtWidgets.QFileDialog.getSaveFileName(
-                QtWidgets.QWidget(), 
-                'Save Roast Graph', 
-                os.path.expanduser('~/'), 
+                QtWidgets.QWidget(),
+                'Save Roast Graph',
+                os.path.expanduser('~/'),
                 'Graph (*.png);;All Files (*)')
-            self.graphFigure.savefig(file_name[0], bbox_inches='tight')
+            self.graphFigure.savefig(
+                file_name[0],
+                bbox_inches='tight',
+                facecolor='#23252a',
+                edgecolor='black')
         except FileNotFoundError:
             # Occurs if file browser is canceled
             pass

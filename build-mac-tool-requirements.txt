@@ -1,0 +1,3 @@
+bumpversion
+py2app>=0.12
+

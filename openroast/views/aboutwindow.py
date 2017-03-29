@@ -3,6 +3,8 @@
 
 import functools
 import webbrowser
+import openroast.version as version
+from openroast import utils as utils
 
 from PyQt5 import QtCore
 from PyQt5 import QtWidgets
@@ -32,14 +34,17 @@ class About(QtWidgets.QDialog):
         # License
         self.licenseLabel = QtWidgets.QLabel("License")
         self.licenseLabel.setAlignment(QtCore.Qt.AlignCenter)
-        with open('LICENSE', 'r') as file:
-             licenseText = file.read()
+        # with open('LICENSE', 'r') as file:
+        #      licenseText = file.read()
+        licenseText = utils.get_resource_string(
+            'static/License/LICENSE'
+            ).decode('utf-8')
         self.licenseTextBox = QtWidgets.QTextEdit()
         self.licenseTextBox.setText(licenseText)
         self.licenseTextBox.setReadOnly(True)
 
         # Version
-        versionLabelString = "Version - 1.1.0"
+        versionLabelString = "Version " + version.__version__
         self.versionLabel = QtWidgets.QLabel(versionLabelString)
         self.versionLabel.setObjectName("versionLabel")
         self.versionLabel.setAlignment(QtCore.Qt.AlignCenter)

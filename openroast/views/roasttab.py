@@ -5,7 +5,6 @@ import os
 import time
 import math
 import datetime
-import openroast
 from multiprocessing import sharedctypes
 
 from PyQt5 import QtCore
@@ -13,14 +12,21 @@ from PyQt5 import QtWidgets
 
 from openroast.views import customqtwidgets
 
-
 class RoastTab(QtWidgets.QWidget):
-    def __init__(self):
+    def __init__(self, roaster, recipes):
         super(RoastTab, self).__init__()
 
         # Class variables.
         self.sectTimeSliderPressed = False
         self.tempSliderPressed = False
+
+        # process-safe flag to schedule controller vars update from recipe obj
+        self._flag_update_controllers = sharedctypes.Value('i', 0)
+
+        # store roaster object
+        self.roaster = roaster
+        # store recipes object
+        self.recipes = recipes
 
         # Create the tab ui.
         self.create_ui()
@@ -34,10 +40,6 @@ class RoastTab(QtWidgets.QWidget):
         self.timer.setInterval(1000)
         self.timer.timeout.connect(self.update_data)
         self.timer.start()
-
-        # Create a shared memory flag for scheduling the occasional call to
-        # update_controllers() from the the timer.
-        self._schedule_controller_update_flag = sharedctypes.Value('i', 0)
 
         # Set the roast tab diabled when starting.
         self.setEnabled(False)
@@ -72,37 +74,39 @@ class RoastTab(QtWidgets.QWidget):
         self.setLayout(self.layout)
 
     def check_roaster_status(self):
-        if (openroast.roaster.get_roaster_state() == 'roasting' or
-                openroast.roaster.get_roaster_state() == 'cooling'):
+        if (self.roaster.get_roaster_state() == 'roasting' or
+                self.roaster.get_roaster_state() == 'cooling'):
             return True
         else:
             return False
 
     def graph_get_data(self):
-        self.graphWidget.append_x(openroast.roaster.current_temp)
+        self.graphWidget.append_x(self.roaster.current_temp)
 
     def save_roast_graph(self):
         self.graphWidget.save_roast_graph()
 
     def update_data(self):
         # Update temperature widgets.
-        self.currentTempLabel.setText(str(openroast.roaster.current_temp))
+        self.currentTempLabel.setText(str(self.roaster.current_temp))
 
         # Update timers.
         self.update_section_time()
         self.update_total_time()
 
         # Update current section progress bar.
-        if(openroast.recipes.check_recipe_loaded()):
-            value = openroast.recipes.get_current_section_time() - openroast.roaster.time_remaining
-
-            value = value / openroast.recipes.get_current_section_time()
+        if(self.recipes.check_recipe_loaded()):
+            value = (
+                self.recipes.get_current_section_time() -
+                self.roaster.time_remaining
+                )
+            value = value / self.recipes.get_current_section_time()
             value = round(value * 100)
 
-            self.sectionBars[openroast.recipes.get_current_step_number()].setValue(value)
+            self.sectionBars[self.recipes.get_current_step_number()].setValue(value)
 
         # Check connection status of the openroast.roaster.
-        if (openroast.roaster.connected):
+        if self.roaster.connected:
             self.connectionStatusLabel.setHidden(True)
             self.setEnabled(True)
         else:
@@ -111,8 +115,9 @@ class RoastTab(QtWidgets.QWidget):
 
         # if openroast.roaster has moved the recipe to the next section,
         # update the controller-related info onscreen.
-        if(self._schedule_controller_update_flag.value):
-            self._schedule_controller_update_flag.value=0
+        # print("roasttab.update_data: f_u_c = %s" %  self._flag_update_controllers.value)
+        if self._flag_update_controllers.value:
+            self._flag_update_controllers.value = 0
             self.update_controllers()
 
     def create_right_pane(self):
@@ -144,15 +149,15 @@ class RoastTab(QtWidgets.QWidget):
         # An array to hold all progress bars.
         self.sectionBars = []
 
-        if(openroast.recipes.check_recipe_loaded()):
+        if(self.recipes.check_recipe_loaded()):
             counter = 0
 
-            for i in range(0, openroast.recipes.get_num_recipe_sections()):
+            for i in range(0, self.recipes.get_num_recipe_sections()):
                 # Calculate display time and generate label text.
-                time = openroast.recipes.get_section_time(i)
+                time = self.recipes.get_section_time(i)
                 minutes, seconds = self.calc_display_time(time)
                 labelText = (str(minutes) +  ":" + str(seconds) + "@" +
-                    str(openroast.recipes.get_section_temp(i)))
+                    str(self.recipes.get_section_temp(i)))
 
                # Create label for section.
                 label = QtWidgets.QLabel(labelText)
@@ -167,7 +172,7 @@ class RoastTab(QtWidgets.QWidget):
                 # Add css styling based upon the order of the progress bars.
                 if(i == 0):
                     bar.setObjectName("firstProgressBar")
-                elif(i == openroast.recipes.get_num_recipe_sections() - 1):
+                elif(i == self.recipes.get_num_recipe_sections() - 1):
                     bar.setObjectName("lastProgressBar")
                 else:
                     bar.setObjectName("middleProgressBar")
@@ -239,17 +244,17 @@ class RoastTab(QtWidgets.QWidget):
 
         # Create start roast button.
         self.startButton = QtWidgets.QPushButton("ROAST")
-        self.startButton.clicked.connect(openroast.roaster.roast)
+        self.startButton.clicked.connect(self.roaster.roast)
         buttonPanel.addWidget(self.startButton, 0, 0)
 
         # Create cool button.
         self.coolButton = QtWidgets.QPushButton("COOL")
-        self.coolButton.clicked.connect(openroast.roaster.cool)
+        self.coolButton.clicked.connect(self.roaster.cool)
         buttonPanel.addWidget(self.coolButton, 0, 1)
 
         # Create stop roast button.
         self.stopButton = QtWidgets.QPushButton("STOP")
-        self.stopButton.clicked.connect(openroast.roaster.idle)
+        self.stopButton.clicked.connect(self.roaster.idle)
         buttonPanel.addWidget(self.stopButton, 0, 2)
 
         return buttonPanel
@@ -336,45 +341,45 @@ class RoastTab(QtWidgets.QWidget):
         return infoBox
 
     def update_target_temp(self):
-        self.targetTempLabel.setText(str(openroast.roaster.target_temp))
-        self.tempSlider.setValue(openroast.roaster.target_temp)
-        self.tempSpinBox.setValue(openroast.roaster.target_temp)
+        self.targetTempLabel.setText(str(self.roaster.target_temp))
+        self.tempSlider.setValue(self.roaster.target_temp)
+        self.tempSpinBox.setValue(self.roaster.target_temp)
 
     def update_target_temp_spin_box(self):
         self.targetTempLabel.setText(str(self.tempSpinBox.value()))
         self.tempSlider.setValue(self.tempSpinBox.value())
-        openroast.roaster.target_temp = self.tempSpinBox.value()
+        self.roaster.target_temp = self.tempSpinBox.value()
 
     def update_target_temp_slider(self):
         self.targetTempLabel.setText(str(self.tempSlider.value()))
         self.tempSpinBox.setValue(self.tempSlider.value())
-        openroast.roaster.target_temp = self.tempSlider.value()
+        self.roaster.target_temp = self.tempSlider.value()
 
     def update_fan_info(self):
-        self.fanSlider.setValue(openroast.roaster.fan_speed)
-        self.fanSpeedSpinBox.setValue(openroast.roaster.fan_speed)
+        self.fanSlider.setValue(self.roaster.fan_speed)
+        self.fanSpeedSpinBox.setValue(self.roaster.fan_speed)
 
     def update_fan_speed_slider(self):
         self.fanSpeedSpinBox.setValue(self.fanSlider.value())
-        openroast.roaster.fan_speed = self.fanSlider.value()
+        self.roaster.fan_speed = self.fanSlider.value()
 
     def update_fan_spin_box(self):
         self.fanSlider.setValue(self.fanSpeedSpinBox.value())
-        openroast.roaster.fan_speed = self.fanSpeedSpinBox.value()
+        self.roaster.fan_speed = self.fanSpeedSpinBox.value()
 
     def set_section_time(self):
         self.sectionTimeLabel.setText(time.strftime("%M:%S",
             time.gmtime(self.sectTimeSlider.value())))
-        openroast.roaster.time_remaining = self.sectTimeSlider.value()
+        self.roaster.time_remaining = self.sectTimeSlider.value()
 
     def update_section_time(self):
-        self.sectTimeSlider.setValue(openroast.roaster.time_remaining)
+        self.sectTimeSlider.setValue(self.roaster.time_remaining)
 
         self.sectTimeSpinBox.setTime(QtCore.QTime.fromString(str(time.strftime("%H:%M:%S",
-            time.gmtime(openroast.roaster.time_remaining)))))
+            time.gmtime(self.roaster.time_remaining)))))
 
         self.sectionTimeLabel.setText(str(time.strftime("%M:%S",
-            time.gmtime(openroast.roaster.time_remaining))))
+            time.gmtime(self.roaster.time_remaining))))
 
     def update_sect_time_spin_box(self):
         self.sectionTimeLabel.setText(str(time.strftime("%M:%S",
@@ -382,7 +387,7 @@ class RoastTab(QtWidgets.QWidget):
 
         self.sectTimeSlider.setValue(QtCore.QTime(0, 0, 0).secsTo(self.sectTimeSpinBox.time()))
 
-        openroast.roaster.time_remaining = QtCore.QTime(0, 0, 0).secsTo(self.sectTimeSpinBox.time())
+        self.roaster.time_remaining = QtCore.QTime(0, 0, 0).secsTo(self.sectTimeSpinBox.time())
 
     def update_sect_time_slider(self):
         self.sectionTimeLabel.setText(str(time.strftime("%M:%S",
@@ -391,21 +396,21 @@ class RoastTab(QtWidgets.QWidget):
         self.sectTimeSpinBox.setTime(QtCore.QTime.fromString(str(time.strftime("%H:%M:%S",
             time.gmtime(self.sectTimeSlider.value())))))
 
-        openroast.roaster.time_remaining = self.sectTimeSlider.value()
+        self.roaster.time_remaining = self.sectTimeSlider.value()
 
     def update_total_time(self):
         self.totalTimeLabel.setText(str(time.strftime("%M:%S",
-            time.gmtime(openroast.roaster.total_time))))
+            time.gmtime(self.roaster.total_time))))
 
     def clear_roast(self):
         """ This method will clear the openroast.roaster, recipe, and reset the gui back
         to their original state. """
 
         # Reset openroast.roaster.
-        openroast.recipes.reset_roaster_settings()
+        self.recipes.reset_roaster_settings()
 
         # Clear the recipe.
-        openroast.recipes.clear_recipe()
+        self.recipes.clear_recipe()
 
         # Clear roast tab gui.
         self.clear_roast_tab_gui()
@@ -414,8 +419,8 @@ class RoastTab(QtWidgets.QWidget):
         """ Used to reset the current loaded recipe """
 
         # Verify that the recipe is loaded and reset it.
-        if(openroast.recipes.check_recipe_loaded()):
-            openroast.recipes.restart_current_recipe()
+        if(self.recipes.check_recipe_loaded()):
+            self.recipes.restart_current_recipe()
             self.recreate_progress_bar()
 
         # Clear roast tab gui.
@@ -433,21 +438,21 @@ class RoastTab(QtWidgets.QWidget):
         self.update_target_temp()
 
         # Set totalTime to zero.
-        openroast.roaster.total_time = 0
+        self.roaster.total_time = 0
         self.update_total_time()
 
         # Clear roast graph.
         self.graphWidget.clear_graph()
 
     def load_recipe_into_roast_tab(self):
-        openroast.recipes.load_current_section()
+        self.recipes.load_current_section()
         self.recreate_progress_bar()
         self.update_section_time()
         self.update_target_temp()
         self.update_fan_info()
 
     def next_section(self):
-        openroast.recipes.move_to_next_section()
+        self.recipes.move_to_next_section()
         self.update_controllers()
 
     def update_controllers(self):
@@ -456,16 +461,8 @@ class RoastTab(QtWidgets.QWidget):
         self.update_fan_info()
 
     def schedule_update_controllers(self):
-        """This is designed to be called from other processes. Currently,
-           the openroast.roaster instance calls this function from a
-           child process.  This object's timer routine (which periodically
-           calls update_data()) will pick up this flag at the next timer tick
-           and call update_controllers() at that time.
-           Alternately, we could have set up a complicated system to
-           support calling into the Pyqt app from a separate process - this
-           is easier, at the expense of being not quite immediate, graphically.
-           """
-        self._schedule_controller_update_flag.value = 1
+        # print("roasttab.schedule_update_controllers called")
+        self._flag_update_controllers.value = 1
 
     def get_recipe_object(self):
-        return openroast.recipes
+        return self.recipes
