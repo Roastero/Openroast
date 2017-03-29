@@ -15,7 +15,7 @@ Features
 
 -  Roast Graph
 -  Simplified user interface
--  The abaility to set temperature by number rather than low, medium, or
+-  The ability to set temperature by number rather than low, medium, or
    high
 -  Create/Import/Export Recipes
 -  Software-based PID Controller
