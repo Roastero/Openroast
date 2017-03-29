@@ -27,9 +27,10 @@ Screenshots
 
 DEPRECATED - information below
 ==============================
-*The information below as well as in the Wiki is out of date, and will be* updated over the coming days to reflect v1.2 changes.*
+The information below as well as in the Wiki is out of date, and will be
+updated over the coming days to reflect v1.2 changes.
 
-*Readers are directed to the release notes in `releases`_ for up-to-date* *installation information.*
+Readers are directed to the release notes in `releases`_ for up-to-date installation information.
 
 
 Setting Up A Development Environment
