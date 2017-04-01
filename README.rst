@@ -25,6 +25,9 @@ Screenshots
 
 |Roast Tab Screenshot| |Recipe Tab Screenshot|
 
+### WORK IN PROGRESS ###
+*The following paragraphs are not yet accurate.  To install Openroast 1.2, please head over to https://github.com/Roastero/Openroast/releases to get the latest release.*
+
 Installing Openroast
 ====================
 Latest Release
