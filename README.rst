@@ -25,34 +25,38 @@ Screenshots
 
 |Roast Tab Screenshot| |Recipe Tab Screenshot|
 
-DEPRECATED - information below
-==============================
-The information below as well as in the Wiki is out of date, and will be
-updated over the coming days to reflect v1.2 changes.
+Installing Openroast
+====================
+Latest Release
+--------------
+Openroast 1.2 is currently in 'rc' or 'release candidate' phase. The alpha releases have done quite well with early testers, so the app is ready for a broader audience.
 
-Readers are directed to the release notes in `releases`_ for up-to-date installation information.
+*For Windows or Mac, you do not need to install python interpreters or any other software, other than what is included in the install packages.*
 
+`Openroast 1.2 for Windows 10 (64-bit only)<https://github.com/Roastero/Openroast/releases/tag/v1.2.0a4>`_
+`Openroast 1.2 for Mac<https://github.com/Roastero/Openroast/releases/tag/v1.2.0a7>`_
 
-Setting Up A Development Environment
-------------------------------------
+For Linux OSes, downloading the project files and performing a `py35 -mpip install .` in the project root directory is the only way to install the software at this time.
 
-In order to setup a development environment on your desired platform,
-please refer to our wiki page: `Setting Up A Development Environment`_
+Installation Instructions
+-------------------------
+Windows - see `For Users Installing Openroast for Windows`_
+Mac - see `For Users Installing Openroast for Mac`_
+Ubuntu/Linux - see `For Developers Installing and Running Openroast`_
 
-Packaging
----------
-
-For packaging instructions, please refer to our wiki page: `Packaging
-Openroast`_
+Developer Corner
+================
+We have recently made this project easier to manage from a build generation perspective, facilitating future maintenance and updates. See `For Developers`_ pages in the project wiki for details.
 
 License
 -------
 
-The code is being released under GPL v3.
+The Openroast app code is released under GPL v3.
 
-.. _Setting Up A Development Environment: https://github.com/Roastero/openroast/wiki/Setting-Up-A-Development-Environment
-.. _Packaging Openroast: https://github.com/Roastero/Openroast/wiki/Packaging-Openroast
-.. _releases: https://github.com/Roastero/Openroast/releases
+.. _For Users Installing Openroast for Windows: https://github.com/Roastero/Openroast/wiki/For-Users-Installing-Openroast-for-Windows
+.. _For Users Installing Openroast for Mac: https://github.com/Roastero/Openroast/wiki/For-Users-Installing-Openroast-for-Mac
+.. _For Developers Installing and Running Openroast: https://github.com/Roastero/Openroast/wiki/For-Developers-Installing-and-Running-Openroast
+.. _For Developers: https://github.com/Roastero/Openroast/wiki/For-Developers
 
 .. |Gitter| image:: https://badges.gitter.im/Join%20Chat.svg
    :target: https://gitter.im/Roastero/openroast?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge
