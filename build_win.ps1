@@ -108,6 +108,11 @@ if( $git_fetch )
             cd Roastero
             Write-Output "cloning project..."
             git clone https://github.com/Roastero/Openroast.git
+            if( (Test-Path ".\Openroast") -eq $false )
+            {
+                Write-Output( "failed to git clone Openroast - check git installation? Bailing." )
+                return
+            }
             cd Openroast
         }
 
@@ -192,8 +197,12 @@ if( $make_installer )
     {
         Remove-Item $pynsist_filename
     }
-    # find and replace %VERSION% string with $version
-    (Get-Content pynsist_installer.cfg).replace('%VERSION%', $version) | Set-Content $pynsist_filename
+    # find and replace %VERSION% string with $version, %OS_BITNESS% string with $os_bitness
+    #(Get-Content pynsist_installer.cfg).replace('%VERSION%', $version) | Set-Content $pynsist_filename
+    (Get-Content pynsist_installer.cfg) | Foreach-Object {
+        $_ -replace '%VERSION%', $version `
+           -replace '%OS_BITNESS%', $os_bitness.ToString() `
+        } | Set-Content $pynsist_filename
     # make the installer package
     pynsist $pynsist_filename
     Remove-Item $pynsist_filename
