@@ -17,9 +17,9 @@ You do not need to install any software other than what is in the contents of th
 
 1. The installer does not put an Openroast shortcut on your desktop.  You will find the app icon in the Windows Menu (bottom left-hand corner button) under 'Recently Added' as well as listed in the applications starting with the letter 'O'.
 
-![Image of Windows Menu Showing Openroast icon in Recently Added](https://github.com/Roastero/Openroast/blob/master/docs/wiki/img/Openroast_Windows_Install_Shortcut_Recent.png "Optional title")
+![Image of Windows Menu Showing Openroast icon in Recently Added](https://github.com/Roastero/Openroast/blob/master/docs/wiki/img/Openroast_Windows_Install_Shortcut_Recent.PNG "Windows Menu Showing Openroast icon in Recently Added")
 
-![Image of Windows Menu Showing Openroast icon in Apps](https://github.com/Roastero/Openroast/blob/master/docs/wiki/img/Openroast_Windows_Install_Shortcut_O.png "Optional title")
+![Image of Windows Menu Showing Openroast icon in Apps](https://github.com/Roastero/Openroast/blob/master/docs/wiki/img/Openroast_Windows_Install_Shortcut_O.PNG "Windows Menu Showing Openroast icon in Apps")
 
 ## Notes and Observations
 
