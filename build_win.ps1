@@ -13,6 +13,15 @@ param (
 )
 # remember current directory
 $crnt_folder = $PSScriptRoot
+# detect whether we're running on 32-bit or 64-bit OS
+$os_bitness = 32
+if( [Environment]::Is64BitOperatingSystem )
+{
+    Write-Output( "Building 64-bit version..." )
+    $os_bitness = 64
+} else {
+    Write-Output( "Building 32-bit version..." )
+}
 # installing fundamental tooling to build project
 if( $tool_install )
 {
@@ -23,8 +32,10 @@ if( $tool_install )
     $tempDir = [io.path]::GetTempPath()
     # prepare WebClient for use
     $wclient = New-Object System.Net.WebClient
-    # download python 3.5 - 64-bit
-    $pythonInstallerFileName = "python-3.5.3-amd64.exe"
+    # download python 3.5 - 64-bit or 32-bit
+    $pythonInstallerFileName = ""
+    if( 64 -eq $os_bitness ){ $pythonInstallerFileName = "python-3.5.3-amd64.exe" }
+    if( 32 -eq $os_bitness ){ $pythonInstallerFileName = "python-3.5.3.exe" }
     $pythonUrl = "https://www.python.org/ftp/python/3.5.3/" + $pythonInstallerFileName
     $pythonInstallerDestFileName = $tempDir + $pythonInstallerFileName
     $destFileExists = Test-Path $pythonInstallerDestFileName
@@ -36,9 +47,11 @@ if( $tool_install )
         Write-Output "Saving to " $pythonInstallerDestFileName
         $wclient.DownloadFile($pythonUrl,$pythonInstallerDestFileName) 
     }
-    # download Git for Windows 2.11.1 64 bit
-    $gitInstallerFileName = "Git-2.11.1-64-bit.exe"
-    $gitUrl = "https://github.com/git-for-windows/git/releases/download/v2.11.1.windows.1/" + $gitInstallerFileName
+    # download Git for Windows 2.11.1 64 bit or 32-bit
+    $gitInstallerFileName = ""
+    if( 64 -eq $os_bitness ){ $gitInstallerFileName = "Git-2.12.2-64-bit.exe" }
+    if( 32 -eq $os_bitness ){ $gitInstallerFileName = "Git-2.12.2-32-bit.exe" }
+    $gitUrl = "https://github.com/git-for-windows/git/releases/download/v2.12.2.windows.1/" + $gitInstallerFileName
     $gitDestFileName = $tempDir + $gitInstallerFileName
     $destFileExists = Test-Path $gitDestFileName
     if( $destFileExists -eq $true ) {
@@ -49,7 +62,7 @@ if( $tool_install )
         Write-Output "Saving to " $gitDestFileName
         $wclient.DownloadFile($gitUrl,$gitDestFileName) 
     }
-    # Download NSIS 3.01
+    # Download NSIS 3.01 -there doesn't seem to be a 32/64 bit distinction (only one download)
     $nsisInstallerFileName = "nsis-3.01-setup.exe"
     $nsisUrl = "https://sourceforge.net/projects/nsis/files/NSIS%203/3.01/" + $nsisInstallerFileName
     $nsisDestFileName = $tempDir + $nsisInstallerFileName
@@ -181,6 +194,26 @@ if( $make_installer )
     }
     # find and replace %VERSION% string with $version
     (Get-Content pynsist_installer.cfg).replace('%VERSION%', $version) | Set-Content $pynsist_filename
+    # make the installer package
     pynsist $pynsist_filename
     Remove-Item $pynsist_filename
+    # Because the version number is in the shortcut name, the
+    # installer 
+    $installer_filename_old = 'build\nsis\Openroast_' + $version + '_' + $version + '.exe'
+    $installer_filename_new = ""
+    if( 64 -eq $os_bitness ) { $installer_filename_new = 'Openroast_' + $version + '_Win10_64bit.exe' }
+    if( 32 -eq $os_bitness ) { $installer_filename_new = 'Openroast_' + $version + '_Win10_32bit.exe' }
+    Rename-Item $installer_filename_old $installer_filename_new
+    # ZIP the README, driver installer, and Openroast installer together
+    # make a build\zip folder
+    New-Item -ItemType Directory -Force -Path ".\build\zip"
+    # copy necessary files into it
+    Copy-Item ".\build\nsis\$installer_filename_new" .\build\zip
+    Copy-Item '.\build_tools\Openroast 1.2 for Windows README.rtf' .\build\zip
+    Copy-Item .\build_tools\CH341SER.EXE.zip .\build\zip
+    $dest_path = ""
+    if( 64 -eq $os_bitness ) { $dest_path = ".\build\Openroast_$($version)_Win10_64bit.zip" }
+    if( 32 -eq $os_bitness ) { $dest_path = ".\build\Openroast_$($version)_Win10_32bit.zip" }
+    Compress-Archive -Path .\build\zip\* -DestinationPath $dest_path
+    Remove-Item -Force -Recurse .\build\zip
 }

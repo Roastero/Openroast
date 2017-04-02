@@ -1,5 +1,3 @@
-# Windows Installation Process
-
 You do not need to install any software other than what is in the contents of the installation package.  All necessary software is provided in the package.
 
 ## Software and Driver Installation
@@ -17,7 +15,11 @@ You do not need to install any software other than what is in the contents of th
 
 ## Launching the Openroast app
 
-1. The installer does not put an Openroast shortcut on your desktop.  You will find the app icon
+1. The installer does not put an Openroast shortcut on your desktop.  You will find the app icon in the Windows Menu (bottom left-hand corner button) under 'Recently Added' as well as listed in the applications starting with the letter 'O'.
+
+![Image of Windows Menu Showing Openroast icon in Recently Added](https://github.com/Roastero/Openroast/blob/master/docs/wiki/img/Openroast_Windows_Install_Shortcut_Recent.png "Optional title")
+
+![Image of Windows Menu Showing Openroast icon in Apps](https://github.com/Roastero/Openroast/blob/master/docs/wiki/img/Openroast_Windows_Install_Shortcut_O.png "Optional title")
 
 ## Notes and Observations
 
