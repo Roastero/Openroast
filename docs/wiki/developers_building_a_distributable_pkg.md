@@ -13,7 +13,7 @@ This document describes the steps that a developer must execute to successfully 
 
 It is assumed that the operations herein are being performed on a fresh install of Windows 10.  A fresh install will not have any of the dependencies required to build Openroast.  These instructions, and the associated tools that are downloaded during the process, will guide the developer from a Win10 fresh install state, to a Win10 version of Openroast ready to distribute.
 
-The script creates a 64-bit or 32-bit build based on the operating system it is running on. To build a 64-bit version of the app, use a Win10 64-bit OS machine and follow the instructions below. To build a 32-bit version of the app, use a Win10 32-bit OS machine and follow the instructions below.
+The script creates a 64-bit or 32-bit installation package, based on the operating system it is running on. To build a 64-bit version of the app, use a Win10 64-bit OS machine and follow the instructions below. To build a 32-bit version of the app, use a Win10 32-bit OS machine and follow the instructions below.
 
 ## 1. Starting from nothing - Setting up the development environment
 
@@ -94,7 +94,7 @@ If you have already cloned the branch of interest (almost always master...) from
 
 Assuming you have a Terminal window opened to the directory of interest as directed in the previous steps, you're ready to fetch the code from github.
 
-1. At the Terminal prompt, type `./build_mac.sh -n -f` and press Enter.  You are now fetching the head of the master branch. (To fetch a different branch, type `./build_mac.sh -n -b <name> -f` instead, where <name> is the name of the branch you want to fetch.)
+1. At the Terminal prompt, type `./build_mac.sh -n -f` and press Enter.  You are now fetching the head of the master branch. (To fetch a different branch, type `./build_mac.sh -n -b <name> -f` instead, where `<name>` is the name of the branch you want to fetch.)
 2. You now have the code locally.  You'll want to `cd Roastero/Openroast` and continue working from there.
 
 ## 3. Incrementing the version number
@@ -105,7 +105,7 @@ In some instances, you may want to increment some part of the version number.  T
 
 If you want to increment any part of the version number, you can do so by
 1. making sure you're in the Openroast root folder in Terminal;
-2. typing `./build_mac.sh -n -i <part>`, where <part> is one of major, minor, patch, release, or iter. (Type `build_mac -h` to read the help text for this script to know more.)
+2. typing `./build_mac.sh -n -i <part>`, where `<part>` is one of major, minor, patch, release, or iter. (Type `build_mac -h` to read the help text for this script to know more.)
 3. This will only work if your repository is clean (meaning, all changes have been committed). If that isn't the case, bumpversion will refuse to increment the version number.
 4. Once you have executed this successfully, you should `git push --tags origin <branch-name>` to commit the version tag and associated file changes to the Openroast project origin.  (If this is unclear to you, you should contact a project maintainer for guidance...)
 
