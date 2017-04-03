@@ -7,11 +7,13 @@ This document describes the steps that a developer must execute to successfully 
 - As of Openroast 1.2, python 3.5 is the required version of python to build and run Openroast.  This is because PyQt5, which is a python GUI application toolkit (specifically, a python wrapping over the Qt5 multi-platform GUI toolkit), is significantly easier to deal with in Python 3.5+.
 
 ---
-# Building the Openroast 1.2 app - Windows 10 - 64 bit
+# Building the Openroast 1.2 app - Windows 10 - 64 & 32 bit
 
 (The following instructions were developed for a fresh Windows 10 Pro install running in a Virtualbox VM with Ubuntu 14.04 as the host OS.)
 
-It is assumed that the operations herein are being performed on a fresh install of Windows 10.  A fresh install will not have any of the dependencies required to build Openroast.  These instructions, and the associated tools that are downloaded during the process, will guide the developer from a Win10 fresh install state, to a Win10 64-bit version of Openroast ready to distribute.
+It is assumed that the operations herein are being performed on a fresh install of Windows 10.  A fresh install will not have any of the dependencies required to build Openroast.  These instructions, and the associated tools that are downloaded during the process, will guide the developer from a Win10 fresh install state, to a Win10 version of Openroast ready to distribute.
+
+The script creates a 64-bit or 32-bit build based on the operating system it is running on. To build a 64-bit version of the app, use a Win10 64-bit OS machine and follow the instructions below. To build a 32-bit version of the app, use a Win10 32-bit OS machine and follow the instructions below.
 
 ## 1. Starting from nothing - Setting up the development environment
 
@@ -51,15 +53,15 @@ In some instances, you may want to increment some part of the version number.  T
 
 ## 5. Creating a Windows Installer
 
-Assuming you're in PowerShell and currently in the `[YourWhateverFolderPath]\Roastero\Openroast` directory, you can create an installer build by typing `build_win.ps1 -make_installer` and pressing Enter.  The EXE-based installer will be created in the folder `[YourWhateverFolderPath]\Roastero\Openroast\build\nsis`.   You'll want to test this installer on a separate Windows machine to verify functionality.
+Assuming you're in PowerShell and currently in the `[YourWhateverFolderPath]\Roastero\Openroast` directory, you can create an installer build by typing `build_win.ps1 -make_installer` and pressing Enter.  The ZIP containing the installation package will be created in the folder `[YourWhateverFolderPath]\Roastero\Openroast\build`.   You'll want to test this installer on a separate Windows machine to verify functionality.
 
 ## 6. Posting the installer on Github
 
-At this point, you have an installer EXE that you believe is functional and ready for distribution.
+At this point, you have a ZIP package that you believe is functional and ready for distribution.
 
 Github currently makes it easy to create a release and attach installer files to the release.  With proper use of bumpversion, tags are created in the source repository and are visible in the releases tab on the Openroast github site. Release notes and files can be attached to a particular commit tag.  See existing release notes and attachments for guidance on creating a new release.
 
-Typically, a ZIP of the EXE installer is attached to the release and users can download the installer from there.
+Typically, the ZIP is attached to the release and users can download the installer from there.
 
 ---
 # Building the Openroast app - Mac OS X 10.10.5
@@ -109,7 +111,7 @@ If you want to increment any part of the version number, you can do so by
 
 ## 4. Creating a Mac app contained in a DMG
 
-Assuming you're in Terminal and currently in the `[YourWhateverFolderPath]\Roastero\Openroast` folder, you can create an app build by typing `./build_mac.sh -n -m` and pressing Enter.  A disk image (DMG) containing the app will be created in the folder `[YourWhateverFolderPath]/Roastero/Openroast/dmg`.   You'll want to test this app on a separate Mac machine to verify functionality.  
+Assuming you're in Terminal and currently in the `[YourWhateverFolderPath]\Roastero\Openroast` folder, you can create an app build by typing `./build_mac.sh -n -m` and pressing Enter.  A disk image (DMG) containing the app will be created in the folder `[YourWhateverFolderPath]/Roastero/Openroast/dmg`.   You'll want to test this app on a separate Mac machine to verify functionality.
 
 ## 5. Posting the installer on Github
 
