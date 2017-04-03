@@ -24,10 +24,9 @@ Alternately, if you already have git installed, you should clone the Openroast p
 3. Start a PowerShell command prompt. You need to launch PowerShell with the "Run as Administrator" option. One way to do this is to type PowerShell in the search bar, then right-click on the PowerShell app icon that appears, and select "Run as Administrator".
 4. We must set up elevated privileges to run the scripts in this PowerShell window.  The easiest way to achieve this is to enter the command `Set-ExecutionPolicy RemoteSigned`. This allows local scripts to run unsigned.
 5. In the PowerShell window, cd to where you've placed the build_win.ps1 script. (If you've cloned the Openroast project already, the file is in the project root folder.)
-6. Type `build_win.ps1 -tool_install -python_build_tool_install` and press Enter.  The following things will happen:
+6. Type `build_win.ps1 -tool_install` and press Enter.  The following things will happen:
     1. installer downloads for python 3.5 for Windows, git, and NSIS. (Note that the git installer insists on re-installing git every time.  If this is something you want to avoid, you should modify build_win.ps1 to not download nor install git.)
     2. Install python 3.5 for Windows, git, and NSIS
-    3. Install a couple of python-based tools. Note that if this fails (probably because you've just installed python 3.5), you may need to close the PowerShell window and open a new one, and re-invoke the script with `build_win.ps1 -python_build_tool_install`.
 7. You are now in a position to fetch the source code from github, if you haven't done so already.
 
 ## 2. Getting the source code
@@ -39,17 +38,22 @@ Assuming you have a PowerShell window opened to the directory of interest as dir
 1. At the Power Shell prompt, type `build_win.ps1 -git_fetch` and press Enter.  You are now fetching the head of the master branch. (To fetch a different branch, type `build_win.ps1 -branch_name <name> -git_fetch` instead, where <name> is the name of the branch you want to fetch.)
 2. You now have the code locally.  You'll want to `cd Roastero/Openroast` and continue working from there.
 
-## 3. Incrementing the version number
+## 3. Getting project dependencies
+
+1. Type `build_win.ps1 -python_build_tool_install` and press Enter.  The following things will happen:
+    1. Install a couple of python-based tools. Note that if this fails (probably because you've just installed python 3.5), you may need to close the PowerShell window and open a new one, and re-invoke the script with `build_win.ps1 -python_build_tool_install`.
+
+## 4. Incrementing the version number
 
 *This part of the script does not currently work, as bumpversion does not execute properly from PowerShell in Windows.  Tagging and versioning is operated from Linux at the moment, and the Windows build cannot successfully change the version string and tag the source. There is no plan to fix bumpversion execution in the Windows script.*
 
 In some instances, you may want to increment some part of the version number.  The bumpversion utility is used to perform version number incrementing.  Since a release will typically involve multiple platforms (Windows, Mac OS, Linux source install...), it is recommended that the maintainer learn to use the bumpversion utility outside of the build script process, before starting to create installer builds.
 
-## 4. Creating a Windows Installer
+## 5. Creating a Windows Installer
 
 Assuming you're in PowerShell and currently in the `[YourWhateverFolderPath]\Roastero\Openroast` directory, you can create an installer build by typing `build_win.ps1 -make_installer` and pressing Enter.  The EXE-based installer will be created in the folder `[YourWhateverFolderPath]\Roastero\Openroast\build\nsis`.   You'll want to test this installer on a separate Windows machine to verify functionality.
 
-## 5. Posting the installer on Github
+## 6. Posting the installer on Github
 
 At this point, you have an installer EXE that you believe is functional and ready for distribution.
 
