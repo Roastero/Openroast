@@ -15,6 +15,10 @@ def get_resource_filename(resname):
     # if os.path.exists(path):
     #     return path
     if hasattr(sys, "frozen"):
+        path = os.path.dirname(os.path.abspath(__file__))
+        path = os.path.join(path,resname)
+        if os.path.exists(path):
+            return path
         exe_path = sys.executable
         if not isinstance(exe_path, str):
             exe_path = str(exe_path,sys.getfilesystemencoding())
