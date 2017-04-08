@@ -8,17 +8,28 @@ def get_resource_filename(resname):
     but tries to avoid loading pkg_resources unless we're actually in
     an egg.
     """
-    # Commented out the below, as it prevents a 'py3.5 -mpip install -e .'
-    # from working properly in Linux.
-    # path = os.path.dirname(os.path.abspath(__file__))
-    # path = os.path.join(path,resname)
-    # if os.path.exists(path):
-    #     return path
+    # for a Linux source install, just force the use of pkg_resources
+    if sys.platform == "linux" or sys.platform == "linux2":
+        # linux
+        import pkg_resources
+        try:
+            path = pkg_resources.resource_filename("openroast",resname)
+        except KeyError:
+            pass
+        else:
+            path = os.path.abspath(path)
+            if os.path.exists(path):
+                return path
+        raise IOError(
+            "get_resource_filename - Could not locate resource '%s'" % (resname,))
+
+    # the Mac and Windows versions actually execute the following 4 lines.
+    # For Windows, pynsist does not 'freeze' the app, there is no "frozen" attr.
+    path = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.join(path,resname)
+    if os.path.exists(path):
+        return path
     if hasattr(sys, "frozen"):
-        path = os.path.dirname(os.path.abspath(__file__))
-        path = os.path.join(path,resname)
-        if os.path.exists(path):
-            return path
         exe_path = sys.executable
         if not isinstance(exe_path, str):
             exe_path = str(exe_path,sys.getfilesystemencoding())
