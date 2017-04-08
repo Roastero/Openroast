@@ -15,19 +15,14 @@ Features
 
 -  Roast Graph
 -  Simplified user interface
--  The ability to set temperature by number rather than low, medium, or
-   high
+-  Superior temperature control - ability to set specific target
+   temperatures rather than just low, medium, or high heat settings
 -  Create/Import/Export Recipes
--  Software-based PID Controller
 
 Screenshots
 -----------
 
 |Roast Tab Screenshot| |Recipe Edit Tab Screenshot|
-
-WORK IN PROGRESS
-----------------
-*The following paragraphs are not yet accurate.  To install Openroast 1.2, please head over to https://github.com/Roastero/Openroast/releases to get the latest release.*
 
 Installing Openroast
 ====================
@@ -41,7 +36,7 @@ Openroast 1.2 is currently in 'rc' or 'release candidate' phase. The alpha relea
 - `Openroast 1.2 for Mac`_
 - `Openroast 1.2 for Windows 10 32-bit`_ (for those running on very old hardware)
 
-For Linux OSes, downloading the project files and performing a `py35 -mpip install .` in the project root directory is the only way to install the software at this time.
+For Linux OSes, downloading the project files and performing a :code:`py35 -mpip install .` in the project root directory is the only way to install the software at this time.
 
 Installation Instructions
 -------------------------
@@ -58,9 +53,9 @@ License
 
 The Openroast app code is released under GPL v3.
 
-.. _Openroast 1.2 for Windows 10 64-bit: https://github.com/Roastero/Openroast/releases/tag/v1.2.0a4
-.. _Openroast 1.2 for Windows 10 32-bit: https://github.com/Roastero/Openroast/releases/tag/v1.2.0a4
-.. _Openroast 1.2 for Mac: https://github.com/Roastero/Openroast/releases/tag/v1.2.0a7
+.. _Openroast 1.2 for Windows 10 64-bit: https://github.com/Roastero/Openroast/releases/tag/v1.2.0rc3
+.. _Openroast 1.2 for Windows 10 32-bit: https://github.com/Roastero/Openroast/releases/tag/v1.2.0rc3
+.. _Openroast 1.2 for Mac: https://github.com/Roastero/Openroast/releases/tag/v1.2.0rc3
 
 .. _For Users\: Installing Openroast for Windows: https://github.com/Roastero/Openroast/wiki/For-Users:-Installing-Openroast-for-Windows
 .. _For Users\: Installing Openroast for Mac: https://github.com/Roastero/Openroast/wiki/For-Users:-Installing-Openroast-for-Mac
