@@ -8,10 +8,12 @@ def get_resource_filename(resname):
     but tries to avoid loading pkg_resources unless we're actually in
     an egg.
     """
-    path = os.path.dirname(os.path.abspath(__file__))
-    path = os.path.join(path,resname)
-    if os.path.exists(path):
-        return path
+    # Commented out the below, as it prevents a 'py3.5 -mpip install -e .'
+    # from working properly in Linux.
+    # path = os.path.dirname(os.path.abspath(__file__))
+    # path = os.path.join(path,resname)
+    # if os.path.exists(path):
+    #     return path
     if hasattr(sys, "frozen"):
         exe_path = sys.executable
         if not isinstance(exe_path, str):
