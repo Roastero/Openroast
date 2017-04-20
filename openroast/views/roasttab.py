@@ -20,6 +20,11 @@ class RoastTab(QtWidgets.QWidget):
         self.sectTimeSliderPressed = False
         self.tempSliderPressed = False
 
+        # Use a blinker for connect_state == CS_CONNECTING...
+        self._connecting_blinker = True
+        self.CONNECT_TXT_PLEASE_CONNECT = "Please connect your roaster."
+        self.CONNECT_TXT_CONNECTING = "Found roaster, connecting. This could take >20 seconds "
+
         # process-safe flag to schedule controller vars update from recipe obj
         self._flag_update_controllers = sharedctypes.Value('i', 0)
 
@@ -65,7 +70,7 @@ class RoastTab(QtWidgets.QWidget):
         self.layout.addLayout(self.progressBar, 1, 0, 1, 2, QtCore.Qt.AlignCenter)
 
         # Create not connected label.
-        self.connectionStatusLabel = QtWidgets.QLabel("Please connect your roaster.")
+        self.connectionStatusLabel = QtWidgets.QLabel(self.CONNECT_TXT_PLEASE_CONNECT)
         self.connectionStatusLabel.setObjectName("connectionStatus")
         self.connectionStatusLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.layout.addWidget(self.connectionStatusLabel, 0, 0)
@@ -110,6 +115,18 @@ class RoastTab(QtWidgets.QWidget):
             self.connectionStatusLabel.setHidden(True)
             self.setEnabled(True)
         else:
+            if self.roaster.connect_state == self.roaster.CS_CONNECTING:
+                # this means that the roaster has just been plugged in
+                # sometimes, it takes a while to complete the connection...
+                connecting_str = self.CONNECT_TXT_CONNECTING
+                if self._connecting_blinker:
+                    connecting_str += "  ...   "
+                else:
+                    connecting_str += "     ..."
+                self._connecting_blinker = not self._connecting_blinker
+                self.connectionStatusLabel.setText(connecting_str)
+            else:
+                self.connectionStatusLabel.setText(self.CONNECT_TXT_PLEASE_CONNECT)
             self.connectionStatusLabel.setHidden(False)
             self.setEnabled(False)
 
