@@ -29,7 +29,8 @@ Alternately, if you already have git installed, you should clone the Openroast p
 6. Type `build_win.ps1 -tool_install` and press Enter.  The following things will happen:
     1. installer downloads for python 3.5 for Windows, git, and NSIS. (Note that the git installer insists on re-installing git every time.  If this is something you want to avoid, you should modify build_win.ps1 to not download nor install git.)
     2. Install python 3.5 for Windows, git, and NSIS
-7. You are now in a position to fetch the source code from github, if you haven't done so already.
+7. In order for the build script to invoke git, you will need to close the PowerShell prompt and re-start it.
+8. You are now in a position to fetch the source code from github, if you haven't done so already.
 
 ## 2. Getting the source code
 
