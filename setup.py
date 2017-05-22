@@ -50,7 +50,7 @@ setup(
     long_description=long_description,
 
     # The project's main homepage.
-    url='https://github.com/Roastero/openroast',
+    url='https://github.com/Roastero/Openroast',
 
     # Author details
     author='Roastero',
@@ -65,7 +65,7 @@ setup(
         #   3 - Alpha
         #   4 - Beta
         #   5 - Production/Stable
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 5 - Production/Stable',
 
         # Indicate who your project is intended for
         'Intended Audience :: Developers',
