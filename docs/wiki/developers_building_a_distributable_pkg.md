@@ -98,7 +98,13 @@ Assuming you have a Terminal window opened to the directory of interest as direc
 1. At the Terminal prompt, type `./build_mac.sh -n -f` and press Enter.  You are now fetching the head of the master branch. (To fetch a different branch, type `./build_mac.sh -n -b <name> -f` instead, where `<name>` is the name of the branch you want to fetch.)
 2. You now have the code locally.  You'll want to `cd Roastero/Openroast` and continue working from there.
 
-## 3. Incrementing the version number
+## 3. Getting project dependencies
+
+1. Type `./build_mac.sh -n -p` and press Enter.  The following things will happen:
+    1. Install application dependencies.
+    2. Install a couple of python-based tools.
+
+## 4. Incrementing the version number
 
 This is not a mandatory step.
 
@@ -110,11 +116,11 @@ If you want to increment any part of the version number, you can do so by
 3. This will only work if your repository is clean (meaning, all changes have been committed). If that isn't the case, bumpversion will refuse to increment the version number.
 4. Once you have executed this successfully, you should `git push --tags origin <branch-name>` to commit the version tag and associated file changes to the Openroast project origin.  (If this is unclear to you, you should contact a project maintainer for guidance...)
 
-## 4. Creating a Mac app contained in a DMG
+## 5. Creating a Mac app contained in a DMG
 
 Assuming you're in Terminal and currently in the `[YourWhateverFolderPath]\Roastero\Openroast` folder, you can create an app build by typing `./build_mac.sh -n -m` and pressing Enter.  A disk image (DMG) containing the app will be created in the folder `[YourWhateverFolderPath]/Roastero/Openroast/dmg`.   You'll want to test this app on a separate Mac machine to verify functionality.
 
-## 5. Posting the installer on Github
+## 6. Posting the installer on Github
 
 At this point, you have an app packaged as a DMG that you believe is functional and ready for distribution.
 
