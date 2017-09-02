@@ -122,7 +122,10 @@ class RoastGraphWidget():
                 'Save Roast Graph CSV',
                 os.path.expanduser('~/'),
                 'CSV (*.csv);;All Files (*)')
-            print("SAVING")
+            with open(file_name[0], 'w') as outfile:
+                outfile.write("Time,Temperature\n")
+                for x_val,y_val in zip(self.graphXValueList,self.graphYValueList):
+                    outfile.write("{0},{1}\n".format(x_val, y_val))
         except FileNotFoundError:
             # Occurs if file browser is canceled
             pass
