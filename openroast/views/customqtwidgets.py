@@ -115,6 +115,20 @@ class RoastGraphWidget():
         else:
             pass
 
+    def save_roast_graph_csv(self):
+        try:
+            file_name = QtWidgets.QFileDialog.getSaveFileName(
+                QtWidgets.QWidget(),
+                'Save Roast Graph CSV',
+                os.path.expanduser('~/'),
+                'CSV (*.csv);;All Files (*)')
+            print("SAVING")
+        except FileNotFoundError:
+            # Occurs if file browser is canceled
+            pass
+        else:
+            pass
+
 class ComboBoxNoWheel(QtWidgets.QComboBox):
     """A combobox with the wheel removed."""
     def __init__(self, *args, **kwargs):
