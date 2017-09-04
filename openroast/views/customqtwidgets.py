@@ -122,10 +122,13 @@ class RoastGraphWidget():
                 'Save Roast Graph CSV',
                 os.path.expanduser('~/'),
                 'CSV (*.csv);;All Files (*)')
+            init_time = matplotlib.dates.num2date(self.graphXValueList[0])
             with open(file_name[0], 'w') as outfile:
-                outfile.write("Time,Temperature\n")
+                outfile.write("Seconds,Temperature\n")
                 for x_val,y_val in zip(self.graphXValueList,self.graphYValueList):
-                    outfile.write("{0},{1}\n".format(x_val, y_val))
+                    x_time = matplotlib.dates.num2date(x_val)
+                    elapsed_seconds = (x_time - init_time).seconds
+                    outfile.write("{0},{1}\n".format(elapsed_seconds, y_val))
         except FileNotFoundError:
             # Occurs if file browser is canceled
             pass
