@@ -69,6 +69,10 @@ class MainWindow(QtWidgets.QMainWindow):
             statusTip="Save an image of the roast graph",
             triggered=self.roast.save_roast_graph)
 
+        self.saveRoastGraphCSVAct = QtWidgets.QAction("&Save Roast Graph CSV", self,
+            statusTip="Save the roast graph as a csv",
+            triggered=self.roast.save_roast_graph_csv)
+
         self.openAboutWindow = QtWidgets.QAction("&About", self,
             statusTip="About openroast",
             triggered=self.open_about_window)
@@ -85,6 +89,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.fileMenu.addAction(self.exportRecipeAct)
         self.fileMenu.addSeparator()
         self.fileMenu.addAction(self.saveRoastGraphAct)
+        self.fileMenu.addAction(self.saveRoastGraphCSVAct)
         self.fileMenu.addSeparator()
 
         # Create help menu.

@@ -91,6 +91,9 @@ class RoastTab(QtWidgets.QWidget):
     def save_roast_graph(self):
         self.graphWidget.save_roast_graph()
 
+    def save_roast_graph_csv(self):
+        self.graphWidget.save_roast_graph_csv()
+
     def update_data(self):
         # Update temperature widgets.
         self.currentTempLabel.setText(str(self.roaster.current_temp))

@@ -115,6 +115,28 @@ class RoastGraphWidget():
         else:
             pass
 
+    def save_roast_graph_csv(self):
+        try:
+            file_name = QtWidgets.QFileDialog.getSaveFileName(
+                QtWidgets.QWidget(),
+                'Save Roast Graph CSV',
+                os.path.expanduser('~/'),
+                'CSV (*.csv);;All Files (*)')
+            with open(file_name[0], 'w') as outfile:
+                outfile.write("Seconds,Temperature\n")
+                if not self.graphXValueList:
+                    return
+                init_time = matplotlib.dates.num2date(self.graphXValueList[0])
+                for x_val,y_val in zip(self.graphXValueList,self.graphYValueList):
+                    x_time = matplotlib.dates.num2date(x_val)
+                    elapsed_seconds = (x_time - init_time).seconds
+                    outfile.write("{0},{1}\n".format(elapsed_seconds, y_val))
+        except FileNotFoundError:
+            # Occurs if file browser is canceled
+            pass
+        else:
+            pass
+
 class ComboBoxNoWheel(QtWidgets.QComboBox):
     """A combobox with the wheel removed."""
     def __init__(self, *args, **kwargs):
