@@ -112,6 +112,70 @@ This should install all app dependencies. If it doesn't, you can explicitly inst
 ```
 py3.5 -mpip -r build-app-requirements.txt
 ```
+
+### Setup udev rules
+
+On most systems opening /dev/ttyUSBx is restricted. To fix this we need do two things
+
+#### Setting up udev
+
+The roaster should appear as a USB device similar to this for the SR700
+
+```
+root@vger# dmesg
+[115307.061429] usb 3-2: new full-speed USB device number 7 using uhci_hcd
+[115307.235533] usb 3-2: New USB device found, idVendor=1a86, idProduct=5523, bcdDevice= 3.04
+[115307.235542] usb 3-2: New USB device strings: Mfr=0, Product=0, SerialNumber=0
+[115307.238835] ch341 3-2:1.0: ch341-uart converter detected
+[115307.244628] usb 3-2: ch341-uart converter now attached to ttyUSB0
+```
+
+Copy 99-openroast.rules to /etc/udev/rules.d
+
+```
+root@vger# cp 99-openroast.rules /etc/udev/rules.d
+
+```
+
+Reload udev rules
+
+```
+root@vger# udevadm control --reload-rules && udevadm trigger
+```
+
+Verify you can open /dev/ttyUSB0
+
+```
+root@vger# tail -f /dev/ttyUSB0
+
+```
+#### Adding a group to the user to access the port
+
+Check for the group which owns the serial port
+
+```
+root@vger# ls -las /dev/ttyUSB0
+0 crw-rw-rw- 1 root dialout 188, 0 Feb 25 02:12 /dev/ttyUSB0
+```
+
+Add our user "roaster" to the group dialout
+
+```
+root@vger:~# usermod -aG dialout roaster
+
+```
+
+Make sure it worked
+
+```
+root@vger:~# cat /etc/group | grep dialout
+dialout:x:20:roaster
+```
+
+Take the serial cable out, re-insert and try tail again.
+
+If it fails, check the USB vendor and product IDs in the udev rules.
+
 ### Running Openroast
 
 After all that, to run the app, you can either

@@ -102,7 +102,7 @@ setup(
     # your project is installed. For an analysis of "install_requires" vs pip's
     # requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    install_requires=['PyQt5>=5.8,<5.9',
+    install_requires=['PyQt5>=5.8,<5.15',
                       'matplotlib>=2.0,<2.1',
                       'freshroastsr700>=0.2.1'],
 
