@@ -38,6 +38,10 @@ Openroast 1.2 is currently in 'rc' or 'release candidate' phase. The alpha relea
 
 For Linux OSes, downloading the project files and performing a :code:`py35 -mpip install .` in the project root directory is the only way to install the software at this time.
 
+Documentation
+-------------
+https://docs.contour.so/Roastero/Openroast/getting-started
+
 Installation Instructions
 -------------------------
 - Windows - see `For Users: Installing Openroast for Windows`_
