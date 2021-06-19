@@ -355,7 +355,7 @@ class RecipeEditor(QtWidgets.QDialog):
         self.rebuild_recipe_steps_table(newSteps)
 
     def insert_recipe_step(self, row):
-        """Inserts a row below the specified row wit generic values."""
+        """Inserts a row below the specified row with generic values."""
         steps = self.get_current_table_values()
         newSteps = steps
 
@@ -393,7 +393,7 @@ class RecipeEditor(QtWidgets.QDialog):
             alert = QtWidgets.QMessageBox()
             alert.setWindowTitle('openroast')
             alert.setStyleSheet(self.style)
-            alert.setText("You must have atleast one step!")
+            alert.setText("You must have at least one step!")
             alert.exec_()
 
         else:
