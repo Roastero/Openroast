@@ -189,7 +189,7 @@ class LogModel(QtWidgets.QFileSystemModel):
 
     def data(self, index, role):
         if index.column() == self.columnCount() - 1:
-            if role == Qt.DisplayRole:
+            if role == QtCore.Qt.DisplayRole:
                 filePath = self.filePath(index)
                 if os.path.isfile(filePath):
                     with open(filePath) as json_data:
