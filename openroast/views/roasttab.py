@@ -46,7 +46,7 @@ class RoastTab(QtWidgets.QWidget):
         self.timer.timeout.connect(self.update_data)
         self.timer.start()
 
-        # Set the roast tab diabled when starting.
+        # Set the roast tab disabled when starting.
         self.setEnabled(False)
 
     def create_ui(self):
@@ -143,9 +143,9 @@ class RoastTab(QtWidgets.QWidget):
     def create_right_pane(self):
         rightPane = QtWidgets.QVBoxLayout()
 
-        # Create guage window.
-        guageWindow = self.create_gauge_window()
-        rightPane.addLayout(guageWindow)
+        # Create gauge window.
+        gaugeWindow = self.create_gauge_window()
+        rightPane.addLayout(gaugeWindow)
 
         # Create sliders.
         sliderPanel = self.create_slider_panel()
@@ -234,30 +234,30 @@ class RoastTab(QtWidgets.QWidget):
         return(minutes, seconds)
 
     def create_gauge_window(self):
-        guageWindow = QtWidgets.QGridLayout()
+        gaugeWindow = QtWidgets.QGridLayout()
 
         # Create current temp gauge.
         self.currentTempLabel = QtWidgets.QLabel("150")
         currentTemp = self.create_info_box("CURRENT TEMP", "tempGuage",
             self.currentTempLabel)
-        guageWindow.addLayout(currentTemp, 0, 0)
+        gaugeWindow.addLayout(currentTemp, 0, 0)
 
         # Create target temp gauge.
         self.targetTempLabel = QtWidgets.QLabel()
         targetTemp = self.create_info_box("TARGET TEMP", "tempGuage", self.targetTempLabel)
-        guageWindow.addLayout(targetTemp, 0, 1)
+        gaugeWindow.addLayout(targetTemp, 0, 1)
 
         # Create current time.
         self.sectionTimeLabel = QtWidgets.QLabel()
         currentTime = self.create_info_box("CURRENT SECTION TIME", "timeWindow", self.sectionTimeLabel)
-        guageWindow.addLayout(currentTime, 1, 0)
+        gaugeWindow.addLayout(currentTime, 1, 0)
 
         # Create totalTime.
         self.totalTimeLabel = QtWidgets.QLabel()
         totalTime = self.create_info_box("TOTAL TIME", "timeWindow", self.totalTimeLabel)
-        guageWindow.addLayout(totalTime, 1, 1)
+        gaugeWindow.addLayout(totalTime, 1, 1)
 
-        return guageWindow
+        return gaugeWindow
 
     def create_button_panel(self):
         buttonPanel = QtWidgets.QGridLayout()
