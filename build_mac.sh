@@ -223,7 +223,7 @@ if "${make_install}" ; then
     echo "Launching py2app..."
     python setup_py2app_"${version_string}".py py2app
     rm setup_py2app_"${version_string}".py
-    # now, for some serious manually-powered stripping of unecessary files
+    # now, for some serious manually-powered stripping of unnecessary files
     echo "Manually stripping unnecessary PyQt5 components..."
     app_folder_pyqt5_root='dist/Openroast '"${version_string}"'.app/Contents/Resources/lib/python3.5/PyQt5'
     app_folder_matplotlib_root='dist/Openroast '"${version_string}"'.app/Contents/Resources/lib/python3.5/matplotlib'

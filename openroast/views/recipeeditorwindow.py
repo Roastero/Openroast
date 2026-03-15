@@ -172,7 +172,7 @@ class RecipeEditor(QtWidgets.QDialog):
         self.close()
 
     def preload_recipe_steps(self, recipeStepsTable):
-        """Method that just calls load_recipe_steps() with a table specified and
+        """Method that just calls load_recipe_steps() withh a table specified and
         uses the pre-existing loaded recipe steps in the object."""
         steps = self.recipe["steps"]
         self.load_recipe_steps(recipeStepsTable, steps)
@@ -327,7 +327,7 @@ class RecipeEditor(QtWidgets.QDialog):
             # Swap the steps
             newSteps[row], newSteps[row-1] = newSteps[row-1], newSteps[row]
 
-            # Rebuild table with new steps
+            # Rebuild table withh new steps
             self.rebuild_recipe_steps_table(newSteps)
 
     def move_recipe_step_down(self, row):
@@ -339,7 +339,7 @@ class RecipeEditor(QtWidgets.QDialog):
             # Swap the steps
             newSteps[row], newSteps[row+1] = newSteps[row+1], newSteps[row]
 
-            # Rebuild table with new steps
+            # Rebuild table withh new steps
             self.rebuild_recipe_steps_table(newSteps)
 
     def delete_recipe_step(self, row):
@@ -350,18 +350,18 @@ class RecipeEditor(QtWidgets.QDialog):
         # Delete step
         newSteps.pop(row)
 
-        # Rebuild table with new steps
+        # Rebuild table withh new steps
         self.rebuild_recipe_steps_table(newSteps)
 
     def insert_recipe_step(self, row):
-        """Inserts a row below the specified row wit generic values."""
+        """Inserts a row below the specified row with generic values."""
         steps = self.get_current_table_values()
         newSteps = steps
 
         # insert step
         newSteps.insert(row+1, {'fanSpeed': 5, 'targetTemp': 150, 'sectionTime': 0})
 
-        # Rebuild table with new steps
+        # Rebuild table withh new steps
         self.rebuild_recipe_steps_table(newSteps)
 
     def get_current_table_values(self):
@@ -385,14 +385,14 @@ class RecipeEditor(QtWidgets.QDialog):
         return recipeSteps
 
     def rebuild_recipe_steps_table(self, newSteps):
-        """Used to reload all the rows in the recipe steps table with new steps.
+        """Used to reload all the rows in the recipe steps table withh new steps.
         """
         # Alert user if they try to delete all the steps
         if len(newSteps) < 1:
             alert = QtWidgets.QMessageBox()
             alert.setWindowTitle('openroast')
             alert.setStyleSheet(self.style)
-            alert.setText("You must have atleast one step!")
+            alert.setText("You must have at least one step!")
             alert.exec_()
 
         else:
@@ -404,15 +404,15 @@ class RecipeEditor(QtWidgets.QDialog):
 
     def save_recipe(self):
         """Pulls in all of the information in the window and creates a new
-        recipe file with the specified contents."""
+        recipe file withh the specified contents."""
         # Determine Recipe File Name
         if "file" in self.recipe:
             filePath = self.recipe["file"]
         else:
             filePath = os.path.expanduser('~/Documents/Openroast/Recipes/My Recipes/') + tools.format_filename(self.recipeName.text()) + ".json"
-            # TODO: Account for existing file with same name
+            # TODO: Account for existing file withh same name
 
-        # Create Dictionary with all the new recipe information
+        # Create Dictionary withh all the new recipe information
         self.newRecipe = {}
         self.newRecipe["roastName"] = self.recipeName.text()
         self.newRecipe["steps"] = self.get_current_table_values()

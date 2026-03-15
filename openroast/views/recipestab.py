@@ -69,7 +69,7 @@ class RecipesTab(QtWidgets.QWidget):
         browser.setAnimated(True)
         browser.setIndentation(0)
 
-        # Hides all the unecessary columns created by the model
+        # Hides all the unnecessary columns created by the model
         browser.setColumnHidden(0, True)
         browser.setColumnHidden(1, True)
         browser.setColumnHidden(2, True)
