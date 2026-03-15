@@ -6,7 +6,7 @@ You do not need to install any software other than what is in the contents of th
 2. Double-click on the ZIP file.
 3. In the ZIP file, you will find 3 files:
     1. a README file that is essentially the same as what you are reading here;
-    2. *CH341SER.EXE.zip*, which is the installer for the Windows USB drivers required to communicate withthe Freshroast SR700;
+    2. *CH341SER.EXE.zip*, which is the installer for the Windows USB drivers required to communicate with the Freshroast SR700;
     3. *Openroast_v1.2.x_Win10_xxbit.EXE*, which is the Windows 10 installer for either 64-bit or 32-bit Windows, depending on which Windows package you downloaded.
 4. Next, you may have to install the driver.
     1. If you previously installed the Freshroast SR700 app that comes with the roaster, the drivers have already been installed and therefore, you do not need to install the drivers. Go to step 5.

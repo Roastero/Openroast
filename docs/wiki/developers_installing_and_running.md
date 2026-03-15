@@ -55,7 +55,7 @@ For Mac OS X, setting up to run Openroast from source involves running partway t
 
 For Ubuntu, you are about to
 1. Install python 3.5 in the `/opt` folder as an alternate version of python, as Ubuntu 14.04 relies on the 2.7 and 3.4 versions that are installed with the OS and you do not want to mess with those installations.
-2. Install some 'possibly relevent' packages using apt-get.  'Possibly relevent,' because the maintainer installed these items following older versions of instructions for Openroast 1.0...
+2. Install some 'possibly relevant' packages using apt-get.  'Possibly relevant,' because the maintainer installed these items following older versions of instructions for Openroast 1.0...
 3. Run Openroast 1.2 using your python 3.5 install.
 
 ### Installing python 3.5

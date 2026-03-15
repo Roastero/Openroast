@@ -22,7 +22,7 @@ class freshroastsr700(object):
                  kp=0.06, ki=0.0075, kd=0.01,
                  heater_segments=8):
         """Create variables used to send in packets to the roaster. The update
-        data function is called when a packet is opened. The state transistion
+        data function is called when a packet is opened. The state transition
         function is used by the timer thread to know what to do next. See wiki
         for more information on packet structure and fields."""
 
@@ -438,7 +438,7 @@ class freshroastsr700(object):
     def timer(self, state_transition_event=None):
         """Timer loop used to keep track of the time while roasting or
         cooling. If the time remaining reaches zero, the roaster will call the
-        supplied state transistion function or the roaster will be set to
+        supplied state transition function or the roaster will be set to
         the idle state."""
         while(self._cont.value):
             state = self.get_roaster_state()
@@ -505,7 +505,7 @@ class heat_controller(object):
         # Depending on the output
         # rate and the load's time constant, the result could be perceived
         # as discrete lumps rather than an effective average output.
-        # higer rate of output is better than slower.
+        # higher rate of output is better than slower.
         # This code does not attempt to control the rate of output,
         # that is left to the caller.
         self._num_segments = number_of_segments

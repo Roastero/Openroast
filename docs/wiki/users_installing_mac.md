@@ -7,7 +7,7 @@ You do not need to install any software other than what is in the contents of th
 ![disk image when mounted](https://github.com/Roastero/Openroast/blob/master/docs/wiki/img/Openroast_Mac_OS_X_Installer_snapshot.png "disk image when mounted")
 3. In the disk image, you will find 4 objects:
     1. a README file that is essentially the same as what you are reading here;
-    2. *CH34x_Install_V1.4.pkg*, which is the installer for the OS X USB drivers required to communicate withthe Freshroast SR700;
+    2. *CH34x_Install_V1.4.pkg*, which is the installer for the OS X USB drivers required to communicate with the Freshroast SR700;
     3. *Openroast 1.2.0[]*, which is the Openroast Mac application;
     4. A shortcut to the applications folder.
 4. Next, double click on *CH34x_Install_V1.4.pkg*.  This will install the USB driver. you may be required to restart your computer to finish the driver installation process.
