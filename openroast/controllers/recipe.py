@@ -155,3 +155,10 @@ class Recipe(object):
 
     def get_current_recipe(self):
         return self._recipe()
+
+    def get_roast_name(self):
+        """Return the loaded recipe's display name, or None if none is loaded."""
+        if not self.check_recipe_loaded():
+            return None
+        recipe = self._recipe()
+        return recipe.get("roastName") or recipe.get("recipeName") or "Untitled Recipe"

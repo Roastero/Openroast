@@ -53,13 +53,22 @@ class RoastTab(QtWidgets.QWidget):
         # Create the main layout for the roast tab.
         self.layout = QtWidgets.QGridLayout()
 
-        # Create graph widget.
+        # Create graph widget with the loaded recipe name above it.
         self.graphWidget = customqtwidgets.RoastGraphWidget(
             animated = True,
             updateMethod = self.graph_get_data,
             animatingMethod = self.check_roaster_status)
-        self.layout.addWidget(self.graphWidget.widget, 0, 0)
+        graphColumn = QtWidgets.QVBoxLayout()
+        graphColumn.setSpacing(6)
+        self.recipeNameLabel = QtWidgets.QLabel()
+        self.recipeNameLabel.setObjectName("roastRecipeName")
+        self.recipeNameLabel.setAlignment(QtCore.Qt.AlignLeft | QtCore.Qt.AlignVCenter)
+        self.recipeNameLabel.setWordWrap(True)
+        graphColumn.addWidget(self.recipeNameLabel)
+        graphColumn.addWidget(self.graphWidget.widget)
+        self.layout.addLayout(graphColumn, 0, 0)
         self.layout.setColumnStretch(0, 1)
+        self.update_recipe_name()
 
         # Create right pane.
         self.rightPane = self.create_right_pane()
@@ -277,6 +286,14 @@ class RoastTab(QtWidgets.QWidget):
         self.stopButton.clicked.connect(self.roaster.idle)
         buttonPanel.addWidget(self.stopButton, 0, 2)
 
+        # Create roast-again button (same action as File > Roast Again / Ctrl+R).
+        self.roastAgainButton = QtWidgets.QPushButton("ROAST AGAIN")
+        self.roastAgainButton.setObjectName("roastAgainButton")
+        self.roastAgainButton.setToolTip("Roast recipe again (Ctrl+R)")
+        self.roastAgainButton.clicked.connect(self.reset_current_roast)
+        buttonPanel.addWidget(self.roastAgainButton, 1, 0, 1, 3)
+        self.update_roast_again_button()
+
         return buttonPanel
 
     def create_slider_panel(self):
@@ -464,12 +481,33 @@ class RoastTab(QtWidgets.QWidget):
         # Clear roast graph.
         self.graphWidget.clear_graph()
 
+        # Refresh recipe name and roast-again availability.
+        self.update_recipe_name()
+        self.update_roast_again_button()
+
     def load_recipe_into_roast_tab(self):
         self.recipes.load_current_section()
         self.recreate_progress_bar()
         self.update_section_time()
         self.update_target_temp()
         self.update_fan_info()
+        self.update_recipe_name()
+        self.update_roast_again_button()
+
+    def update_recipe_name(self):
+        """Show the loaded recipe name on the roast screen."""
+        name = self.recipes.get_roast_name()
+        if name:
+            self.recipeNameLabel.setText(name)
+            self.recipeNameLabel.setEnabled(True)
+        else:
+            self.recipeNameLabel.setText("No recipe loaded")
+            self.recipeNameLabel.setEnabled(False)
+
+    def update_roast_again_button(self):
+        """Enable Roast Again only when a recipe is loaded."""
+        if hasattr(self, "roastAgainButton"):
+            self.roastAgainButton.setEnabled(self.recipes.check_recipe_loaded())
 
     def next_section(self):
         self.recipes.move_to_next_section()

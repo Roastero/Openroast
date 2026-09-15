@@ -574,6 +574,38 @@ QLabel#connectionStatus {
     background-color: #444953;
 }
 
+QLabel#roastRecipeName {
+    color: #fff;
+    font-family: "Asap";
+    font: bold;
+    font-size: 22px;
+    text-transform: uppercase;
+    padding: 4px 8px 2px 8px;
+}
+
+QLabel#roastRecipeName:disabled {
+    color: #444953;
+}
+
+QPushButton#roastAgainButton {
+    border-radius: 5px;
+    height: 36px;
+    background-color: #8ab71b;
+    color: #fff;
+    margin: 5px;
+    font-family: "Asap";
+    font: bold;
+    font-size: 12px;
+}
+
+QPushButton#roastAgainButton:pressed {
+    background-color: #649100;
+}
+
+QPushButton#roastAgainButton:disabled {
+    background-color: #444953;
+}
+
 QProgressBar {
     background-color: #23252b;
     height: 30px;
